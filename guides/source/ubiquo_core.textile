@@ -1,0 +1,131 @@
+h2. Ubiquo Access Control
+
+This plugin contains the basic common Ubiquo structure so that other
+plugins can be built on top of it. This includes:
+
+* Ubiquo::Config system
+* Core helpers
+* Ubiquo layout and styling elements
+* Main ruby/rails extensions
+* Navigation links and tabs system
+
+endprologue.
+
+h3. Using configuration
+
+Ubiquo::Config offers a place where store configuration variables
+
+A value can have 2 states, added as default value and added as normal
+value. If both setted, normal value is used.
+
+It allow to store values in contexts using _context_ method.
+
+NOTE: It's not recommended to change the vlaue of the configuration during the life of the application, only in the setup
+
+h4. Getting a value
+
+To get a stored value of the configuration.
+
+<ruby>
+value = Ubiquo::Config.get(:key)
+contexted_value = Ubiquo::Config.context(:context).get(:key)
+</ruby>
+
+h4. Creating a new value
+
+You can create new values for the configuration.
+
+<ruby>
+Ubiquo::Config.add(:key, 'default_value')
+Ubiquo::Config.context(:context).add(:key, default_value)
+</ruby>
+
+h4. Setting a normal value
+
+when a key is added you can override their default value with _set_
+method:
+
+<ruby>
+Ubiquo::Config.set(:key, 'normal_value')
+Ubiquo::Config.context(:context).set(:key, normal_value)
+</ruby>
+
+h4. Inherited values
+
+It is usefull for adding keys that their value is the same of another
+key until it's not setted manually.
+
+Currently is used to the plugins lists max row number, default to 10
+but can be re-setted for a single list.
+
+<ruby>
+Ubiquo::Config.add_inheritance(:key, :existent_key)
+Ubiquo::Config.context(:context).add_inheritance(:key, :existent_key)
+</ruby>
+
+h4. Use of config caller
+
+Config caller let you to define keys with a lambda as value and
+evaluate it in any context.
+
+It's very powerfull to add hooks in the application.
+
+Currently is used to all access_control calls of the plugins, letting
+you to change it in your application without changing plugin code.
+
+<ruby>
+ubiquo_config_call(:key)
+ubiquo_config_call(:key, {:context => :context})
+</ruby>
+
+h3. Navigation
+
+h4. Tabs navigations
+
+All ubiquo applications have two tab navitations, one for normal mode
+and one for superadmin mode. This tab navigator is what is showed
+under the ubiquo header.
+
+h5. Create new tab to the normal mode
+
+Open RAILSROOT/app/views/navigators/_main_navtabs.html.erb.
+
+Here you can edit navigator_left or navigator_right. Inside the
+'create_tab_navigator' method block you can add new tabs with a piece
+of code like that:
+
+<ruby>
+navigator.add_tab do |tab|
+  tab.text = 'Your tab text'
+  tab.title = 'Go to ...'
+  tab.link = ubiquo_your_controllers_path
+  tab.highlights_on({:controller => "ubiquo/your_controller"})
+  tab.highlighted_class = "active"
+end
+</ruby>
+
+h4. Links navigations
+
+Link navigations work like tab navigations but showing links instead
+tabs.
+
+Currently there are only one default link navigation, but scaffold
+generates one for the new controller.
+
+The default navigation is showed on top of the Ubiquo, where is showed
+user name, logout link, etc.
+
+To add a link to any link navigation just add this code to the
+'create_link_navigation' method block:
+
+<ruby>
+navigator.add_link do |link|
+  link.text = 'Your link text'
+  link.url = ubiquo_your_controllers_path
+  link.highlights_on({:controller => "ubiquo/your_controller"})
+end
+</ruby>
+
+h3. Changelog
+
+"Lighthouse tickets":http://ubiquo.lighthouseapp.com/projects/27683-ubiquo/tickets?q=tagged%3Aubiquo_core

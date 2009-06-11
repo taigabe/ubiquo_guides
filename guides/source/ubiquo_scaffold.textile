@@ -1,0 +1,430 @@
+h2. Ubiquo scaffold
+
+The ubiquo_scaffold plugin provides a quick way to generate some of the major code of an Ubiquo modules.
+
+It extend a rails scaffolding functionalities adding typical ubiquo features:
+
+* Ubiquo interface
+* Filters (text, published_at)
+* General tests (functionals, unit)
+
+endprologue.
+
+h3. Ubiquo scaffolding
+
+
+h4. Creating an Ubiquo Resource
+
+Similarly to the Rails scaffold, _ubiquo_scaffold_ creates code to handle resources on an application. It creates a model (with tests), migration, route, ubiquo controller (with tests) and ubiquo views. As an example, let's create a scaffold for a _Book_ model:
+
+<shell>
+  script/generate ubiquo_scaffold book title:string published_at:datetime author_id:integer
+</shell>
+
+REST resources for this model will be created automatically. Check it out:
+
+<ruby>
+  map.namespace :ubiquo do |ubiquo|
+     ubiquo.resources :books
+     ...
+  end
+</ruby>
+
+TIP: If we have in our application a ubiquo_i18n plugin, we can generate a ubiquo_scaffold with --translatable param. Learn more about this in the "Ubiquo i18n":ubiquo_i18n.html guide.
+
+The ubiquo scaffold will generate 21 files in your application, along with some folders and edit one more. Here's a quick overview of what it creates:
+
+|_.File                                           |_.Purpose|
+| app/views/ubiquo/books/index.html.erb           | A view to display a index of all books |
+| app/views/ubiquo/books/new.html.erb             | A view to create a new book |
+| app/views/ubiquo/books/edit.html.erb            | A view to edit an existing book |
+| app/views/ubiquo/books/show.html.erb            | A view to display a single book |
+| app/views/ubiquo/books/_form.html.erb           | A partial to display a form. Used by new and edit views |
+| app/views/ubiquo/books/_submenu.html.erb        | A partial to display a navigation submenu. It calls books_navlinks partial. Used by all views |
+| app/views/ubiquo/books/_title.html.erb          | A partial to display a section title. Used by all views |
+| app/views/ubiquo/books/_book.html.erb           | A partial to display a single book. Used by preview |
+| config/locales/ca/ubiquo/book.yml               | Catalan book ubiquo locales |
+| config/locales/es/ubiquo/book.yml               | Spanish book ubiquo locales |
+| config/locales/en/ubiquo/book.yml               | English book ubiquo locales |
+| app/views/navigators/_books_navlinks.html.erb   | A partial to display a navigation submenu. Called by submenu partial |
+| app/models/book.rb                              | The Book model |
+| test/unit/book_test.rb                          | Unit testing harness for the book model |
+| test/fixtures/books.yml                         | Dummy books for use in testing |
+| config/locales/ca/models/book.yml               | Catalan book model locales |
+| config/locales/es/models/book.yml               | Spanish book model locales |
+| db/migrate/20090529095904_create_books.rb       | Migration to create a books table in your database (your name will include a different timestamp) |
+| app/controllers/ubiquo/books_controller.rb      | The books controller |
+| test/functional/ubiquo/books_controller_test.rb | Functional testing harness for the books controller |
+| app/helpers/ubiquo/books_helper.rb              | Helper functions to be used from the books ubiquo views |
+
+
+h4. Running a Migration
+
+One of the products of the +script/generate scaffold+ command is a _database migration_.
+
+If you look in the +db/migrate/20090529095904_create_books.rb+ file (remember, your file name will contain a different timestamp), here's what you'll find:
+
+<ruby>
+class CreateBooks < ActiveRecord::Migration
+  def self.up
+    create_table :books do |t|
+      t.string :title
+      t.datetime :published_at
+      t.integer :author_id
+
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :books
+  end
+end
+</ruby>
+
+At this point, you can use a rake command to run the migration:
+
+<shell>
+$ rake db:migrate
+</shell>
+
+NOTE: Because you're working in the development environment by default, this command will apply to the database defined in the +development+ section of your +config/database.yml+ file.
+
+h4. Configuring menus and navigation tabs
+
+
+Add a tab for the new resource on the main navigation tab:
+
+<ruby>
+  <%
+    navigator_left = create_tab_navigator(:tab_options => {}) do |navigator|
+      ...
+      navigator.add_tab do |tab|
+        tab.text = t("application.books")
+        tab.title = t("application.goto", :place= => "books")
+        tab.link = ubiquo_books_path
+        tab.highlights_on({:controller => "ubiquo/books"})
+        tab.highlighted_class = "active"
+      end if permit?("books_management")
+      ...
+    end
+  %>
+ <%= render_tab_navigator(navigator_left) %>
+</ruby>
+
+NOTE: Note that the +books_management+ permission is not automatically created. You can learn the detailed way to manage permissions in the "Ubiquo authentication":ubiquo_authentication.html guide.
+
+In +app/views/ubiquo/books/_submenu.html.erb+ is default helper call used to display a navigation ubiquo submenu.
+
+<ruby>
+  <%= render_navigation_links_section :books %>
+</ruby>
+
+At this moment the navigation menu is read from +app/views/navigators/_books_navlinks.html.erb+. This is generated automatically, check it out:
+
+<ruby>
+  <%
+      navigator_section = create_link_navigator(:class => 'submenu') do |navigator|
+        ...
+        navigator.add_link do |link|
+          link.text = t("ubiquo.book.index.title")
+          link.url = ubiquo_books_path
+          link.highlights_on({:controller => "ubiquo/books"})
+        end
+        ...
+      end
+  %>
+  <%= render_link_navigator(navigator_section) %>
+</ruby>
+
+Imagine now that you want to add an _authors_ ubiquo resource. If you need it to appear on the same tab that _books_, edit the books navigation file +app/views/navigators/_books_navlinks.html.erb+ and add a _authors_ link:
+
+<ruby>
+  <%
+      navigator_section = create_link_navigator(:class => 'submenu') do |navigator|
+        ...
+        navigator.add_link do |link|
+          link.text = t("ubiquo.book.index.title")
+          link.url = ubiquo_books_path
+          link.highlights_on({:controller => "ubiquo/books"})
+        end
+
+        navigator.add_link do |link|
+          link.text = t("ubiquo.author.index.title")
+          link.url = ubiquo_authors_path
+          link.highlights_on({:controller => "ubiquo/authors"})
+        end
+
+      end
+  %>
+  <%= render_link_navigator(navigator_section) %>
+
+</ruby>
+
+You also have to indicate on the main tab navigation +app/views/navigators/_main_tabnavs.html.erb+ to select the _Books_ tab when the item _authors_ is selected:
+
+<ruby>
+   #app/views/navigators/_main_navtabs.html.erb
+   <% navigator_left = create_tab_navigator(:tab_options => {}) do |navigator|
+      ...
+        navigator.add_tab do |tab|
+          tab.text = t("Books")
+          tab.title = t("application.goto", :place => "books"")
+          tab.link = ubiquo_books_path
+          tab.highlights_on({:controller => "ubiquo/books"})
+          tab.highlights_on({:controller => "ubiquo/authors"})
+          tab.highlighted_class = "active"
+        end if permit?("books_management")
+      ...
+    end
+    %>
+    <%= render_tab_navigator(navigator_left) %>
+
+</ruby>
+
+h4. Views, Helpers, and Controllers Overview
+
+To understand and learn how use and extend all generated files with ubiquo scaffold, we'll review action by action trying cover all cases.
+
+h5. Index
+
+To start, check out index action in +app/controllers/ubiquo/books_controller.rb+, we can view that this action only contains a call to +filtered_search+ Book class method. The results are used for +paginate+ method,
+implemented in ubiquo_core plugin.
+
+NOTE. The params that +filtered_search+ method needs are explained with more details in the *filters section*
+
+<ruby>
+
+class Ubiquo::BooksController < UbiquoAreaController
+  # GET /books
+  # GET /books.xml
+  def index
+    order_by = params[:order_by] || 'books.id'
+    sort_order = params[:sort_order] || 'desc'
+    filters = {
+      :text => params[:filter_text],
+      :publish_start => parse_date(params[:filter_publish_start]),
+      :publish_end => parse_date(params[:filter_publish_end], :time_offset => 1.day),
+    }
+    @books_pages, @books = Book.paginate(:page => params[:page]) do
+      # remove this find and add something like this:
+      # Book.filtered_search filters, :order => "#{order_by} #{sort_order}"
+      Book.filtered_search filters, :order => "#{order_by} #{sort_order}"
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  {
+        render :xml => @books
+      }
+    end
+  end
+
+  ...
+
+end
+
+</ruby>
+
+With new ubiquo version, we have reduce a code generated in index view and move it to helper. With this form, if we need do any change, we work with helper usually instead of view.
+
+<ruby>
+  <h1>
+    <%= render :partial => 'title' %>
+  </h1>
+
+  <h2>
+    <%= render :partial => 'submenu' %>
+  </h2>
+
+  <%= render :partial => "shared/ubiquo/feedback" %>
+
+  <%= link_to t("ubiquo.book.index.new"), new_ubiquo_book_path, :class => "new" %>
+
+  <%= book_filters_info(params) %>
+
+  <%= book_list(@books, @books_pages) %>
+
+  <% content_for :sidebar do %>
+    <%= book_filters %>
+
+    <h3><%= t("ubiquo.help") %></h3>
+    <p><%= t("ubiquo.book.index.help_message") %></p>
+  <% end %>
+
+</ruby>
+
+The +books_list+ method render standard partial located in +ubiquo_core plugin+. Let's see its parameters:
+
+Required locals:
+
+* *name* - The name of the model listed.
+* *headers* - An Array with columns headers. If the element is a symbol, it's considerated how a model attribute and list can be sorted by this field. If element is a string, it insn't sortable.
+* *rows* - An Array with each row of the list. Each row is a Hash:
+** *id* - The id of this element
+** *columns* - An array with the columns values of this element
+** *actions* - A result of actions helper method
+* *pages* - Pagination for this list.
+
+Optional locals:
+
+* *actions_width* - Width (in pixels) of the Actions column (default is 100)
+* *hide_actions* - Set to true to hide actions (default is false)
+
+The +books_actions+ method returns
+
+And an example of books ubiquo helper:
+
+<ruby>
+  module Ubiquo::BooksHelper
+    ... filters helpers ...
+
+    def book_list(collection, pages, options = {})
+      render(:partial => "shared/ubiquo/lists/standard", :locals => {
+          :name => 'book',
+          :headers => [:title, :published_at, :author_id],
+          :rows => collection.collect do |book|
+            {
+              :id => book.id,
+              :columns => [
+                book.title,
+                book.published_at,
+                book.author_id,
+              ],
+              :actions => book_actions(book)
+            }
+          end,
+          :pages => pages
+        })
+    end
+
+    private
+
+    def book_actions(book, options = {})
+      actions = []
+      actions << link_to(t("ubiquo.view"), [:ubiquo, book])
+      actions << link_to(t("ubiquo.edit"), [:edit, :ubiquo, book])
+      actions << link_to(t("ubiquo.remove"), [:ubiquo, book],
+        :confirm => t("ubiquo.book.index.confirm_removal"), :method => :delete
+        )
+      actions
+    end
+  end
+</ruby>
+
+WARNING. REVISADO HASTA AQUÍ!!
+
+
+
+h5. Show
+
+h5. New
+
+h5. Edit
+
+h5. Destroy
+
+h3. Applying filters to model and controllers
+
+You have to adapt the model and controller to work with filters. Get the query string from ''params'', process them (if necessary) and pass to the model, which should use them to build SQL conditions. Let's see an example, a text filter for our book model (searches case-insensitive on name and description).
+
+h4. Controller
+
+<ruby>
+  # test/functional/ubiquo/books_controller_test.rb
+  class Ubiquo::BooksControllerTest < ActionController::TestCase
+    ...
+    def test_filter_by_text_searching_case_insensitive_on_name_and_description
+      Book.delete_all
+      book1 = create_book(:name => 'name1', :description => 'description1')
+      book2 = create_book(:name => 'name2', :description => 'description2')
+      get :index, :filter_text => 'name'
+      assert_equal_set [book1, book2], assigns(:books)
+      get :index, :filter_text => 'NAME1'
+      assert_equal_set [book1], assigns(:books)
+      get :index, :filter_text => 'description2'
+      assert_equal_set [book2], assigns(:books)
+    end
+    ...
+  end
+</ruby>
+<ruby>
+  # app/controllers/ubiquo/books_controller.rb
+
+  class Ubiquo::BooksController < UbiquoAreaController
+    ...
+    # GET /books
+    # GET /books.xml
+    def index
+      respond_to do |format|
+        format.html {
+          params[:order_by] = params[:order_by] || 'books.id'
+          params[:sort_order] = params[:sort_order] || 'desc'
+          filters = {
+            :text => params[:filter_text],
+          }
+          @books_pages, @books = Book.paginate(:page => params[:page]) do
+            Book.filtered_search(filters, :order => params[:order_by] + " " + params[:sort_order])
+          end
+        } # index.html.erb
+        format.xml  {
+          @books = Book.find(:all)
+          render :xml => @books
+        }
+      end
+    end
+    ...
+  end
+</ruby>
+
+h4. Model
+
+<ruby>
+  # test/unit/book_test.rb
+  class BookTest < ActiveSupport::TestCase
+    def test_filter_by_text_searching_case_insensitive_on_name_and_description
+      Book.delete_all
+      book1 = create_book(:name => 'name1', :description => 'description1')
+      book2 = create_book(:name => 'name2', :description => 'description2')
+      assert_equal_set [book1, book2], Book.filtered_search({:text => 'name'})
+      assert_equal_set [book1], Book.filtered_search({:text => 'nAMe1'})
+      assert_equal_set [book2], Book.filtered_search({:text => 'DESCRIPTION2'})
+    end
+  end
+</ruby>
+<ruby>
+  # app/models/book.rb
+  class Book < ActiveRecord::Base
+    ...
+    def self.filtered_search(filters = {}, options = {})
+      filter_text = unless filters[:text].blank?
+        args = ["%#{filters[:text]}%"] * 2
+        condition = "upper(books.name) ILIKE upper(?) OR upper(books.description) ILIKE upper(?)"
+        {:find => {:conditions => [condition] + args}}
+      else
+        {}
+      end
+      with_scope(filter_text) do
+        with_scope(:find => options) do
+          Book.find(:all)
+        end
+      end
+    end
+  end
+</ruby>
+
+
+h3. Testing
+
+h4. Unit Tests
+
+blabla
+
+h4. Functional Tests
+
+blabla
+
+
+h3. Changelog
+
+"Lighthouse tickets":http://ubiquo.lighthouseapp.com/projects/27683-ubiquo/tickets?q=tagged%3Aubiquo_scaffold

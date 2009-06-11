@@ -1,0 +1,57 @@
+<% content_for :header_section do %>
+h2. Ubiquo guides
+
+These guides are designed to make you immediately productive with Ubiquo, and to help you understand how all of the pieces fit together.
+
+<% end %>
+
+<% content_for :index_section do %>
+<div id="subCol">
+  <dl>
+    <dd class="warning">These Guides are a currently a work in progress.</dd>
+    <dd class="ticket">Guides marked with this icon are currently being worked on. While they might still be useful to you, they may contain incomplete information and even errors. You can help by reviewing them and posting your comments and corrections at the respective Lighthouse ticket.</dd>
+  </dl>
+</div>
+<% end %>
+
+h3. Start Here
+
+<dl>
+<% guide('Getting Started with Ubiquo', 'getting_started.html') do %>
+  Everything you need to know about what Ubiquo is and how to install it and create your first application.
+<% end %>
+</dl>
+
+h3. Plugins
+
+<dl>
+<% guide("Ubiquo Access Control", 'ubiquo_access_control.html') do %>
+  This guide covers the ubiquo_access_control plugin, that provides mechanisms such as roles and permissions ready to use for your applications.
+<% end %>
+
+<% guide("Ubiquo Authentication", 'ubiquo_authentication.html') do %>
+  This guide covers the ubiquo_authentication plugin, that gives you the capability to add Users to the application.
+<% end %>
+
+<% guide("Ubiquo i18n", 'ubiquo_i18n.html') do %>
+  This guide covers the ubiquo_i18n plugin, that provides an easy, powerful way to internationalize your application, by specifing translatable fields or relations in your models.
+<% end %>
+
+<% guide("Ubiquo Jobs", 'ubiquo_jobs.html') do %>
+  This guide covers the ubiquo_jobs plugin, which will help you in your needs of processing code asynchronously.
+<% end %>
+
+<% guide("Ubiquo Media", 'ubiquo_media.html') do %>
+  This guide covers the ubiquo_media plugin, the one you need to easily manage everything related to uploading and associating all kind of external assets to your models.
+<% end %>
+
+<% guide("Ubiquo Scaffold", 'ubiquo_scaffold.html') do %>
+  This guide covers the ubiquo_scaffold plugin, that gives you the power of creating in seconds scaffolds that, using the Ubiquo capabilities, will make you save hours of development.
+<% end %>
+
+<% guide("Ubiquo Versions", 'ubiquo_versions.html') do %>
+  This guide covers the ubiquo_versions plugin, which provides a versioning system to record the state of your model instances and see in a history how these evolved.
+<% end %>
+</dl>
+
+
