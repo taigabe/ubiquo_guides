@@ -1,4 +1,4 @@
-h2. Ubiquo Access Control
+h2. Ubiquo Core
 
 This plugin contains the basic common Ubiquo structure so that other
 plugins can be built on top of it. This includes:
