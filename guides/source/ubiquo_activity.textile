@@ -13,7 +13,7 @@ h3. Store activity
 
 h4. Normal use
 
-If you want to record information about an controller action and differentiate between successful action and failed action, you can do something like this:
+If you want to record information about a controller action and differentiate between successful action and failed action, you can do something like this:
 
 <ruby>
   if @book.save

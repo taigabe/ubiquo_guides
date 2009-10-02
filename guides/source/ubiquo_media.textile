@@ -15,7 +15,7 @@ This plugin provides a media management system for Ubiquo. Once installed, you w
   type them
 
 * Organize your assets by type or visibility: Restrict a model
-  attribute to just some types of assets (images, videos..) and decide
+  attribute to just some types of assets (images, videos...) and decide
   if the asset is public or private
 
 
@@ -110,7 +110,7 @@ This visibility determines if the resource can be accessed from anywhere(public)
 h4. Get the resource url
 
 To get the url of a resource you can use url_for_media_attachment helper.
-In that example there are a link to a resource:
+In that example there is a link to a resource:
 
 <erb>
 <%= link_to(
@@ -182,7 +182,7 @@ Here you can search existent assets by their name and select it.
 
 h4. Rename selection
 
-When an asset is selected it have their own name and a 'selection
+When an asset is selected it has it's own name and a 'selection
 name'. This name is only for that relation and can be changed from the
 selected item view:
 !images/images/ubiquo_media/selected.png(Media selector selected state)!

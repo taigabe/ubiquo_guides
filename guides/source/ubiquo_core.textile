@@ -20,7 +20,7 @@ value. If both setted, normal value is used.
 
 It allow to store values in contexts using _context_ method.
 
-NOTE: It's not recommended to change the vlaue of the configuration during the life of the application, only in the setup
+NOTE: It's not recommended to change the value of the configuration during the life of the application, only in the setup
 
 h4. Getting a value
 
@@ -88,7 +88,7 @@ under the ubiquo header.
 
 h5. Create new tab to the normal mode
 
-Open RAILSROOT/app/views/navigators/_main_navtabs.html.erb.
+Open RAILS_ROOT/app/views/navigators/_main_navtabs.html.erb.
 
 Here you can edit navigator_left or navigator_right. Inside the
 'create_tab_navigator' method block you can add new tabs with a piece
@@ -104,7 +104,7 @@ navigator.add_tab do |tab|
 end
 </ruby>
 
-h4. Links navigations
+h4. Link navigations
 
 Link navigations work like tab navigations but showing links instead
 tabs.

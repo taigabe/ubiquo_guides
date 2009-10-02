@@ -7,15 +7,17 @@ What "track versions" here means is the recording of the state of the instance b
 Some of the main features of this versioning implementation are:
 
 * Single table for model
-Instead of having another table to store the old versions for each model, we store all the required information in the same model table. This approach is similar to the one used in i18n, and leads to bigger tables, but also provides the simplicity to treat every version as a model instance.
-
 * Explicit versioning
-Since versioning it's usually a feature that is used only in determinated circumstances (e.g. when restoring an old version of something), the system is built in a way that using versions is explicit, and if no versioning info is used e.g. in searches, we get the normal, unversioned behaviour.
+
 
 
 This guide will walk you through ubiquo_versions internals and show you how to create a versioned model.
 
 endprologue.
+
+Instead of having another table to store the old versions for each model, we store all the required information in the same model table. This approach is similar to the one used in i18n, and leads to bigger tables, but also provides the simplicity to treat every version as a model instance.
+
+Since versioning is usually a feature that is used only in determinated circumstances (e.g. when restoring an old version of something), the system is built in a way that using versions is explicit, and if no versioning info is used e.g. in searches, we get the usual, unversioned behaviour.
 
 
 h3. Creating versionable models
@@ -24,7 +26,7 @@ In this example we will create an Article model, which will be defined as versio
 
 h4. Scaffolding
 
-If you are going to start a fresh new model, the easiest and quickiest way to create a versionable model is using the ubiquo_model scaffold
+If you are going to start a fresh new model, the easiest and quickiest way to create a versionable model is using the ubiquo_model scaffold:
 
 <shell>
 $ script/generate ubiquo_model Article title:string description:string --versionable
@@ -40,7 +42,7 @@ If you don't want to use scaffolding, e.g. because the model file that you want 
 
 h5. Migrations
 
-This is how the migration to create a table of a versioned model looks like
+This is how the migration to create a table of a versioned model looks like:
 
 <ruby>
     create_table :articles, :versionable => true do |t|
@@ -54,7 +56,7 @@ As you can see, the only special thing here is that a versionable option is adde
 
 h5. Models
 
-On models, we can flag that a certain model is versionable just adding the following line:
+On models, we can flag a model as versionable just adding the following line:
 
 <ruby>
 class Article < ActiveRecord::Base
@@ -72,9 +74,9 @@ Article.create(:title => 'title', :description => 'desc', :locale => 'en')
 Article.first.update_attribute :title, 'new_title'
 </ruby>
 
-The above code will generate two rows in the 'articles' table. The differences between them is that the original article (the one created first) is marked as the current_version, and its title is 'new_title'. The other row is marked as a version of this article, and retains the previous title, 'title'.
+The above code will generate two rows in the 'articles' table. The differences between them is that the original article (the one created first) is marked as the current_version, and its title is 'new_title'. The other row is marked as a version of this article, and keeps the previous title, 'title'.
 
-But make no mistake, these extra rows will not disturb us when doing our usual finds and operations:
+But don't get it wrong, these extra rows will not disturb us when doing our usual finds and operations:
 
 <ruby>
 Article.count # this returns 1
@@ -99,7 +101,7 @@ Article.first.versions
 
 h4. restore() method
 
-You can use the restore() method to take back an instance to a previous state. It works as follows
+You can use the restore() method to take back an instance to a previous state. It works as follows:
 
 <ruby>
 versions = Article.first.versions

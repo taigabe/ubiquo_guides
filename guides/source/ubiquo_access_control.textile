@@ -62,7 +62,7 @@ class ExampleController < UbiquoAreaController
 end
 </ruby>
 
-the attribute of access_control is a hash. In the key value you can
+The attribute of access_control is a hash. In the key value you can
 use a simple key with the name of the action to control, :DEFAULT to
 add the control to all actions or an array with the actions.
 
@@ -74,7 +74,7 @@ add the control to all actions or an array with the actions.
   }
 </ruby>
 
-the values of the hash is explained in the next three sections.
+The values of the hash are explained in the next three sections.
 
 h4. One permission
 
@@ -116,7 +116,7 @@ their section).
 
 h4. If condition
 
-Tt's used with _permit?_ method:
+It's used with _permit?_ method:
 
 <ruby>
   if permit?('permission_key')
@@ -143,7 +143,7 @@ It's the same that _if_ condition but yielding (or not) a block. It's
 used with restrict_to method:
 
 <ruby>
-  restrict_to('permission_key')
+  restrict_to('permission_key') do
     do_something
   end
 </ruby>

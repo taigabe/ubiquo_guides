@@ -38,9 +38,9 @@ h4. Manual creation
 
 If you don't want to use scaffolding, e.g. because the model file that you want to make translatable already exists, these are the changes that you'll need to do:
 
-h5. Migrationso
+h5. Migrations
 
-This is how the migration to create a table of a translated model looks like
+This is how the migration to create a table of a translated model looks like:
 
 <ruby>
     create_table :articles, :translatable => true do |t|
@@ -56,7 +56,7 @@ NOTE: The content_id field is implemented as a sequence field, not simply an int
 
 h5. Models
 
-On models, we can indicate which fields can be translated by using
+On models, we can indicate which fields can be translated by using:
 
 <ruby>
 class Article < ActiveRecord::Base
@@ -82,7 +82,7 @@ Article.first.translate('ca')
 
 This will return a new, unsaved article which shares the same content_id with Article.first. But the content_id is not the only thing that is shared, because all the fields that are not defined as translatable in the model, will also be filled with the common value.
 
-If you now do the following
+If you now do the following:
 
 <ruby>
 Article.first.update_attribute(:title => 'new_title')

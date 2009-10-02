@@ -31,7 +31,7 @@ asked, like user login, name, surnames, e-mail, etc.
 
 <shell>
 $ rake ubiquo:create_user
-(in /data/storage/acallarisa/development/rails/project_example)
+(in RAILS_ROOT)
 Enter user login: new_ubiquo_user
 Enter user password: ******
 Enter password again: ******
@@ -44,14 +44,14 @@ Should this user have superadmin privileges? yes
 
 When the assistant finish to ask attributes values, it will try to
 create the expected user. If some errors getted, it will be shown to
-you in the defaul locale (+ca_ES+)
+you in the defaul locale (+en_US+)
 
 If all goes well, you can to access with that user to the ubiquo
 section, normally
 "+http://localhost:3000/ubiquo+":http://localhost:3000/ubiquo in
 development environment.
 
-h3. Creating normal users
+h3. Creating regular users
 
 Creating users is usefull for grant access to the ubiquo to new
 people. New people can't register into Ubiquo, only current users with
@@ -64,7 +64,7 @@ a "superadmin user":#creating-the-superadmin-user
 
 h4. Steps
 
-# Log in with your authenticated user on Ubiquo:
+# Log in with your authenticated user on Ubiquo.
 # Go to the ubiquo_users list:
   "+http://localhost:3000/ubiquo/ubiquo_users+":http://localhost:3000/ubiquo/ubiquo_users.
 # Click in the +New User+ link. It send you to
@@ -97,8 +97,8 @@ the first line.
 before_filter :login_required, :only => [ :edit, :update ]
 </ruby>
 
-this will check authentication only in the specified actions +edit+
-and +update+
+This will check authentication only in the specified actions +edit+
+and +update+.
 
 h4. Skip authentication validation to all action
 
