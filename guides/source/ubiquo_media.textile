@@ -189,6 +189,31 @@ selected item view:
 
 just click in 'change text' link.
 
+h3. Ubiquo show helpers
+
+For show pages, there are a couple of helpers that can help you to brainlessly
+print a list of images and documents.
+
+h5. Images
+
+<ruby>
+ubiquo_show_media_attachment_images(
+      @instance,
+      :media_field,
+      'Images list'
+    )
+</ruby>
+
+h5. Documents
+
+<ruby>
+ubiquo_show_media_attachment_docs(
+      @instance,
+      :media_field,
+      'Documents list'
+    )
+</ruby>
+
 
 h3. Changelog
 

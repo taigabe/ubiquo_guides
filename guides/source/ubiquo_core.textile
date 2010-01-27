@@ -78,6 +78,36 @@ ubiquo_config_call(:key)
 ubiquo_config_call(:key, {:context => :context})
 </ruby>
 
+h3. Core helpers
+
+Ubiquo provides a series of helpers that can be useful in most ubiquo projects.
+On the "rdoc":http://www.ubiquo.me/rdoc/ubiquo_core/classes/Ubiquo/Helpers.html
+you will find an exhaustive list, and here examples for some of the most usual
+plugins will be shown.
+
+h4. Show helpers
+
+The helpers in this group will assist you when creating 'show' pages in Ubiquo.
+
+h5. Lists
+
+<ruby>
+ubiquo_show_list('Title', ['array', 'of', 'elements'])
+</ruby>
+
+This will create a normal, styled ul list.
+
+h5. media_attachment helpers
+
+Visit the "ubiquo_media":ubiquo_media.html guide if you are interested in helpers to
+easily print lists of images or documents
+
+
+h5. HTML text
+
+Just add the class 'text' to the dd tag and you are ready
+
+
 h3. Navigation
 
 h4. Tabs navigations
