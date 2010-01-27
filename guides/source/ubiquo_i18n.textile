@@ -38,9 +38,9 @@ h4. Manual creation
 
 If you don't want to use scaffolding, e.g. because the model file that you want to make translatable already exists, these are the changes that you'll need to do:
 
-h5. Migrations
+h5. Migrationso
 
-This is how the migration to create a table of a translated model looks like:
+This is how the migration to create a table of a translated model looks like
 
 <ruby>
     create_table :articles, :translatable => true do |t|
@@ -56,7 +56,7 @@ NOTE: The content_id field is implemented as a sequence field, not simply an int
 
 h5. Models
 
-On models, we can indicate which fields can be translated by using:
+On models, we can indicate which fields can be translated by using
 
 <ruby>
 class Article < ActiveRecord::Base
@@ -82,7 +82,7 @@ Article.first.translate('ca')
 
 This will return a new, unsaved article which shares the same content_id with Article.first. But the content_id is not the only thing that is shared, because all the fields that are not defined as translatable in the model, will also be filled with the common value.
 
-If you now do the following:
+If you now do the following
 
 <ruby>
 Article.first.update_attribute(:title => 'new_title')
@@ -110,6 +110,67 @@ Article.first.in_locale('en', 'es', 'ca')
 </ruby>
 
 NOTE: The in_locale() method is the equivalent to the locale() method to be used if we start a locale search from an instance.
+
+h3. Shared relations
+
+Ubiquo_i18n provides a mechanism to allow nearly transparent shared relations between different translations of the same content. Let's say that the Article has a relation to a Photo model:
+
+<ruby>
+class Article
+
+  translatable :title, :description
+
+  has_many :photos
+</ruby>
+
+In turn, Photo is also translatable
+
+<ruby>
+class Photo
+
+  translatable :caption
+</ruby>
+
+If you want every translation of the article to be related to the same photos, but each pointing to the photo with the correct caption for the article, simply change the has_many declaration to include a <b>:translation_shared</b> option
+
+<ruby>
+has_many :photos, :translation_shared => true
+</ruby>
+
+So the following works as expected:
+
+<ruby>
+article = Article.locale('en').last
+first_english_caption = article.photos.first.caption
+first_catalan_caption = article.in_locale('ca').photos.first.caption
+</ruby>
+
+and, on a change in the relation contents, these are tracked and updated for each translation:
+
+<ruby>
+article = Article.locale('en').last
+article.photos = [image1, image2]
+# create a new translation
+translated_article = article.translate('ca', :copy_all => true)
+# translated_article.photos.size is 2
+
+# original caption is not updated (remains English)
+translated_article.photos.first.update_attribute(
+  :caption,
+  'Catalan-only caption'
+)
+
+# original article photos are also deleted
+translated_article.photos = []
+</ruby>
+
+This is also integrated to work with "ubiquo_media":ubiquo_media.html, so if you are using it and want this behaviour you can use
+
+<ruby>
+media_attachment :photos, :translation_shared => true
+</ruby>
+
+NOTE: You will need to enable the i18n ubiquo_media connector to be able to use this media_attachment option.
 
 h3. Changelog
 
