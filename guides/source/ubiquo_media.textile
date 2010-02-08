@@ -46,6 +46,7 @@ end
 size and types options are optional. By default is sized 1 and any
 type.
 
+NOTE: You can use :many value with size option specifing that you want a undetermined number of assets.
 NOTE: For convention, the attribute name should be always plural no matter if it contains a single element (size option is 1). The media_attachment accessor always returns an array.
 
 h5. Minimum amount of assets
@@ -57,7 +58,7 @@ If you need to set the minimum, add something like this to your model:
 <ruby>
 validates_length_of(
   :images_ids,
-  :minumum => 1
+  :minimum => 1
   )
 </ruby>
 
