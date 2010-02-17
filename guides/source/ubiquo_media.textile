@@ -216,6 +216,65 @@ ubiquo_show_media_attachment_docs(
 </ruby>
 
 
+h3. Media processors
+
+h4. Add media processors
+
+Processors let you pass the uploaded image or file through n:Number Processors, returning the processed file/image. By default, Ubiquo has the :thumbnail processor. In order to add a new processor, for example one named "watermark", in config/initializers/ubiquo_config.rb you should add:
+
+<ruby>
+  default_media_processors = Ubiquo::Config.context(:ubiquo_media).get(:media_processors_list)
+  app_processors = [:watermark]
+  
+  Ubiquo::Config.context(:ubiquo_media).set do |config|
+    config.media_processors_list = app_processors  + default_media_processors
+  end
+</ruby>
+
+h4. Add a watermark
+
+Continuing with the watermark example, in order to add that watermark functionality that corresponds to the processor, you should create the folder RAILS_ROOT/lib/paperclip_processors and add a file named "watermark.rb" to that folder with that code:
+
+<ruby>
+module Paperclip
+  class Watermark < Processor
+
+    class InstanceNotGiven < ArgumentError; end
+
+    def initialize(file, options = {},attachment = nil)
+      super
+      @file = file
+      @current_format   = File.extname(@file.path)
+      @basename         = File.basename(@file.path, @current_format)
+      @watermark        = RAILS_ROOT + "/public/images/rails.png"
+      @current_geometry   = Geometry.from_file file # This is pretty slow 
+      @watermark_geometry = watermark_dimensions
+    end  
+
+    def watermark_dimensions
+      return @watermark_dimensions if @watermark_dimensions
+      @watermark_dimensions = Geometry.from_file @watermark
+    end
+
+    def make
+      dst = Tempfile.new([@basename, @format].compact.join("."))
+      watermark = " \\(  #{@watermark} -extract #{@current_geometry.width.to_i}x#{@current_geometry.height.to_i}+#{@watermark_geometry.height.to_i / 2}+#{@watermark_geometry.width.to_i / 2} \\) "
+      command = "-gravity center " + watermark + File.expand_path(@file.path) + " " +File.expand_path(dst.path)
+      begin
+        success = Paperclip.run("composite", command.gsub(/\s+/, " "))
+      rescue PaperclipCommandLineError
+        raise PaperclipError, "There was an error processing the watermark for #{@basename}" if @whiny_thumbnails
+      end
+      dst
+    end
+  end
+end
+</ruby>
+
+This code was taken from "http://kairichardkoenig.de/2009/07/30/watermarking-images-with-paperclip-in-rails/":http://kairichardkoenig.de/2009/07/30/watermarking-images-with-paperclip-in-rails/
+
+
+
 h3. Changelog
 
 "Lighthouse tickets":http://ubiquo.lighthouseapp.com/projects/27683-ubiquo/tickets?q=tagged%3Aubiquo_media
