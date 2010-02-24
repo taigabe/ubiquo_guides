@@ -114,15 +114,19 @@ h4. Installing Ubiquo
 Ubiquo is easily installed as a "Rails template":http://m.onkey.org/2008/12/4/rails-templates
 
 <shell>
-$ rails new_app -m http://ubiquo.gnuine.loc
+$ rails new_app -m http://www.ubiquo.me/template.rb
 </shell>
 
-This will currently install all the available plugins. During the installation, it will ask you a couple of questions (application name, and if you want to install these guides). But that's all. You now have a working rails install with ubiquo applied. It already executed the ubiquo:install and the database-related tasks. So, with everything in place, just fire the server
+This will currently install all the available plugins. During the installation, it will ask you a couple of questions (application name, email..). You now have a working rails install with ubiquo applied. When the template is finished, it will prompt you about the next steps to do (configure a database, initialize it and create an admin account).When you have everything in place, just fire the server
 
 <shell>
 $ cd new_app
 $ script/server
 </shell>
 
-And now visit http://localhost:3000/ubiquo. Enter with the gnuine/gnuine credentials (the default superadmin), and you will see the default Ubiquo interface. Now, to fill it with your own stuff, it's time to start using the "Ubiquo Scaffold guide":ubiquo_scaffold.html
+And now visit http://localhost:3000/ubiquo. Enter with the credentials you have just created (in rake ubiquo:create_user), and you will see the default Ubiquo interface. Now, to fill it with your own stuff, it's time to start using the "Ubiquo Scaffold guide":ubiquo_scaffold.html
 
+
+h3. Changelog
+
+"Lighthouse tickets":http://ubiquo.lighthouseapp.com/projects/27683-ubiquo/tickets?q=tagged%3Agetting_started
