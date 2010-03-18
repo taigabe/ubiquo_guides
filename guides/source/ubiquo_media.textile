@@ -161,14 +161,14 @@ Then, to get this version url just type something like that:
 h3. Media selector
 
 When adding a media selectior initially you will see something like that:
-!images/images/ubiquo_media/initial.png(Media selector initial state)!
+!images/ubiquo_media/initial.png(Media selector initial state)!
 
 Here, you can add new media or select existent.
 
 h4. Upload media
 
 If the 'add new media' option selected, a sub-form will appear.
-!images/images/ubiquo_media/adding.png(Media selector adding state)!
+!images/ubiquo_media/adding.png(Media selector adding state)!
 
 Here you have to add a file and their name. When clicked in the
 'save' button, the file will be uploaded with AJAX and will be
@@ -177,7 +177,7 @@ selected automatically
 h4. Select media
 
 If the 'select existent media' option selected, a list will appear.
-!images/images/ubiquo_media/selecting.png(Media selector selecting state)!
+!images/ubiquo_media/selecting.png(Media selector selecting state)!
 
 Here you can search existent assets by their name and select it.
 
@@ -186,7 +186,7 @@ h4. Rename selection
 When an asset is selected it has it's own name and a 'selection
 name'. This name is only for that relation and can be changed from the
 selected item view:
-!images/images/ubiquo_media/selected.png(Media selector selected state)!
+!images/ubiquo_media/selected.png(Media selector selected state)!
 
 just click in 'change text' link.
 
@@ -225,7 +225,7 @@ Processors let you pass the uploaded image or file through n:Number Processors, 
 <ruby>
   default_media_processors = Ubiquo::Config.context(:ubiquo_media).get(:media_processors_list)
   app_processors = [:watermark]
-  
+
   Ubiquo::Config.context(:ubiquo_media).set do |config|
     config.media_processors_list = app_processors  + default_media_processors
   end
@@ -247,9 +247,9 @@ module Paperclip
       @current_format   = File.extname(@file.path)
       @basename         = File.basename(@file.path, @current_format)
       @watermark        = RAILS_ROOT + "/public/images/rails.png"
-      @current_geometry   = Geometry.from_file file # This is pretty slow 
+      @current_geometry   = Geometry.from_file file # This is pretty slow
       @watermark_geometry = watermark_dimensions
-    end  
+    end
 
     def watermark_dimensions
       return @watermark_dimensions if @watermark_dimensions
