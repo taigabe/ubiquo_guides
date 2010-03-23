@@ -111,13 +111,14 @@ h3. Creating a new Ubiquo web application
 
 h4. Installing Ubiquo
 
-Ubiquo is easily installed as a "Rails template":http://m.onkey.org/2008/12/4/rails-templates
+Ubiquo is easily installed as a ruby gem:
 
 <shell>
-$ rails new_app -m http://www.ubiquo.me/template.rb
+$ gem install ubiquo
+$ ubiquo new_app
 </shell>
 
-This will currently install all the available plugins. During the installation, it will ask you a couple of questions (application name, email..). You now have a working rails install with ubiquo applied. When the template is finished, it will prompt you about the next steps to do (configure a database, initialize it and create an admin account).When you have everything in place, just fire the server
+This will currently install all the available plugins. You now have a working rails application install with ubiquo applied. When the installation is finished, it will prompt you about the next steps to do (configure a database, initialize it and create an admin account).When you have everything in place, just fire the server
 
 <shell>
 $ cd new_app
