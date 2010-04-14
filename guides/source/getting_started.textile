@@ -107,7 +107,7 @@ h5. Ubiquo versions
 The ubiquo_versions plugin provides a versioning system to record the state of your model instances and be able to display or revert the state of these to a previous state.
 
 
-h3. Creating a new Ubiquo web application
+h3. Creating a new Ubiquo application
 
 h4. Installing Ubiquo
 
@@ -118,14 +118,16 @@ $ gem install ubiquo
 $ ubiquo new_app
 </shell>
 
-This will currently install all the available plugins. You now have a working rails application install with ubiquo applied. When the installation is finished, it will prompt you about the next steps to do (configure a database, initialize it and create an admin account).When you have everything in place, just fire the server
+NOTE: The gem provides some useful options to create your new ubiquo app, use ubiquo --help to see them.
+
+This will currently install all the available plugins. You now have a working rails application with ubiquo applied. When the installation is finished, configure the database if needed, and fire the server normally:
 
 <shell>
 $ cd new_app
 $ script/server
 </shell>
 
-And now visit http://localhost:3000/ubiquo. Enter with the credentials you have just created (in rake ubiquo:create_user), and you will see the default Ubiquo interface. Now, to fill it with your own stuff, it's time to start using the "Ubiquo Scaffold guide":ubiquo_scaffold.html
+And now visit http://localhost:3000. The welcome screen will tell you how to login to ubiquo. Now, to fill it with your own stuff, it's time to start using the "Ubiquo Scaffold guide":ubiquo_scaffold.html
 
 
 h3. Changelog
