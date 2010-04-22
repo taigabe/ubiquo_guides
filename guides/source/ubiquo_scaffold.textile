@@ -98,6 +98,8 @@ $ rake db:migrate
 
 NOTE: Because you're working in the development environment by default, this command will apply to the database defined in the +development+ section of your +config/database.yml+ file.
 
+TIP: It is possible to run the migration automatically if you pass the -m flag to the ubiquo_scaffold command.
+
 h4. Configuring menus and navigation tabs
 
 
