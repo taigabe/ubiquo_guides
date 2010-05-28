@@ -38,7 +38,7 @@ h4. Manual creation
 
 If you don't want to use scaffolding, e.g. because the model file that you want to make translatable already exists, these are the changes that you'll need to do:
 
-h5. Migrationso
+h5. Migrations
 
 This is how the migration to create a table of a translated model looks like
 
