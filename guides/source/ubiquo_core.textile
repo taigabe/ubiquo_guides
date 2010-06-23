@@ -8,6 +8,7 @@ plugins can be built on top of it. This includes:
 * Ubiquo layout and styling elements
 * Main ruby/rails extensions
 * Navigation links and tabs system
+* Ubiquo filtered search
 
 endprologue.
 
@@ -155,6 +156,114 @@ navigator.add_link do |link|
   link.highlights_on({:controller => "ubiquo/your_controller"})
 end
 </ruby>
+
+h3. Filtered Search
+
+Provides a mechanism to search and filter data in a model based on the params hash and named_scopes.
+
+First step is to add the funcionality to the model:
+
+<ruby>
+class Article < ActiveRecord::Base
+  filtered_search_scopes
+end
+</ruby>
+
+This macro does several things:
+
+* Adds some named scopes if some fields exist.
+* Provides a filtered_search class method to search the model.
+* Provides a paginated_filtered_search (same but suports a page parameter for pagination).
+
+Let's check how it is normally used in the controller:
+
+<ruby>
+def index
+  @articles_pages, @articles = Article.paginated_filtered_search(params)
+
+  respond_to do |format|
+    format.html # index.html.erb
+    format.xml  {
+      render :xml => @articles
+    }
+  end
+end
+</ruby>
+
+What this does is match the "filter_blah" like params to "blah" scopes, it also takes into account order_by and sort_order params.
+
+h4. Default named_scopes
+
+Some named_scopes are automatically created if some fields exist in the table. For example:
+
+If title, name or description exist a "text" named_scope will be created. This named scope suports case and accent insensitive search.
+
+<ruby>
+named_scope :text, lambda { |value|
+  match = accent_insensitive_regexp(value.downcase)
+  matches = fields.inject([]) { |r, f| r << match }
+  conditions = fields.map { |f| "lower(#{table_name}.#{f}) #{regexp_op} ?" }.join(" OR ")
+  { :conditions => [ conditions, *matches ] }
+}
+</ruby>
+
+So a param called filter_text would match against this scope and its value passed to it.
+
+If a published_at field exist two named_scopes will be created:
+
+<ruby>
+named_scope :publish_start , lambda { |value| { :conditions => ["#{table_name}.published_at >= ?", parse_date(value)] } }
+named_scope :publish_end   , lambda { |value| { :conditions => ["#{table_name}.published_at <= ?", parse_date(value, :time_offset => 1.day)] } }
+</ruby>
+
+h4. Enabling named_scopes and customizing text search
+
+Default scopes are enabled by default by just including the filtered_search_scopes macro in the model.
+
+You can disable them:
+
+<ruby>
+class Article < ActiveRecord::Base
+  filtered_search_scopes :defaults => false
+end
+</ruby>
+
+If you need to enable some additional scopes you can do so:
+
+<ruby>
+class Article < ActiveRecord::Base
+  filtered_search_scopes :enable => [ :myscope1, :myscope2, :myscope3 ]
+end
+</ruby>
+
+Enabling scopes means that they would be elegible to be matched against filter_ like params.
+
+Additionally you can customize which fields do you want the text named_scope to operate on:
+
+<ruby>
+class Article < ActiveRecord::Base
+  filtered_search_scopes :text => [ :myfield1, :myfield2, :myfield3 ]
+end
+</ruby>
+
+h4. Using filtered_search
+
+You can search and filter results using 2 methods:
+
+* filtered_search
+* paginated_filtered_search
+
+Usually you will pass the params hash to the paginated_filtered_search methods as seen in previous examples but you can also pass additional conditions to the search too.
+
+<ruby>
+@articles_pages, @articles = Article.paginated_filtered_search(params, :include => :books)
+</ruby>
+
+Valid params for filters and options are:
+
+* filter_ like params (to match against named scopes).
+* sort_order and order_by for ordering.
+* page and per_page params for pagination. (if using paginated_filter_search).
 
 h3. Changelog
 
