@@ -5,7 +5,7 @@ module RailsGuides
       link = content_tag(:a, :href => url) { name }
 
       if options[:rdoc]
-        rdoc = content_tag(:a, :href => "http://rdoc.ubiquo.me/edge/#{plugin}", :class => 'rdoc') { "Rdoc" }
+        rdoc = content_tag(:a, :href => "http://rdoc.ubiquo.me/0.7-stable/#{plugin}", :class => 'rdoc') { "Rdoc" }
         link = link + " " + rdoc
       end
 
