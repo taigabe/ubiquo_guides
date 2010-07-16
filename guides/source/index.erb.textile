@@ -3,8 +3,8 @@ h2. Ubiquo guides
 
 These guides are designed to make you immediately productive with Ubiquo, and to help you understand how all of the pieces fit together. There are two different versions of the Guides site, and you should be sure to use the one that applies to your situation:
 
-* <a href="0.7-stable">Current Release version</a> – based on Ubiquo 0.7
-* <a href="edge">Edge version</a> – based on the current Ubiquo master branch
+* <a href="http://guides.ubiquo.me/0.7-stable">Current Release version</a> – based on Ubiquo 0.7
+* <a href="http://guides.ubiquo.me/edge">Edge version</a> – based on the current Ubiquo master branch
 
 <% end %>
 
