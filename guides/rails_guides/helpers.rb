@@ -1,7 +1,14 @@
 module RailsGuides
   module Helpers
     def guide(name, url, options = {}, &block)
+      plugin = url.gsub('.html','')
       link = content_tag(:a, :href => url) { name }
+
+      if options[:rdoc]
+        rdoc = content_tag(:a, :href => "http://rdoc.ubiquo.me/edge/#{plugin}", :class => 'rdoc') { "Rdoc" }
+        link = link + " " + rdoc
+      end
+
       result = content_tag(:dt, link)
 
       if ticket = options[:ticket]
@@ -24,6 +31,10 @@ module RailsGuides
       result << content_tag(:h3, name)
       result << content_tag(:p, capture(&block))
       concat content_tag(:div, result, :class => 'clearfix', :id => nick)
+    end
+
+    def rdoc(plugin)
+      concat(content_tag(:a, :href => "http://rdoc.ubiquo.me/edge/#{plugin}", :class => 'rdoc') { "Rdoc" })
     end
 
     def code(&block)

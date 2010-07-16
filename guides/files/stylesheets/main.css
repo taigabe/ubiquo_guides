@@ -412,6 +412,15 @@ code {
 	font-size: 1.1667em;
 }
 
+a.rdoc {
+    text-indent:-10000;
+    background: url(../../images/rdoc.png) no-repeat;
+    width:40px;
+    height:32px;
+    display:inline-block;
+    vertical-align:middle;
+}
+
 /* Clearing
 --------------------------------------- */
 
