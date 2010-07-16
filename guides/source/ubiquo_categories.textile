@@ -199,11 +199,11 @@ By default, autocomplete_style is :tag, but you can choose :tag or
 
  * Tag
 
-!../images/ubiquo_categories/selector-tag.png(Category selector with tag style)!
+!images/ubiquo_categories/selector-tag.png(Category selector with tag style)!
 
  * List
 
-!../images/ubiquo_categories/selector-list.png(Category selector with list style)!
+!images/ubiquo_categories/selector-list.png(Category selector with list style)!
 
 h5. html_options
 
@@ -254,7 +254,7 @@ Ex: render_category_filter(url_for_options, :set => 'colors', **:caption => 'Col
 
 h3. Technical specifications
 
-!../images/ubiquo_categories/models.png(Models schema)!
+!images/ubiquo_categories/models.png(Models schema)!
 
 h4. Why ubiquo_categories and what we were looking for?
 
