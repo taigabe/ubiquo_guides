@@ -1,0 +1,437 @@
+h2. Ubiquo Design
+
+The ubiquo_design plugin provides a complete solution for page management of your 
+website. It brings you the necessary tools to prepare public page views with 
+modular structure in a totally dinamic way, with some advanced capabilities like 
+drag & drop components, different blog configurations and templates ...
+
+The main features are:
+
+* Create Pages Categories and Pages through their own managers.
+* Chose a specific template for each page with its own block structure to set 
+components in groups.
+* Assign components to different parts of each page and re-use them in other pages 
+to fit your needs.
+* Move, assign, delete components for page easily.
+* Get translatable components, using ubiquo_i18n by adding a few lines of code.
+
+endprologue.
+
+h3. Creating a page category
+
+In the design proces for our website, it will be necessary to create public pages 
+to show contents created inside Ubiquo managers. We will work with
+a great number of models for sure, and it becomes necessary to separate that 
+information in different groups of pages. To do that, we have the Page Category 
+manager. 
+
+h4. Steps
+
+# Log in with your user on Ubiquo (  you must have the 
+corresponding permission to use Ubiquo Design sections, otherwise they will
+ not be available )
+# Go to the Design section ( click on "Design" tab or go to 
+  "+http://localhost:3000/ubiquo/pages+":http://localhost:3000/ubiquo/pages ).
+# Click in the "Page category" subsection link. It will redirect you to 
+  "+http://localhost:3000/ubiquo/page_categories+":http://localhost:3000/ubiquo/page_categories.
+# Click on "New Page Category" link.
+# Fill the form:
+#* Name: Descriptive name for category that will be visible in Ubiquo 
+page category list.
+#* URL name: Key that will be used in public views to access to our page 
+category. Only are accepted keys in a valid format for URL's.
+
+NOTE: When we specify the URL name for current page category, it's recommended to use dashes to separate each word ( it benefits indexing proces to searchers and gives user-friendly URL's ):  key-of-my-category
+
+As examples, in this guide we will create "Root category" for our website 
+frontpage and "Articles category" for pages about articles.
+* New Page Category with name = "Root category", URL name = ""
+* New Page Category with name = "Articles category", URL name = "articles"*
+
+
+h3. Creating a page
+
+Each visible page in public part should have its corresponding page. The Pages 
+manager allow ubiquo users to create pages, design, and publish them to
+public part.
+
+
+h4. Steps
+
+# Go to the Design section ( click on "Design" tab or go to 
+  "+http://localhost:3000/ubiquo/pages+":http://localhost:3000/ubiquo/pages ).
+# Before we create a page, it's necessary to create his related page category 
+( see above ). If you already created one, click on "New Page" link.
+# Fill the form:
+#* Name: Descriptive name for page in Ubiquo pages list.
+#* Category: Related category created before.
+#* URL name: key that will be used in public views to access to our page 
+( only accepted keys in a valid format for URL's). 
+The URL will be constructed as "mywebpage/url_name_of_page_category/url_name_of_page" 
+in public part.
+#* Page Template: Chose the used template for current page. Later we will see how create 
+new custom templates.
+
+INFO: Once created a page, we cannot change his related page template from Ubiquo. Will be necessary to delete and create page again or change it from console.
+
+In our example we will create two pages:
+* New Page with name = "Main page", Category = "Root category", URL name = "", Page template = "Simple"
+* New Page with name = "Article Detail", Category = "Articles category", URL name = "detail", Page template = "Interior"
+
+h3. Designing a page
+
+After we create pages we should design and publish them to public part to make them 
+visibles to all web users.
+
+We can design a page clicking in his "design" action link in pages list. 
+
+Inside design editor we will find 2 important concepts:
+* *Blocks*: In the main frame, we see the representation of template with different blocks. 
+Blocks are the rectangular areas that represents different structure parts 
+of the page: top, column 1, column 2, footer ...
+The block composition is defined in the view of page template related with current page.
+* *Components*: In sidebar we have a list of existing components for current page. 
+The available components depend of related page template.
+That components are "drag & drop" items that can be assigned to the different 
+page blocks.
+
+
+h4. Steps
+# In the pages list section, click on "design" action link in the corresponding page. 
+# Inside page design editor, move components with mouse (by clicking and dragging each one) 
+and put them into the different blocks. 
+Some components will have edit option link to configure them.
+If some info needed is missing, the component will appear with a red border line.
+# When you finish you can preview or publish the page using the buttons on the
+top right.
+
+NOTE: Some blocks in a page can inherit the components from the same block of main page checking the "Use frontpage block" check-box ( by default "Main page" will be page without url name in page category neither page ). It's interesting for block banners for example.
+
+In our example we will assign some component in each page and publish them:
+* Designing "Main page": put a "free component" in the upper block, edit it
+adding the dummy text "HERE IT'S A MAIN PAGE COMPONENT" and preview the page. 
+If everything is OK, click on publish button.
+* Designing "Articles detail": same as Root page, but now put the dummy text 
+"HERE IT'S AN ARTICLE DETAIL COMPONENT" in the component, and publish page.
+
+Now we have 2 public pages with some content to show in their own URL's:
+* Main page -> http://localhost:3000/ <br />
+* Article detail page -> http://localhost:3000/articles/detail
+
+h3. Creating our own page components !
+
+Components will fill the content of each page. 
+In the beggining of project a "free HTML" component it's already created. 
+It will help you to show HTML content in place it's setted. 
+But, also you can create your own components to match your view requeriments. 
+
+To create a new component we need to launch the _simple_generator_  scaffold.
+
+It will create the model, a generator file, and views for component in public part and 
+ubiquo design form. Let' see an example:
+
+<shell>
+  script/generate simple_generator article_detail allowed_comments:boolean
+</shell>
+
+Once scaffold it's done, we need to write some fixtures for component to exists 
+and in future database reloads.
+
+h4. Steps
+
+h5. component_types.yml
+
+Create a component type for this generator adding info in db/dev_bootstrap/component_types.yml file
+
+<erb>
+  component_types_12345:
+    name: Article detail component 
+    subclass_type: ArticleDetail
+    id: "12345"
+    is_configurable: true
+    key: article_detail
+</erb>
+
+:is_configurable param determines if component will have "edit" option link 
+in the page design section. In our example, our new component will have that link 
+and will send user to a form with :allowed_comments field. 
+
+h5. page_template_component_types.yml
+
+Relate the component type created with the page templates you want to share it
+in db/dev_bootstrap/page_template_component_types.yml 
+
+<erb>
+  page_template_component_types_111:
+    id: 111
+    component_type_id: 12345
+    page_template_id: 2
+</erb>
+
+You can create as many relations with differents templates as you need.
+
+h5. component_params.yml
+
+You can specify the accessible params in URL for this component type editing  
+db/dev_bootstrap/component_params.yml. For our example, we will declare :id param as a 
+required one to load the page in public part ( if no :id is specified in URL will 
+raise and "not found" exception )
+
+<erb>
+  component_params_001: 
+    name: id
+    id: "1"
+    component_type_id: "12345"
+    is_required: t
+</erb>
+
+This functionality is working partially, because you can access to all params in 
+public part by using "params" instance.
+
+h5. Import fixtures done!
+
+Now you can import all data from components of your fixture files in your DB:
+
+<shell>   
+rake ubiquo:db:fixtures:import TABLES=component_params,component_types,page_template_component_types DELETE=yes
+</shell>
+
+WARNING: Using DELETE=yes param in the fixtures import task will delete all existing content in the imported tables before import fixtures. 
+
+h5. Component form for ubiquo design
+
+( If your new component doesn't have any field to edit, you can ignore this step ).
+To edit values of component, we have to prepare its form for ubiquo design section 
+by adding its own fields in the next file: app/generators/article_detail/views/ubiquo/_form.html.erb 
+
+<ruby>
+  <%= component_header component %>
+  <% component_form(page, component) do |f| %>
+    <p>
+      <%= f.label :allowed_comments, "Allowed comments ?" %><br />
+      <%= f.check_box :allowed_comments %>
+    </p>
+    <%= component_submit %>
+  <% end %>
+</ruby>
+
+Also we have to allow that form to store the field in the component instance.
+To do that we have to edit its model file: article_detail.rb
+
+<ruby>
+  class ArticleDetail < Component
+    self.allowed_options = [:allowed_comments]
+  end
+</ruby>
+
+
+h5. Create page and publish it
+
+Now we have the component in Ubiquo Design section and we can assign it to new pages 
+doing the steps explained before in 3) and 4) points: we will create a new page, assign correct template, 
+add the component to it, edit its params, and publish it.
+
+h5. Component and generator for public part
+
+Now it's time to give functionality to the component itself in public part.
+To do that we have to edit the two files:
+* app/generators/article_detail/generator.rb
+* app/generators/article_detail/views/_show.html.erb
+
+In generator.rb we will find and prepare the variables to show in the view (works as 
+an action of a controller). For example, we can use a model method to find 
+the article entry of our database model:
+
+<ruby>
+def article_detail_generator(component, options)
+  article = component.article_by_id(options[:id])
+  locals = {
+    :article => article,
+    :allowed_comments => article.allowed_comments
+  }
+  render_options = {}
+  [locals, render_options]
+end
+</ruby>
+
+After that, we can edit _show.html.erb file:
+<ruby>
+  <%= article.title %>
+  <%= article.body %>
+  <% if allowed_comments %>
+    <%= render :partial => 'shared/comments_form' %>
+  <% end %>
+</ruby>
+
+h5. Check results
+
+Finally we can see the results in our navigator, and see the :
+http://localhost:3000/articles/interior/1
+
+h5. Export DB data to fixture files
+
+Finally you need to export all work done in pages. 
+<shell>   
+rake ubiquo:db:fixtures:export TABLES=assets,asset_relations,automatic_menus,blocks,components,menu_items,pages page_categories
+</shell>
+
+h3. Creating a new Page Template
+
+Initially we have 2 page templates already created, but our website provably will 
+have a specific structure of columns and blocks of data. To adjust that requeriment 
+we will have to create our own templates.
+Let's see a real example for a page template of a big horizontal block on top, 2 bottom 
+columns and a lateral right sidebar.
+
+h4. Steps
+
+h5. page_templates.yml
+
+Edit Page Template fixtures (db/dev_fixtures/page_templates.yml) to add a new 
+ones. In our example will be called "Special" template.
+
+<erb>
+page_templates_3: 
+  name: Special
+  thumbnail_file_name: special.png
+  id: "3"
+  key: special
+  layout: main
+</erb>
+
+h5. block_types.yml
+
+Create new block types if you needed by editing db/dev_fixtures/block_types.yml 
+file. In our example, let's supose we already have "top block" and "sidebar block",  
+and we only have to create two new blocks for the bottom columns.
+<erb>
+block_types_004: 
+  name: Column 1
+  can_use_default_block: f
+  id: "4"
+  key: col1
+block_types_005: 
+  name: Colunm 2
+  can_use_default_block: f
+  id: "5"
+  key: col2
+</erb>
+
+h5. page_template_block_types.yml
+
+Edit "page template block types" fixtures (db/dev_fixtures/page_templates_block_types.yml) 
+to relate the needed blocks to the new page template. In our example, we will relate 
+top, sidebar, and 2 column blocks
+
+<erb>
+page_template_block_types_007: 
+  id: "7"
+  block_type_id: "1"
+  page_template_id: "3"
+page_template_block_types_008: 
+  id: "8"
+  block_type_id: "2"
+  page_template_id: "3"
+page_template_block_types_009: 
+  id: "9"
+  block_type_id: "4"
+  page_template_id: "3"
+page_template_block_types_010: 
+  id: "10"
+  block_type_id: "5"
+  page_template_id: "3"
+</erb>
+
+h5. page_template_component_types.yml
+
+Edit page template component types fixtures to specify which component types 
+will be available for that template. In our example:
+
+<erb>
+page_template_component_types_009: 
+  id: "9"
+  component_type_id: "2"
+  page_template_id: "3"
+</erb>
+
+h5. Template view for ubiquo
+
+Now, we have to create file view for template in Ubiquo Design section 
+app/templates/special/ubiquo.html.erb
+
+<ruby>
+  <%= design_block_4cols page, 'top' %>
+  <%= design_block_1col page, 'col1' %>
+  <%= design_block_1col page, 'col2' %>
+  <%= design_block_2cols page, 'sidebar' %>
+</ruby>
+
+Using these design helpers, we will have the visual representation of blocks in the 
+design manager. It will look like this:
+
+!images/ubiquo_design/template-preview.png(Template preview)!
+
+h5. Create the page and publish it 
+
+Now we can create pages with new page category, design it, and publish it.
+
+h5. Template view for public part
+
+To show the information correctly in public part, we will have to edit the public 
+view for template creating app/templates/special/public.html.erb file. It will look 
+something similar to:
+
+<ruby>
+  <div id="top">
+    <%= @blocks[:top] %>
+  </div>
+  <div id="col1">
+    <%= @blocks[:col1] %>
+  </div>
+  <div id="col2">
+    <%= @blocks[:col2] %>
+  </div>
+  <div id="sidebar">
+    <%= @blocks[:sidebar] %>
+  </div>
+</ruby>
+
+h5. Yeah! Finally you can check the results in public part ! :_) 
+
+h3. And... how to work with ubiquo design in projects in production state ?
+
+For projects finished and published, we will not use fixtures never more.
+Fixtures are intended to be used in development environment only.
+Because of this, we will have to write migrations to create the component types 
+and its relation with page templates for each one, and create manually new pages 
+and page categories in Ubiquo Design to export them as we saw in this guide before. 
+
+h3. Extra tips
+
+h4. Exporting/importing needed tables
+
+Instead of specify each time the tables to import or export in design proces, you can create a group of tables in ubiquo by adding the code below to config/initializers/ubiquo_config.rb. See code below:
+<ruby>
+  groups = Ubiquo::Config.get :model_groups
+  Ubiquo::Config.set :model_groups, groups.merge(
+    :ubiquo_pages => %w{assets asset_relations automatic_menus blocks components menu_items pages page_categories},
+    :new_component => %w{component_params component_types page_template_component_types} 
+  )
+</ruby>
+
+You will can import new component data to DB using:
+<shell>   
+  rake ubiquo:db:fixtures:import GROUP=new_component DELETE=yes
+</shell>
+Or you can export pages created in ubiquo to the needed fixture files:
+<shell>   
+  rake ubiquo:db:fixtures:export GROUP=ubiquo_pages
+</shell>
+
+h3. Technical specifications
+
+!images/ubiquo_design/models.png(Models schema)!
+
+h4. Other plugins dependency
+
+The only dependency for this plugin is ubiquo_core.

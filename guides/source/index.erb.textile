@@ -49,6 +49,10 @@ h3. Plugins
   This guide covers the ubiquo_core plugin, that provides the basic common Ubiquo structure so that other plugins can be built on top of it.
 <% end %>
 
+<% guide("Ubiquo Design", 'ubiquo_design.html') do %>
+  This guide covers the ubiquo_design plugin, that provides the needed tools to create and design pages for public website part.
+<% end %>
+
 <% guide("Ubiquo i18n", 'ubiquo_i18n.html') do %>
   This guide covers the ubiquo_i18n plugin, that provides an easy, powerful way to internationalize your application, by specifing translatable fields or relations in your models.
 <% end %>
