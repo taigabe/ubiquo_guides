@@ -3,7 +3,7 @@ h2. Ubiquo guides
 
 These are Edge Guides, based on the current master <a href="http://github.com/gnuine/ubiquo_core/tree/master">branch</a>.
 
-If you are looking for the ones for the stable version please check <a href="0.7-stable">0.7-stable guides</a> instead. 
+If you are looking for the ones for the stable version please check <a href="http://guides.ubiquo.me/0.7-stable">0.7-stable guides</a> instead.
 These guides are designed to make you immediately productive with Ubiquo, and to help you understand how all of the pieces fit together.
 
 <% end %>
