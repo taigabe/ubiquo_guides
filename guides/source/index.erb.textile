@@ -54,7 +54,7 @@ h3. Plugins
 <% end %>
 
 <% guide("Ubiquo i18n", 'ubiquo_i18n.html', :rdoc => true) do %>
-  This guide covers the ubiquo_i18n plugin, that provides an easy, powerful way to internationalize your application, by specifing translatable fields or relations in your models. <% rdoc 'ubiquo_design' %>
+  This guide covers the ubiquo_i18n plugin, that provides an easy, powerful way to internationalize your application, by specifing translatable fields or relations in your models.
 <% end %>
 
 <% guide("Ubiquo Jobs", 'ubiquo_jobs.html', :rdoc => true) do %>
