@@ -75,4 +75,12 @@ h3. Plugins
 
 </dl>
 
+h3. For ubiquo developers
 
+<dl>
+
+<% guide("How to update ubiquo guides and rdocs", 'ubiquo_documentation.html', :rdoc => false) do %>
+   This guide covers the process needed to update and publish the ubiquo guides and rdoc.
+<% end %>
+
+</dl>
