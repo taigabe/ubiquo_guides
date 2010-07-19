@@ -27,18 +27,14 @@ At this point we can do our changes in the ubiquo_guides plugin source if needed
 but we are assuming modifications have already been commited and
 pushed over a time period and now we are just publishing the changes.
 
-Once finished we need to generate the guides:
-
-<shell>
-rake ubiquo:guides
-</shell>
-
 And now, assuming you have the right privileges, we publish the guides
 to the server using the appropiate rake task:
 
 <shell>
 rake ubiquo:guides:publish_edge
 </shell>
+
+This task will generate the guides and upload them to the server.
 
 NOTE: The task would be ubiquo:guides:publish_07stable for the current stable version.
 
