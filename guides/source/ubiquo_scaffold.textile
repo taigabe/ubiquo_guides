@@ -101,7 +101,7 @@ NOTE: Because you're working in the development environment by default, this com
 h4. Configuring menus and navigation tabs
 
 
-A tab should be automatically added on the main left navigation bar, you can review the file +app/views/navigators/_main_navtabs.html.erb+ to customize it:
+Add a tab for the new resource on the main navigation tab:
 
 <ruby>
   <%
