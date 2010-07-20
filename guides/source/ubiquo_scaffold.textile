@@ -32,7 +32,7 @@ REST resources for this model will be created automatically. Check it out:
 
 TIP: If we have in our application a ubiquo_i18n plugin, we can generate a ubiquo_scaffold with --translatable param. Learn more about this in the "Ubiquo i18n":ubiquo_i18n.html guide.
 
-The ubiquo scaffold will generate the following files in your application, along with some folders and edit one more. Here's a quick overview of what it creates:
+The ubiquo scaffold will generate 21 files in your application, along with some folders and edit one more. Here's a quick overview of what it creates:
 
 |_.File                                           |_.Purpose|
 | app/views/ubiquo/books/index.html.erb           | A view to display an index of all books |
@@ -43,6 +43,9 @@ The ubiquo scaffold will generate the following files in your application, along
 | app/views/ubiquo/books/_submenu.html.erb        | A partial to display a navigation submenu. It calls books_navlinks partial. Used by all views |
 | app/views/ubiquo/books/_title.html.erb          | A partial to display a section title. Used by all views |
 | app/views/ubiquo/books/_book.html.erb           | A partial to display a single book. Used by preview |
+| config/locales/ca/ubiquo/book.yml               | Catalan book ubiquo locales |
+| config/locales/es/ubiquo/book.yml               | Spanish book ubiquo locales |
+| config/locales/en/ubiquo/book.yml               | English book ubiquo locales |
 | app/views/navigators/_books_navlinks.html.erb   | A partial to display a navigation submenu. Called by submenu partial |
 | app/models/book.rb                              | The Book model |
 | test/unit/book_test.rb                          | Unit testing harness for the book model |
@@ -54,17 +57,6 @@ The ubiquo scaffold will generate the following files in your application, along
 | test/functional/ubiquo/books_controller_test.rb | Functional testing harness for the books controller |
 | app/helpers/ubiquo/books_helper.rb              | Helper functions to be used from the books ubiquo views |
 
-In addition it will also update the following existings files:
-
-|_.File                                           |_.Purpose|
-| config/locales/ca/ubiquo.yml                    | Catalan book ubiquo scaffold locales |
-| config/locales/es/ubiquo.yml                    | Spanish book ubiquo scaffold locales |
-| config/locales/en/ubiquo.yml                    | English book ubiquo scaffold locales |
-| config/locales/ca/models.yml                    | Catalan book model and attributes translations |
-| config/locales/es/models.yml                    | Spanish book model and attributes translations |
-| config/locales/en/models.yml                    | English book model and attributes translations |
-
-TIP: Keep in mind that due to yaml limitations with UTF-8 output it is useful to have the "ya2yaml":http://rubygems.org/gems/ya2yaml gem installed.
 
 h4. Running a Migration
 
