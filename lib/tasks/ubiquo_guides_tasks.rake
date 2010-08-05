@@ -1,5 +1,5 @@
 namespace :ubiquo do
-  UBIQUO_GUIDES_ROOT = File.join(File.dirname(__FILE__), '..')
+  UBIQUO_GUIDES_ROOT = File.join(File.dirname(__FILE__), '..', '..')
 
   desc 'Generate guides (for authors), use ONLY=foo to process just "foo.textile"'
   task :guides do
