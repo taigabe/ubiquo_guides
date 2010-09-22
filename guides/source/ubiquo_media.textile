@@ -246,7 +246,7 @@ module Paperclip
       @file = file
       @current_format   = File.extname(@file.path)
       @basename         = File.basename(@file.path, @current_format)
-      @watermark        = RAILS_ROOT + "/public/images/rails.png"
+      @watermark        = Rails.root.join('/public/images/rails.png').to_s
       @current_geometry   = Geometry.from_file file # This is pretty slow
       @watermark_geometry = watermark_dimensions
     end
