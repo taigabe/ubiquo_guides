@@ -9,6 +9,7 @@ plugins can be built on top of it. This includes:
 * Main ruby/rails extensions
 * Navigation links and tabs system
 * Ubiquo filtered search
+* Relation selector
 
 endprologue.
 
@@ -264,6 +265,99 @@ Valid params for filters and options are:
 * filter_ like params (to match against named scopes).
 * sort_order and order_by for ordering.
 * page and per_page params for pagination. (if using paginated_filter_search).
+
+h3. Relation selector
+
+Ubiquo relation selector provides an easy way to implement form-controls on model to model relations. This feature offers a compact view to work with different relation types, like belongs_to and has_many through different controls.
+
+Supported relations are belongs_to, has_many and has_many through with all their options
+
+<ruby>
+Model:
+belongs_to :author
+
+View:
+<%= form.relation_selector :authors %>
+</ruby>
+
+h4. Selector types
+
+Current selector types are:
+* **Select**: select form, used to manage belongs_to relations, displaying all available options in a list with the instance choice as a selected one.
+	Example: form.relation_selector :publisher, :type => :select
+* **Check box group**: a group of checkboxes, used to manage has_many relations, displaying all available options and marking the instances choices.
+	Example: form.relation_selector :authors, :type => :checkbox
+* **Text field with autocomplete functionality**: a text field with autocomplete functionality, used to manage both belongs_to and has_many relations, offering a list of available options filtered for the current text entered by user. It blocks input depending on the size of the given relation.
+	Example: form.relation_selector :authors, :type => :autocomplete
+
+h4. Common options allowed
+
+Options allowed for this helper are:
+* **type(optional, default => autocomplete)**: to choose the type of selector. Options available are select, check_box and autocomplete
+* **autocomplete_style(optional)**: this option will allow to choose between text-field like autocomplete or list-field like autocomplete.
+* **name_field(optional, default => [title, name])**: to choose which model field will be displayed to the final user. This field must be a valid model field or a valid function with a string type return. 
+* **collection_url(optional)**: this option will give the needed string to be called to retrieve model instances from its controller. The string must be a valid rails url generator.
+* **url_params(optional)**: this option will contain all additional params needed for all requests made by relation selector to retrieve desired objects.
+* **required(optional)**: this option will append a * character to the given control, showing if that data field is required.
+* **add_callback(optional)**: this option allows user to register a callback function that will be triggered when adding occur.
+* **remove_callback(optional)**:  this option allows user to register a callback function that will be triggered when removing occur
+* **related_object_id_field(optional, default => id)**: this field will be used as the given class objects identifier.
+
+h4. Required code
+
+The code required to use this helper is the following:
+* **Related models for autocomplete**: if use of autocomplete selector type is required, the related model will need to add a json return format to its index controller action (default url discovery option) or another arbitrary defined action with the same return requirements (collection_url option)
+
+h4. General examples
+
+h5. Autocomplete with custom name field and collection_url
+
+<ruby>
+form.relation_selector :authors, 
+		       :type => :autocomplete, 
+		       :name_field => 'custom_name', 
+		       :collection_url => 'custom_element_retriever_url'	
+</ruby>
+
+h5. Checkbox group with select/unselect callbacks
+
+<ruby>
+form.relation_selector :authors, 
+		       :type => :checkbox,
+		       :add_callback => 'custom_add_callback',
+		       :remove_callback => 'custom_remove_callback'
+	...
+	(javascript code)
+	function custom_add_callback(){
+		...
+	}
+	function custom_remove_callback(){
+		...
+	}
+	(/javascript code)
+
+</ruby>
+
+h5. Autocomplete with filters
+
+<ruby>
+form.relation_selector :authors, 
+		       :type => :autocomplete,
+		       :url_params => {:filter_first_field => 'custom_value_1',
+		   		       :filter_second_field => 'custom_value_2'}
+
+</ruby>
+
+h4. Notes
+
+The required javascript to make it work is included by default at new projects to the main ubiquo layout. However, if you're adding this new feature to an older project, you must include that javascript.
+
+Then, file app/views/layouts/ubiquo/default.html.erb will have a javascript_include_tag as follows
+
+* javascript_include_tag **'ubiquo/relation_selector.js'**
+
+With the bolded part being the needed new inclusion
+
 
 h3. Changelog
 

@@ -274,6 +274,39 @@ end
 This code was taken from "http://kairichardkoenig.de/2009/07/30/watermarking-images-with-paperclip-in-rails/":http://kairichardkoenig.de/2009/07/30/watermarking-images-with-paperclip-in-rails/
 
 
+h3. Use of different storage mode
+
+Ubiquo Media have support for two different storage systems: filesystem, that is the default mode which comes with plugin, and s3, taking advantage from s3 storage system, and allowing user to configure s3 interaction with few lines of additional configuration.
+
+h4. Configure project to use s3
+
+This is a step by step, recipe like tutorial, to use ubiquo media with s3 storage system
+
+1. Get s3 gem.
+    sudo gem install s3
+
+2. Edit config/initializers/ubiquo_config.rb and add the following lines
+<ruby>
+   Ubiquo::Config.context(:ubiquo_media).set do |config|
+    config.media_storage = :s3
+   end
+</ruby>
+3. Create a file called s3.yml under config/ folder
+
+4. Populate the previous file with the following content:
+<ruby>
+   ENVIRONMENT:
+     access_key_id: YOUR_ACCESS_KEY_ID
+     secret_access_key: YOUR_SECRET_ACCESS_KEY
+     bucket: YOUR_BUCKET 
+</ruby>
+5. Replace the previous upcase variables with your own data. Example:
+<ruby>
+   production:      
+     access_key_id: 1234567abcd
+     secret_access_key: abcdefghijk12345
+     bucket: a_bucke_name 
+</ruby>
 
 h3. Changelog
 
