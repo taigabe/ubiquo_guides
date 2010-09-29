@@ -318,6 +318,14 @@ h4. Required code
 The code required to use this helper is the following:
 * **Related models for autocomplete**: if use of autocomplete selector type is required, the related model will need to add a json return format to its index controller action (default url discovery option) or another arbitrary defined action with the same return requirements (collection_url option)
 
+Assuming we have an Author class with a related Book, the following code is all we need from Book's controller to receive data in our autocomplete from Author's form
+
+<ruby>
+format.js {
+  render :js => @books.to_json(:only => [:id,:title])
+}
+</ruby>
+
 h4. General examples
 
 h5. Autocomplete with custom name field and collection_url
