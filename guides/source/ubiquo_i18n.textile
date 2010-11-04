@@ -172,6 +172,27 @@ media_attachment :photos, :translation_shared => true
 
 NOTE: You will need to enable the i18n ubiquo_media connector to be able to use this media_attachment option.
 
+h3. Filter your elements by locale in listings
+
+There are available 'show_filters' and 'show_filter_info' helpers and you can add filters in your scaffolds to filter by locale.
+
+An example of code:
+
+<ruby>
+../app/helpers/ubiquo/paintings_helper.rb
+
+...
+
+def painting_filters
+  filters_for 'Painting' do |f|
+    f.locale
+  end
+end
+
+...
+
+</ruby>
+
 h3. Changelog
 
 "Lighthouse tickets":http://ubiquo.lighthouseapp.com/projects/27683-ubiquo/tickets?q=tagged%3Aubiquo_i18n

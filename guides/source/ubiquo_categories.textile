@@ -213,14 +213,9 @@ labels, selects, checkboxes... With this param you can add
 html_options for fieldset and customize it appearance.
 
 
-h3. Filter your elements with category_sets filters
+h3. Filter your elements with category set filters
 
-
-h4. render_category_filter and filter_category_info
-
-There are available 'render_category_filter' and
-'filter_category_info' helpers and you can add filters
-in your scaffolds searching your records by categories.
+There are available 'show_filters' and 'show_filter_info' helpers and you can add filters in your scaffolds searching your records by categories.
 
 An example of code:
 
@@ -229,16 +224,10 @@ An example of code:
 
 ...
 
-def painting_filters_info(params)
-  filters = []
-  filters << filter_category_info(params, :set => 'colors')
-  build_filter_info(*filters)
-end
-
-def painting_filters(url_for_options = {})
-  filters = []
-  filters << render_category_filter(url_for_options, :set => 'colors')
-  filters.join
+def painting_filters
+  filters_for 'Painting' do |f|
+    f.category :colors
+  end
 end
 
 ...
@@ -247,9 +236,9 @@ end
 
 By default, filter use t('ubiquo.category_sets.#{set_name}') to
 translate the filter 'h3' caption, but if you want change it, needs
-specify with caption option. 
+specify with caption option.
 
-Ex: render_category_filter(url_for_options, :set => 'colors', **:caption => 'Colors filter example'**)
+Ex: f.category :colors, :caption => 'Colors filter example'
 
 
 h3. Technical specifications
@@ -284,7 +273,7 @@ For now, ubiquo_categories it's only available in edge (master branch). If you h
 
 
  * git clone git@github.com:gnuine/ubiquo_categories.git
- * [Optional] If your project is using ubiquo_i18n for multilingual purposes, you can decide to use translatable categories. By default they aren't, to enable it you have to set the correct connector in the ubiquo config: 
+ * [Optional] If your project is using ubiquo_i18n for multilingual purposes, you can decide to use translatable categories. By default they aren't, to enable it you have to set the correct connector in the ubiquo config:
 
 in config/initializers/ubiquo_config.rb add
 Ubiquo::Config.context(:ubiquo_categories).set(:connector, :i18n)
