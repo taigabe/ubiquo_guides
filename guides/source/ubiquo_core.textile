@@ -10,6 +10,7 @@ plugins can be built on top of it. This includes:
 * Navigation links and tabs system
 * Ubiquo filtered search
 * Relation selector
+* Ubiquo filters
 
 endprologue.
 
@@ -295,7 +296,7 @@ h4. Common options allowed
 Options allowed for this helper are:
 * **type(optional, default => autocomplete)**: to choose the type of selector. Options available are select, check_box and autocomplete
 * **autocomplete_style(optional)**: this option will allow to choose between text-field like autocomplete or list-field like autocomplete.
-* **name_field(optional, default => [title, name])**: to choose which model field will be displayed to the final user. This field must be a valid model field or a valid function with a string type return. 
+* **name_field(optional, default => [title, name])**: to choose which model field will be displayed to the final user. This field must be a valid model field or a valid function with a string type return.
 * **collection_url(optional)**: this option will give the needed string to be called to retrieve model instances from its controller. The string must be a valid rails url generator.
 * **url_params(optional)**: this option will contain all additional params needed for all requests made by relation selector to retrieve desired objects.
 * **required(optional)**: this option will append a * character to the given control, showing if that data field is required.
@@ -313,16 +314,16 @@ h4. General examples
 h5. Autocomplete with custom name field and collection_url
 
 <ruby>
-form.relation_selector :authors, 
-		       :type => :autocomplete, 
-		       :name_field => 'custom_name', 
-		       :collection_url => 'custom_element_retriever_url'	
+form.relation_selector :authors,
+		       :type => :autocomplete,
+		       :name_field => 'custom_name',
+		       :collection_url => 'custom_element_retriever_url'
 </ruby>
 
 h5. Checkbox group with select/unselect callbacks
 
 <ruby>
-form.relation_selector :authors, 
+form.relation_selector :authors,
 		       :type => :checkbox,
 		       :add_callback => 'custom_add_callback',
 		       :remove_callback => 'custom_remove_callback'
@@ -341,7 +342,7 @@ form.relation_selector :authors,
 h5. Autocomplete with filters
 
 <ruby>
-form.relation_selector :authors, 
+form.relation_selector :authors,
 		       :type => :autocomplete,
 		       :url_params => {:filter_first_field => 'custom_value_1',
 		   		       :filter_second_field => 'custom_value_2'}
@@ -358,6 +359,215 @@ Then, file app/views/layouts/ubiquo/default.html.erb will have a javascript_incl
 
 With the bolded part being the needed new inclusion
 
+h3. Filters
+
+Ubiquo filters are sidebar elements used to filter ubiquo listings.
+
+FiltersHelper module provide some commonly used filters. By default, the module is included in <tt>app/helpers/ubiquo_area_helper.rb</tt>:
+
+<ruby>
+module UbiquoAreaHelper
+  include FiltersHelper
+  ...
+end
+</ruby>
+
+* The filter itself, containing the HTML that displays the filter on the lateral panel. It contains a header and a link to disable the filter when it is active.
+
+* The info filter that appears on top of the index listing. It displays textual info about all the active filters and contains a link to disable them all.
+
+ Filters are automatically added to the index view, you only have to fill the helper (example for controller _articles_controller_):
+
+<ruby>
+# app/helpers/ubiquo/articles_helper.rb
+module Ubiquo::ArticlesHelper
+  def article_filters
+     filters_for 'Article' do |f|
+       f.text
+       f.locale
+       f.date
+       f.select :name, @collection
+       f.boolean :status
+     end
+  end
+end
+</ruby>
+
+<ruby>
+# app/views/ubiquo/articles/index.html.erb
+<h1>
+  <%= render :partial => 'title' %>
+</h1>
+
+<h2>
+  <%= render :partial => 'submenu' %>
+</h2>
+
+<%= render :partial => "shared/ubiquo/feedback" %>
+
+<%=
+    show_filter_info # To render filter messages
+%>
+
+<%= article_list(@articles, @articles_pages) %>
+
+<% content_for :sidebar do %>
+  <%=
+      show_filters # To render filters
+  %>
+  <h3><%= t("ubiquo.help") %></h3>
+  <p><%= t("ubiquo.article.index.help_message") %></p>
+<% end %>
+</ruby>
+
+h4. Text filter
+
+It consists of an input text tag with a search button. Default options are shown.
+
+<ruby>
+f.text :field           => :description,            # Filter param name
+       :url_for_options => {}                       # Hash to be merged with filter params
+       :caption         => t('ubiquo.filters.txt')  # Text to display for this filter
+
+f.text # Does the same as the above one.
+</ruby>
+
+h4. Link filter
+
+Given an attribute to filter, generate a link for each possible value. There are two common cases:
+
+* You have a separated model (one-to-many relationship). On this case, you have to pass the collection of values and the associated model tablename (plural, underscore form).
+
+<ruby>
+f.link :type,
+       @asset_types,
+       :id_field    => :id,
+       :name_field  => :name,
+       :caption     => t('type'),
+</ruby>
+
+* Default values are:
+
+<ruby>
+:field       => "filter_#{field}".to_sym,
+:collection  => collection,
+:id_field    => :id,
+:name_field  => default_name_field, # It will check for :name or :title existance
+:caption     => @model.human_attribute_name(field),
+</ruby>
+
+* So you could use something like:
+
+<ruby>
+f.link :type, @asset_types
+</ruby>
+
+* The possible values for an attribute but directly a list of them on the model. Let's see an example:
+
+<ruby>
+class Link
+  TARGET_OPTIONS = [[t("Link|blank"), "blank"], [t("Link|self"), "self"]]
+  validates_inclusion_of :target, :in => TARGET_OPTIONS.map { |name, key| key }
+end
+</ruby>
+
+<ruby>
+# On the controller
+@target_types = Link::TARGET_OPTIONS.collect do |name, value|
+  OpenStruct.new(:name => name, :value => value)
+end
+</ruby>
+
+<ruby>
+# On the helper in a filtet set
+f.link :type,
+       @target_types,
+       :id_field => :value,
+       :caption => t('type'),
+       :translate_prefix => 'Link'
+</ruby>
+
+h4. Select filter
+
+Generate a select tag given an array of items.
+
+* It works exactly on the same way than the links filter, only that an extra option <tt>options[:all_caption]</tt> is needed to add a "all" option that disables the filter:
+
+<ruby>
+f.select :type,
+         @asset_types,
+         :id_field    => :id,
+         :name_field  => :name,
+         :caption     => t('type'),
+         :all_caption => t('-- All --')
+</ruby>
+
+h4. Links or Select filter
+
+This filter renders a select filter if the collection items length is greater than the <tt>:max_size_for_links</tt> parameter it uses a link filter otherwise. Pass the same options needed by a select filter. An example of the filter info code:
+
+<ruby>
+f.links_or_select :type,
+                  @asset_types,
+                  :id_field    => :id,
+                  :name_field  => :name,
+                  :caption     => t('type'),
+                  :all_caption => t('-- All --'),
+                  :max_size_for_links => 2
+</ruby>
+
+h4. Boolean Filter
+
+For boolean attributes use a link or select filter, but instead of <tt>collection/id_field/name_field</tt> options, pass <tt>boolean/caption_true/caption_false</tt>.
+
+<ruby>
+f.boolean :admin,
+          :caption => t('ubiquo_user type'),
+          :caption_true => t('Admin'),
+          :caption_false => t('Non-admin')
+          :options_for_url => params
+</ruby>
+
+* Default values are:
+
+<ruby>
+:field         => "filter_#{field}",
+:caption       => @model.human_attribute_name(field),
+:caption_true  => I18n.t('ubiquo.filters.boolean_true'),
+:caption_false => I18n.t('ubiquo.filters.boolean_false'),
+</ruby>
+
+h4. Date filter
+
+Date filters employ the plugin "calendar_date_select":http://code.google.com/p/calendardateselect/ . If you need to change the stylesheets, edit <tt>public/stylesheets/calendar_date_select/ubiquo.css</tt>. To use the lateral filter on your listing, you have to indicate the caption and the start/end date field names:
+
+<ruby>
+f.date :field   => [:date_start, :date_end],
+       :caption => t('creation'),
+</ruby>
+
+* Default values are:
+
+<ruby>
+:field   => [:filter_publish_start, :filter_publish_end],
+:caption => @model.human_attribute_name(field)
+</ruby>
+
+h4. Single Date filter
+
+Used to filter with only one date. It's like last filter but with just one date field:
+
+<ruby>
+f.date :field => :date,
+       :caption => t('creation')
+</ruby>
+
+* Default values are:
+
+<ruby>
+:field => :filter_publish_end,
+:caption => @model.human_attribute_name(field)
+</ruby>
 
 h3. Changelog
 
