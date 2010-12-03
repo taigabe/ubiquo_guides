@@ -322,6 +322,34 @@ And an example of books ubiquo helper:
   end
 </ruby>
 
+You can also use related fields as columns (ubiquo_categories should work too), an example:
+
+<ruby>
+  def article_list(collection, pages, options = {})
+    render(:partial => "shared/ubiquo/lists/standard", :locals => {
+        :name => 'article',
+        :headers => [:title, :description, :"author.name", :"section.name", :publish_date],
+        :rows => collection.collect do |article|
+
+           {
+            :id => article.id,
+            :columns => [
+              article.title,
+              article.description,
+              article.author.try(:name),
+              article.section.try(:name),
+              article.publish_date,
+            ],
+            :actions => article_actions(article)
+          }
+        end,
+        :pages => pages,
+        :link_to_new => link_to(t("ubiquo.article.index.new"),
+                                new_ubiquo_article_path, :class => 'new')
+      })
+  end
+</ruby>
+
 WARNING. This guide is not finished yet.
 
 h3. Changelog
