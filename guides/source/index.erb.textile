@@ -83,4 +83,8 @@ h3. For ubiquo developers
    This guide covers the process needed to update and publish the ubiquo guides and rdoc.
 <% end %>
 
+<% guide("How to create ubiquo sidebar filters", 'ubiquo_filters.html', :rdoc => false) do %>
+   This guide describes how to develop new ubiquo sidebar filters.
+<% end %>
+
 </dl>
