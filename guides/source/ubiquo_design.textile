@@ -1,443 +1,511 @@
 h2. Ubiquo Design
 
-The ubiquo_design plugin provides a complete solution for page management of your
+The ubiquo_design plugin provides a complete solution for the public part of your
 website. It brings you the necessary tools to prepare public page views with
-modular structure in a totally dinamic way, with some advanced capabilities like
-drag & drop components, different block configurations and templates ...
+modular structure in a totally dynamic way, with some advanced capabilities like
+drag & drop widgets, different block configurations or page templates.
 
 The main features are:
 
-* Create Pages Categories and Pages through their own managers.
-* Chose a specific template for each page with its own block structure to set
-components in groups.
-* Assign components to different parts of a page as an individual items
-* Decide which component types will be available for each template to fit your needs
-* Move, assign, delete components for page easily.
-* Get translatable components, using ubiquo_i18n by adding a few lines of code.
+* Create Pages with its own manager.
+* Define the parts of a page with blocks
+* Chose a specific template for each page with its own block structure to set widgets in groups.
+* Assign widgets to different blocks of a page as individual items.
+* Decide which widgets will be available for each page or block to fit your needs
+* Share blocks with other pages
+* Move, assign, delete widgets in pages easily
+* Get language-dependent widgets, using ubiquo_i18n by adding a few lines of code
+
+New features of this version:
+* Static pages
+* Better sharing blocks system
+* Less migrations and fixtures with design structure
+* Groups of widgets
+* Multiple levels of parent pages
 
 endprologue.
 
-h3. Creating a page category
+h3. Creating Pages
 
-In the design proces for our website, it will be necessary to create public pages
-to show contents created inside Ubiquo managers. We will work with
-a great number of models for sure, and it becomes necessary to separate that
-information in different groups of pages. To do that, we have the Page Category
-manager.
+If you are designing a publicly accessible website, it will be necessary to create public pages to show contents created inside the different Ubiquo data managers.
+Each page in public part should have its corresponding page on ubiquo. The Pages manager allows ubiquo users to create pages, design, and finally publish them.
 
-h4. Steps
-
-# Log in with your user on Ubiquo (  you must have the
-corresponding permission to use Ubiquo Design sections, otherwise they will
- not be available )
-# Go to the Design section ( click on "Design" tab or go to
-  "+http://localhost:3000/ubiquo/pages+":http://localhost:3000/ubiquo/pages ).
-# Click in the "Page category" subsection link. It will redirect you to
-  "+http://localhost:3000/ubiquo/page_categories+":http://localhost:3000/ubiquo/page_categories.
-# Click on "New Page Category" link.
+# Log in with your user on Ubiquo (  you must have the necessary permissions to use the Ubiquo Design sections, otherwise they will not be available ).
+# Go to the Design section ( click on "Design" tab or go to "+http://localhost:3000/ubiquo/pages+":http://localhost:3000/ubiquo/pages ).
+# Click on the "New Page" link.
 # Fill the form:
-#* Name: Descriptive name for category that will be visible in Ubiquo
-page category list.
-#* URL name: Key that will be used in public views to access to our page
-category. Only are accepted keys in a valid format for URL's.
+#* **Name:** Descriptive name for a page in Ubiquo pages list.
+#* **Parent:** Determines the parent page. Useful to create pages with nested urls. Can be left blank.
+#* **URL name:** the url part that will be used to access to our page (only accepted valid URL characters). The page will be accessible as "mysite.com/page_url".
+#* **Page Template:** Choose the template for this page. Later we will see how to create new custom templates.
+#* **Metatags:** these fields will help you to add information of your page for search engines.
+#*# Title
+#*# Keywords
+#*# Description
 
-NOTE: When we specify the URL name for current page category, it's recommended to use dashes to separate each word ( it benefits indexing proces to searchers and gives user-friendly URL's ):  key-of-my-category
+!images/ubiquo_design/form.png(Creating Pages)!
 
-As examples, in this guide we will create "Root category" for our website
-frontpage and "Articles category" for pages about articles.
-* New Page Category with name = "Root category", URL name = ""
-* New Page Category with name = "Articles category", URL name = "articles"*
+INFO: Once created a page, we cannot change his related page template from Ubiquo. It is necessary to delete and create page again or change it from the console.
 
-
-h3. Creating a page
-
-Each visible page in public part should have its corresponding page. The Pages
-manager allow ubiquo users to create pages, design, and publish them to
-public part.
-
-
-h4. Steps
-
-# Go to the Design section ( click on "Design" tab or go to
-  "+http://localhost:3000/ubiquo/pages+":http://localhost:3000/ubiquo/pages ).
-# Before we create a page, it's necessary to create his related page category
-( see above ). If you already created one, click on "New Page" link.
-# Fill the form:
-#* Name: Descriptive name for page in Ubiquo pages list.
-#* Category: Related category created before.
-#* URL name: key that will be used in public views to access to our page
-( only accepted keys in a valid format for URL's).
-The URL will be constructed as "mywebpage/url_name_of_page_category/url_name_of_page"
-in public part.
-#* Page Template: Chose the used template for current page. Later we will see how create
-new custom templates.
-
-INFO: Once created a page, we cannot change his related page template from Ubiquo. Will be necessary to delete and create page again or change it from console.
-
-In our example we will create two pages:
-* New Page with name = "Main page", Category = "Root category", URL name = "", Page template = "Simple"
-* New Page with name = "Article Detail", Category = "Articles category", URL name = "detail", Page template = "Interior"
+NOTE: When you do not have any previously created page, the parent selector only has the "none" option. The "none" option allows to create the page on the root path as "mysite.com/page_url". Otherwise you can determine the parent and create more complex urls like "mysite.com/parent/page_url" if you have created the parent page previously.
+ 
 
 h3. Designing a page
 
-After we create pages we should design and publish them to public part to make them
-visibles to all web users.
+After we have created a page, it's time to design the widgets it will have, and publish it to make them visible on the public part.
+We can design a page clicking in its "design" action link in the pages list.
 
-We can design a page clicking in his "design" action link in pages list.
-
-Inside design editor we will find 2 important concepts:
-* *Blocks*: In the main frame, we see the representation of template with different blocks.
-Blocks are the rectangular areas that represents different structure parts
+Inside the design editor we will find two important concepts:
+* *Blocks*: In the main frame, we can see the representation of the chosen template with the different blocks.
+Blocks are the rectangular areas that represent different structure parts
 of the page: top, column 1, column 2, footer ...
-The block composition is defined in the view of page template related with current page.
-* *Components*: In sidebar we have a list of existing components for current page.
-The available components depend of related page template.
-That components are "drag & drop" items that can be assigned to the different
-page blocks.
+The block composition is defined in the design_structure initializer (which we will review it later).
 
+* *Widgets*: In the sidebar we have a list of available widgets for the current page.
+These widgets are "drag & drop" items that can be assigned to the different page blocks.
 
-h4. Steps
 # In the pages list section, click on "design" action link in the corresponding page.
-# Inside page design editor, move components with mouse (by clicking and dragging each one)
-and put them into the different blocks.
-Some components will have edit option link to configure them.
-If some info needed is missing, the component will appear with a red border line.
-# When you finish, you can preview or publish the page using the buttons on the
-top right. If any of your assigned components have required params,
-the current page may not be previewed.
+# Inside the design editor, move widgets with the mouse (by clicking and dragging each one) and put them into the different blocks.
+Once dropped, some widgets will display an edit option link to configure them.
+If some required information is missing, the widget will appear in red. These items must be configured before the page can be published.
+# When you finish, you can preview or publish the page using the buttons on the top right.
 
-NOTE: Some blocks in a page can inherit the components from the same block of main page checking the "Use frontpage block" check-box ( by default "Main page" will be page without url name in page category neither page ). It's interesting for block banners for example.
+!images/ubiquo_design/design.png(Template preview)!
 
-In our example we will assign some component in each page and publish them:
-* Designing "Main page": put a "free component" in the upper block, edit it
-adding the dummy text "HERE IT'S A MAIN PAGE COMPONENT" and preview the page.
-If everything is OK, click on publish button.
-* Designing "Articles detail": same as Root page, but now put the dummy text
-"HERE IT'S AN ARTICLE DETAIL COMPONENT" in the component, and publish page.
+NOTE: Any block can be shared with the others pages. It's interesting for common sidebars for example.
 
-Now we have 2 public pages with some content to show in their own URL's:
-* Main page -> http://localhost:3000/ <br />
-* Article detail page -> http://localhost:3000/articles/detail
+h3. Creating our own widgets 
 
-h3. Creating our own page components !
+When we create the first page we only have available the default widgets (Free and Static).
+# The Free widget allows you to display any kind of HTML content in the page, such as an embed youtube video, an image or simply text.
+# The Static widget helps you to create static pages. By static pages we mean those pages with no dynamic elements, an "About us" or a "Terms of use" page for example.
 
-Components will fill the content of each page.
-In the beggining of project a "free HTML" component it's already created.
-It will help you to show HTML content in place it's setted.
-But, also you can create your own components to match your view requeriments.
+With just these two widgets you could already create a pretty complete site, but also you can create your own widgets to better fit your requirements.
 
-To create a new component we need to launch the _simple_generator_  generator.
+Let’s see an example of a widget that displays the last news. You'll be able to configure the number of news to show from ubiquo.
+The first step is to use the ubiquo_widget generator to build the skeleton:
 
-It will create the model, a generator file, and views for component in public part and
-ubiquo design form. Let' see an example:
+It will create the associated model, the widget controller, and the views for the widget. Each widget has two views: the public one, and the ubiquo design form (in case it's an editable widget). 
 
 <shell>
-  script/generate simple_generator article_detail allowed_comments:boolean
+  script/generate ubiquo_widget last_news news_to_show:integer
 </shell>
 
-Once generator is executed, a lot of files are automatically created.
-Depending of which version of Ubiquo Design we have installed, we will have to write
-some fixtures manually or we will have a migration file that creates it automatically.
+h4. Widget files
 
-Check if exists a new migration file for component creation in your db/migrations dir.
-In that case you can execute _rake db:migrate_ and jump to step 4.1.5
-If you don't have that migration file, you will have to do all next steps:
-
-h4. Steps
-
-h5. component_types.yml
-
-Create a component type for this generator adding info in db/dev_bootstrap/component_types.yml file
-
-<erb>
-  component_types_12345:
-    name: Article detail component
-    subclass_type: ArticleDetail
-    id: "12345"
-    is_configurable: true
-    key: article_detail
-</erb>
-
-:is_configurable param determines if component will have "edit" option link
-in the page design section. In our example, our new component will have that link
-and will send user to a form with :allowed_comments field.
-
-h5. page_template_component_types.yml
-
-Relate the component type created with the page templates you want to share it
-in db/dev_bootstrap/page_template_component_types.yml
-
-<erb>
-  page_template_component_types_111:
-    id: 111
-    component_type_id: 12345
-    page_template_id: 2
-</erb>
-
-You can create as many relations with differents templates as you need.
-
-h5. component_params.yml
-
-You can specify the accessible params in URL for this component type editing
-db/dev_bootstrap/component_params.yml. For our example, we will declare :id param as a
-required one to load the page in public part ( if no :id is specified in URL will
-raise and "not found" exception )
-
-<erb>
-  component_params_001:
-    name: id
-    id: "1"
-    component_type_id: "12345"
-    is_required: t
-</erb>
-
-This functionality is working partially, because you can access to all params in
-public part by using "params" instance.
-
-h5. Import fixtures done!
-
-Now you can import all data from components of your fixture files in your DB:
+Once the generator is executed, you'll see how the needed files are automatically created.
 
 <shell>
-rake ubiquo:db:fixtures:import TABLES=component_params,component_types,page_template_component_types DELETE=yes
+  create  app/models/widgets
+  exists  app/widgets
+  create  app/views/widgets/last_news/ubiquo
+  exists  test/unit/widgets
+  exists  test/functional/widgets/ubiquo
+  create  app/widgets/last_news_widget.rb
+  create  app/views/widgets/last_news/show.html.erb
+  create  app/views/widgets/last_news/ubiquo/edit.html.erb
+  create  app/models/widgets/last_news.rb
+  create  test/unit/widgets/last_news_test.rb
+  create  test/functional/widgets/last_news_test.rb
+  create  test/functional/widgets/ubiquo/last_news_test.rb
+  widget  last_news
 </shell>
 
-WARNING: Using DELETE=yes param in the fixtures import task, will delete all existing content in the imported tables before import fixtures.
+We can see a widget as a sum of
+ * A model (where the widget configuration data is stored)
+ * A widget behaviour file, the "controller" (the actions performed when rendering the widget)
+ * A view
 
-h5. Component form for ubiquo design
+So, in essence a widget follows the MVC pattern
 
-( If your new component doesn't have any field to edit, you can ignore this step ).
-To edit values of component, we have to prepare its form for ubiquo design section
-by adding its own fields in the next file: app/generators/article_detail/views/ubiquo/_form.html.erb
+h4. Widget behaviours
 
-<ruby>
-  <%= component_header component %>
-  <% component_form(page, component) do |f| %>
-    <p>
-      <%= f.label :allowed_comments, "Allowed comments ?" %><br />
-      <%= f.check_box :allowed_comments %>
-    </p>
-    <%= component_submit %>
-  <% end %>
-</ruby>
-
-Also we have to allow that form to store the field in the component instance.
-To do that we have to edit its model file: article_detail.rb
+Our freshly created last_news_widget.rb looks like this:
 
 <ruby>
-  class ArticleDetail < Component
-    self.allowed_options = [:allowed_comments]
+  Widget.behaviour :last_news do |widget|
+    ...
   end
 </ruby>
 
+This is equivalent to a piece of a controller, and all the code you put in the block will be executed in the controller space.
+These files are placed in app/widgets with the name we have indicated + _widget.rb.
 
-h5. Create page and publish it
+h4. Creating the widget model
 
-Now we have the component in Ubiquo Design section and we can assign it to new pages
-doing the steps explained before in 3) and 4) points: we will create a new page, assign correct template,
-add the component to it, edit its params, and publish it.
+A widget has an associated model (subclass of _Widget_), since we are always rendering an instance of a model.
 
-h5. Component and generator for public part
-
-Now it's time to give functionality to the component itself in public part.
-To do that we have to edit the two files:
-* app/generators/article_detail/generator.rb
-* app/generators/article_detail/views/_show.html.erb
-
-In generator.rb we will find and prepare the variables to show in the view (works as
-an action of a controller). For example, we can use a model method to find
-the article entry in our database:
+You can edit the associated model (+app/models/widgets/last_news.rb+) and use the class method _allowed_options_ to define the configurable attributes. We can also add validations over these fields:
 
 <ruby>
-def article_detail_generator(component, options)
-  article = component.article_by_id(options[:id])
-  locals = {
-    :article => article,
-    :allowed_comments => article.allowed_comments
-  }
-  render_options = {}
-  [locals, render_options]
+  class LastNews < Widget
+    self.allowed_options = [:news_to_show]
+    validates_numericality_of :news_to_show
+
+    def last_news(number = nil)
+      News.all(:limit => number || news_to_show, :order => :publish_date)
+    end
+  end
+</ruby>
+
+TIP: The allowed_options are accessible from the widget instance. Inside the Widget behaviour you can call any defined allowed_options with widget.name_of_awolled_option.
+
+h4. Implementing the widget behaviour
+
+Edit +widgets/last_news_widget.rb+ to use the widget method we have just implemented:
+
+<ruby>
+  Widget.behaviour :last_news do |widget|
+    @news = widget.last_news(params[:max_news])
+  end
+</ruby>
+
+INFO: All the params that your widget needs can be accessed from the params structure, since the widget behaviour is executed in the controller scope
+
+h4. Widget Views
+
+The widgets have two views by default, the public view and the ubiquo form view.
+
+The public view is the part that will be shown on the public page. The file of the public view is stored on +app/views/widgets/name_of_the_widget/view.html.erb+.
+
+For our example we can write a very simple public view for our last_news widget:
+
+<erb>
+  <%# app/views/widgets/last_news/show.html.erb %>
+  <% @news.each do |news| %>
+    <p><%= news.body %></p>
+  <% end %>
+</erb>
+
+The ubiquo form view provides a form to change the allowed_options of the widget. The link to the ubiquo form will appear when you add the widget to a block in design view.
+
+As the widget is configurable (to set the default number of :news_to_show), we can prepare an ubiquo view, which could look like this:
+
+<erb>
+  <%# app/views/widgets/last_news/ubiquo/_form.html.erb %>
+  <%= widget_header widget %>
+  <% widget_form(page, widget) do |f| %>
+      <%= f.label :news_to_show, Widget.human_attribute_name :news_to_show %><br/>
+      <%= f.text_field :default_news_to_show, %>
+      <%= widget_submit %>
+  <% end %>
+</erb>
+
+And that's it, you should now be able to insert the widget on your page, configure it, publish the page and see the results on the public page.
+
+h4. Testing the widget
+
+The skeleton created the basic infrastructure to test the widget:
+
+* +unit/widgets/name_test.rb+: Test the associated model.
+* +functional/widgets/name_test.rb+: Test the widget and public views.
+* +functional/widgets/ubiquo/name_test.rb+: Test the ubiquo views.
+
+These files include examples and basic tests for the widgets. Take a look at them for more info.
+
+h4. Removing a widget
+
+If you wish to remove a widget, you can use the destroy action of the generator:
+
+<shell>
+  script/destroy ubiquo_widget last_news
+</shell>
+
+h3. Creating our own Page Template
+
+Probably the blocks disposition of the default page templates is not exactly what you desire. For this reason you can create your own page template following these steps.
+
+#Edit the design_structure.rb initializer and add a new template definition with their blocks
+<ruby>
+  # config/initializers/design_structure.rb
+  page_template :home do
+    block :ads, :cols => 4
+    block :featured, :cols => 4
+    block :main, :cols => 3
+    block :sidebar, :cols => 1
+  end
+</ruby>
+
+NOTE: as this file is a Rails initializer, you have to restart the server after any change to it.
+
+The name of the page template is indicated as the argument to "page_template", in this case :home. Inside the body of the page template definition we have to define the blocks.
+
+To define a block you only have to indicate a name, and optionally the number of columns. This :cols parameter is used to draw the visual representation of blocks when designing in Ubiquo. By default a page_template is 4 columns wide, but if you require a more precise template definition, you can change the base number of a page_template using the same :cols argument.
+
+<ruby>
+  page_template :home, :cols => 6 do
+</ruby>
+
+Another useful option is :layout, if the page_template does not use the default public layout (main.html.erb).
+<ruby>
+  page_template :minimal, :layout => 'no_header' do
+</ruby>
+
+# Create a new page template file in app/views/page_templates folder. In this case, app/views/page_templates/home.html.erb
+# Edit this new home.html.erb file to indicate the blocks distribution and any required html.
+
+<erb>
+  <div id="ads">
+    <%= @blocks[:ads] %>
+  </div>
+  <div id="header">
+    <h1 id="logo">
+      <a title="MyApp" href="http://my_ubiquo_app.org">MyApp</a>
+    </h1>					
+    <%= render :partial => "shared/menu" %>
+  </div>
+  <div id="featured">
+    <%= @blocks[:featured] %>
+  </div>
+  <div id="mainWrapper">
+    <div id="main">
+      <%= @blocks[:main] %>
+    </div>
+    <ul id="sidebar">
+      <%= @blocks[:sidebar] %>
+    </ul>
+  </div>
+</erb>
+
+h4. Create a new page with our new page template
+
+After all the steps we can create a new page in the pages manager, fill the fields and choose our new page template.
+In the design view of our new page, we will see the block structure we defined in design_structure. Now we can add some widgets to the page and publish our tailored page.
+
+h3. Design Structure
+
+The propose of the Design Structure is to create a document to specify Page Templates, Blocks and Widgets without any fixture or migration. Design Structure is the easiest way to create and manage the connections between the different page elements.
+
+<ruby>
+# config/initializers/design_structure.rb
+UbiquoDesign::Structure.define do
+  page_template :home do
+    block :publi_top, :cols => 4
+    block :featured, :cols => 4
+    block :main, :cols => 3
+    block :sidebar, :cols => 1
+  end
+  widget :free
+  widget :static_section
 end
 </ruby>
 
-After that, we can edit _show.html.erb file:
-<ruby>
-  <%= article.title %>
-  <%= article.body %>
-  <% if allowed_comments %>
-    <%= render :partial => 'shared/comments_form' %>
-  <% end %>
-</ruby>
+h4. Widgets and blocks scope
 
-h5. Check results
-
-Finally we can see the results in our navigator, and see the :
-http://localhost:3000/articles/interior/1
-
-h5. Export DB data to fixture files
-
-Finally you need to export all work done in pages.
-<shell>
-rake ubiquo:db:fixtures:export TABLES=assets,asset_relations,automatic_menus,blocks,components,menu_items,pages page_categories
-</shell>
-
-h3. Creating a new Page Template
-
-Initially we have 2 page templates already created, but our website provably will
-have a specific structure of columns and blocks of data. To adjust that requeriment
-we will have to create our own templates.
-Let's see a real example for a page template of a big horizontal block on top, 2 bottom
-columns and a lateral right sidebar.
-
-h4. Steps
-
-h5. page_templates.yml
-
-Edit Page Template fixtures (db/dev_fixtures/page_templates.yml) to add a new
-ones. In our example will be called "Special" template.
-
-<erb>
-page_templates_3:
-  name: Special
-  thumbnail_file_name: special.png
-  id: "3"
-  key: special
-  layout: main
-</erb>
-
-h5. block_types.yml
-
-Create new block types if you needed by editing db/dev_fixtures/block_types.yml
-file. In our example, let's supose we already have "top block" and "sidebar block",
-and we only have to create two new blocks for the bottom columns.
-<erb>
-block_types_004:
-  name: Column 1
-  can_use_default_block: f
-  id: "4"
-  key: col1
-block_types_005:
-  name: Colunm 2
-  can_use_default_block: f
-  id: "5"
-  key: col2
-</erb>
-
-h5. page_template_block_types.yml
-
-Edit "page template block types" fixtures (db/dev_fixtures/page_templates_block_types.yml)
-to relate the needed blocks to the new page template. In our example, we will relate
-top, sidebar, and 2 column blocks
-
-<erb>
-page_template_block_types_007:
-  id: "7"
-  block_type_id: "1"
-  page_template_id: "3"
-page_template_block_types_008:
-  id: "8"
-  block_type_id: "2"
-  page_template_id: "3"
-page_template_block_types_009:
-  id: "9"
-  block_type_id: "4"
-  page_template_id: "3"
-page_template_block_types_010:
-  id: "10"
-  block_type_id: "5"
-  page_template_id: "3"
-</erb>
-
-h5. page_template_component_types.yml
-
-Edit page template component types fixtures to specify which component types
-will be available for that template. In our example:
-
-<erb>
-page_template_component_types_009:
-  id: "9"
-  component_type_id: "2"
-  page_template_id: "3"
-</erb>
-
-h5. Template view for ubiquo
-
-Now, we have to create file view for template in Ubiquo Design section
-app/templates/special/ubiquo.html.erb
+Design Structure can indicate if a block is accessible for all page templates or only for one. This means that a block could be shown for all pages or only for the pages with the correct page template. In the same way a widget can be available for all pages, only for specified page_templates or only for specified blocks.
 
 <ruby>
-  <%= design_block_4cols page, 'top' %>
-  <%= design_block_1col page, 'col1' %>
-  <%= design_block_1col page, 'col2' %>
-  <%= design_block_2cols page, 'sidebar' %>
+UbiquoDesign::Structure.define do
+
+  block :publi_top, :cols => 4  # this block will be shown on all pages
+
+  page_template :home do
+    block :featured, :cols => 4 # this block will be shown only in pages with the :home page_template
+    block :main, :cols => 3
+    block :sidebar, :cols => 1 do 
+      widget :menu_sidebar      # this widget will be able to be dragged only to the :sidebar block
+    end
+    widget :image_gallery       # this widget is available only for pages with the :home page_template
+  end
+
+  widget :free                  # this widget is available for all pages and all blocks
+end
 </ruby>
 
-Using these design helpers, we will have the visual representation of blocks in the
-design manager. It will look like this:
+h4. Widget groups
 
-!images/ubiquo_design/template-preview.png(Template preview)!
+When we have to deal a small group of widgets you can have it ordered alphabetically and live with it, but if your number of widgets increases to a certain level you can find it useful to group the widgets using your own criteria.
 
-h5. Create the page and publish it
-
-Now we can create pages with new page category, design it, and publish it.
-
-h5. Template view for public part
-
-To show the information correctly in public part, we will have to edit the public
-view for template creating app/templates/special/public.html.erb file. It will look
-something similar to:
+To do it you can define groups of widgets, which will be then used to display the widgets grouped in the ubiquo design view.
 
 <ruby>
-  <div id="top">
-    <%= @blocks[:top] %>
-  </div>
-  <div id="col1">
-    <%= @blocks[:col1] %>
-  </div>
-  <div id="col2">
-    <%= @blocks[:col2] %>
-  </div>
-  <div id="sidebar">
-    <%= @blocks[:sidebar] %>
-  </div>
+UbiquoDesign::Structure.define do
+  widget_group :lists do
+    widget :post_list, :news_list
+  end
+end
 </ruby>
 
-h5. Yeah! Finally you can check the results in public part ! :_)
 
-h3. And... how to work with ubiquo design in projects in production state ?
+h3. Plugin dependencies
 
-For projects finished and published, we will not use fixtures never more.
-Fixtures are intended to be used in development environment only.
-Because of this, we will have to write migrations to create the component types
-and its relation with page templates for each one, and create manually new pages
-and page categories in Ubiquo Design to export them as we saw in this guide before.
+There are not special dependencies for this plugin, and it can be used with the minimal stack. However if you are interested in i18n capabilities to have multiple languages in your public part, you'll need ubiquo_i18n
 
-h3. Extra tips
+h3. Cache framework
 
-h4. Exporting/importing needed tables
+UbiquoDesign have its own cache framework, aimed to cache entire widgets with arbitrary policies defined by the programmer.
 
-Instead of specify each time the tables to import or export in design proces, you can create a group of tables in ubiquo by adding the code below to config/initializers/ubiquo_config.rb. See code below:
+h4. How it works
+
+There is only one step that the programmer must follow to define policies for caching widgets, and this is to fill the config/initializers/design_cache.rb file with the desired policies.
+
+The policies that you have defined will be used both to generate keys for store/get widgets and to expire those widgets by some desired event. Such events often depend on a model, and store/get requests will appear only on controller's environment, so the same keys must be generated from two diferent environments: model and controller.
+
+h4. Cache syntax
+
+The file where we define our policies will look as follows
 <ruby>
-  groups = Ubiquo::Config.get :model_groups
-  Ubiquo::Config.set :model_groups, groups.merge(
-    :ubiquo_pages => %w{assets asset_relations automatic_menus blocks components menu_items pages page_categories},
-    :new_component => %w{component_params component_types page_template_component_types}
-  )
+UbiquoDesign::CachePolicies.define do
+  #Here your policies ...
+end                                
 </ruby>
 
-You will can import new component data to DB using:
-<shell>
-  rake ubiquo:db:fixtures:import GROUP=new_component DELETE=yes
-</shell>
-Or you can export pages created in ubiquo to the needed fixture files:
-<shell>
-  rake ubiquo:db:fixtures:export GROUP=ubiquo_pages
-</shell>
+Each policy will be a pair of key - value, where key is the widget affected by the policy, and value will be a structure defining key generation params.
+For example, the following widget called 'author_detail' will be cached with one dependency on model 'Author'
 
-h3. Technical specifications
+<ruby>
+        :author_list => :Author
+</ruby>
 
-!images/ubiquo_design/models.png(Models schema)!
+This means that on any change (create/delete/update) of an Author instance, the :author_list widgets will be expired
 
-h4. Other plugins dependency
+You may want to cache "per instance", that is, only expire a certain widget if the instance that is being displayed is changed.
 
-The only dependency for this plugin is ubiquo_core.
+<ruby>
+        :author_detail => [{:Author => {:id => :id} } ]
+</ruby>
+
+The meaning of this policy is: author_detail depends on Author instances, intentifying them by id (model attribute) equaling to id (parameter)
+
+The following list will explain the allowed cache syntax
+
+* Self: the :self symbol is the basic cache policy. Use it if you want to cache a widget which has no external dependencies with other models or url params. The widget will only be expired by changes in itself, when there is a change in its configuration or its page is published. Note that all the other policies include this one.
+<ruby>
+        :widget => :self
+</ruby>
+* Models: defined using a symbol. When used without any other argument, models define a basic expiration relationship on any action on an instance.
+<ruby>
+        :widget => :Model
+</ruby>
+You can specify as many model relationships as the widget has:
+<ruby>
+        :widget_multiple_models => [:Model1, :Model2]
+</ruby>
+* Identifiers: always defined by symbols, identifiers are inside a hash, where the key is the model attribute and the value the controller parameter
+<ruby>
+        :widget => [{:Model => {:attribute => :parameter} }]
+</ruby>
+For example let's say you have the following route
+
+<ruby>
+map.connect '/something/:slug'
+</ruby>
+
+And this maps to a model MyModel that has a "slugged_title" attribute. So inside the widget you'll be doing something like this
+
+<ruby>
+MyModel.find_by_slugged_title(params[:slug])
+</ruby>
+
+In this case, the cache policy would be
+<ruby>
+        :widget => [{:MyModel => {:slugged_title => :slug} }]
+</ruby>
+
+IMPORTANT: Note that both the attribute and the parameter must identify unequivocally what you need to distinguish to be cached (normally, a model instance). You have to think that for every different slug param, you will have a different cached widget representation. And to expire this cached fragment, the specified attribute will be used.
+
+As an example, if you have two instances of MyModel
+
+<plain>
+MyModel(id:1, slugged_title:one)
+MyModel(id:2, slugged_title:two)
+<plain>
+
+It will create different cache fragments when visiting
+
+<plain>
+/something/one
+/something/two
+</plain>
+
+To generate the fragment key, it will use the :slug parameter. This is why, whenever you update a model, the cache system needs to know the attribute that makes correspondence to the slug parameter.
+
+* Procs: this is the most versatile syntax in cache framework. Procs can be used whenever a symbol is used, and provide a mean to create complex and efficient caching rules.
+
+In the most basic use, they are evaluated to obtain a value. A cached fragment will have this value in its key, so can be used to differentiate in different situations, e.g.
+
+<ruby>
+        :widget => [lambda{current_locale}]
+</ruby>
+
+This code defines a policy where :widget will depend on the current_locale function (an ubiquo_i18n function)
+
+INFO: the lambda is evaluated in controller-space, and can take a parameter which is the widget that is being rendered.
+
+Procs can also be used as a part of model conditions, instead of symbols.
+
+<ruby>
+        :widget => [{:Model => {:locale => lambda{current_locale} } }]
+</ruby>
+
+This example will link the :widget expiration to Model, using :locale as the model attribute, and the lambda instead of the controller parameter.
+
+A lambda can also be used instead of the model attribute. Any combination of procs and symbols is possible inside the hash.
+
+
+h4. Common cache examples
+
+The following snippets of code will explain some of the common examples found in projects:
+
+h5. List of instances of a model
+
+* Widget: news_list
+* Dependencies: model Article
+<ruby>
+  UbiquoDesign::CachePolicies.define do
+    :news_list => :Article
+  end
+</ruby>
+
+When any instance of Article changes, all of the :news_list widgets will be expired.
+
+h5. Detail of a model
+
+* Widget: news_detail
+* Dependencies: model Article, identified in the controller as the last portion of params[:url], and mapped in the model as the :url_slug attribute
+<ruby>
+UbiquoDesign::CachePolicies.define do
+  :news_list => [ {:Article => {:url_slug => lambda{params[:url].last} } ]
+end 
+</ruby>
+When an instance of Article changes, the appropiate related cached fragments (those whose last part of the url is the same that the url_slug attribute of this instance) will be expired.
+
+h5. Free
+
+* Widget: free
+* Dependencies: none
+<ruby>
+UbiquoDesign::CachePolicies.define do
+  :free => :self
+end         
+</ruby>
+
+This widget will expire only when itself changes.
+
+h4. Final points
+
+* When specifying models as dependencies, the possible subclasses or superclasses are not considered.
+<ruby>
+# class A
+# class B < A
+# class C < B
+        :widget => :B
+</ruby>
+
+If an instance of class A or C is created/modified/destroyed, widgets of type :widget will NOT notice it and will NOT be expired. Only instances of class B will do it.
+
+* Internally, the cache framework implementation has two different parts:
+
+- Explicit expiration is used when a widget has dependencies per-instance for a model. This policy provides rich expresivity and allows user to constraint widgets fine grained; however, the expiration process is slower than the version approach.
+- Versioning is used when a widget has simpler policies, only generic model dependencies.
+
+It's important to note that a single widget can have different dependencies with different policies. Each one will work its way. For example:
+
+<ruby>
+:widget => [
+            :Model1,
+            {:Model2 => {:url_slug => :id}}
+           ]
+</ruby>
+
+:widget cache fragments will be explicitly expired on changes coming from Model2 instances. On the other hand, when an instance of Model1 changes, a version field on all :widget instances will be incremented, and because of this, all the keys generated by those widgets will be different from the previous ones, hence implicitly expirating the cache without incurring on the overhead of explicit expiration.
