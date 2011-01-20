@@ -1,34 +1,36 @@
 h2. Ubiquo Design
 
 The ubiquo_design plugin provides a complete solution for the public part of your
-website. It brings you the necessary tools to prepare public page views with
-modular structure in a totally dynamic way, with some advanced capabilities like
+website. It gives you the necessary tools to prepare public pages with
+a modular structure in a totally dynamic way, with some advanced capabilities like
 drag & drop widgets, different block configurations or page templates.
 
 The main features are:
 
-* Create Pages with its own manager.
-* Define the parts of a page with blocks
-* Chose a specific template for each page with its own block structure to set widgets in groups.
-* Assign widgets to different blocks of a page as individual items.
+* Create pages with its own manager.
+* Create reusable widgets for your public site
+* Choose a specific template for each page with its own block structure.
 * Decide which widgets will be available for each page or block to fit your needs
 * Share blocks with other pages
 * Move, assign, delete widgets in pages easily
 * Get language-dependent widgets, using ubiquo_i18n by adding a few lines of code
 
-New features of this version:
+New features in this version:
 * Static pages
 * Better sharing blocks system
 * Less migrations and fixtures with design structure
-* Groups of widgets
+* Widget grouping
 * Multiple levels of parent pages
 
 endprologue.
 
 h3. Creating Pages
 
-If you are designing a publicly accessible website, it will be necessary to create public pages to show contents created inside the different Ubiquo data managers.
-Each page in public part should have its corresponding page on ubiquo. The Pages manager allows ubiquo users to create pages, design, and finally publish them.
+If you are designing a publicly accessible website, it will be necessary to create
+public pages to show the contents created inside the different Ubiquo scaffolds.
+
+To create a page in the public part you should create its corresponding Page instance on ubiquo.
+The Pages manager allows ubiquo users to create pages, design, and finally publish them.
 
 # Log in with your user on Ubiquo (  you must have the necessary permissions to use the Ubiquo Design sections, otherwise they will not be available ).
 # Go to the Design section ( click on "Design" tab or go to "+http://localhost:3000/ubiquo/pages+":http://localhost:3000/ubiquo/pages ).
@@ -43,16 +45,17 @@ Each page in public part should have its corresponding page on ubiquo. The Pages
 #*# Keywords
 #*# Description
 
-!images/ubiquo_design/form.png(Creating Pages)!
+!images/ubiquo_design/new_page.png(Creating Pages)!
 
-INFO: Once created a page, we cannot change his related page template from Ubiquo. It is necessary to delete and create page again or change it from the console.
+CAUTION: Once you create a page, you cannot change its related page template from Ubiquo. It is necessary to delete and create page again or change it from the console.
 
 NOTE: When you do not have any previously created page, the parent selector only has the "none" option. The "none" option allows to create the page on the root path as "mysite.com/page_url". Otherwise you can determine the parent and create more complex urls like "mysite.com/parent/page_url" if you have created the parent page previously.
  
 
 h3. Designing a page
 
-After we have created a page, it's time to design the widgets it will have, and publish it to make them visible on the public part.
+After we have created a page, it's time to design the widgets it will have,
+and publish it to make them visible on the public part.
 We can design a page clicking in its "design" action link in the pages list.
 
 Inside the design editor we will find two important concepts:
@@ -70,7 +73,7 @@ Once dropped, some widgets will display an edit option link to configure them.
 If some required information is missing, the widget will appear in red. These items must be configured before the page can be published.
 # When you finish, you can preview or publish the page using the buttons on the top right.
 
-!images/ubiquo_design/design.png(Template preview)!
+!(screenshot)images/ubiquo_design/designing.png(Template preview)!
 
 NOTE: Any block can be shared with the others pages. It's interesting for common sidebars for example.
 
@@ -333,11 +336,11 @@ There are not special dependencies for this plugin, and it can be used with the 
 
 h3. Cache framework
 
-UbiquoDesign have its own cache framework, aimed to cache entire widgets with arbitrary policies defined by the programmer.
+UbiquoDesign has its own cache framework, aimed to cache entire widgets with arbitrary policies defined by the programmer.
 
 h4. How it works
 
-There is only one step that the programmer must follow to define policies for caching widgets, and this is to fill the config/initializers/design_cache.rb file with the desired policies.
+The cache policies are defined in config/initializers/design_cache.rb.
 
 The policies that you have defined will be used both to generate keys for store/get widgets and to expire those widgets by some desired event. Such events often depend on a model, and store/get requests will appear only on controller's environment, so the same keys must be generated from two diferent environments: model and controller.
 
@@ -409,7 +412,7 @@ As an example, if you have two instances of MyModel
 <plain>
 MyModel(id:1, slugged_title:one)
 MyModel(id:2, slugged_title:two)
-<plain>
+</plain>
 
 It will create different cache fragments when visiting
 

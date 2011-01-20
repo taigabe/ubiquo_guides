@@ -421,6 +421,10 @@ a.rdoc {
     vertical-align:middle;
 }
 
+img.screenshot{
+  width: 69em;
+}
+
 /* Clearing
 --------------------------------------- */
 
