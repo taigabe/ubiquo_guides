@@ -350,6 +350,41 @@ You can also use related fields as columns (ubiquo_categories should work too), 
   end
 </ruby>
 
+h3. Adding extra data to scaffold initialization
+
+By now, we have seen how to create a scaffold for a given model. It creates physical files and some code to get it working. This section is focused on expanding the previous behaviour and introducing new features.
+
+
+h4. Adding media
+
+Now it is possible to add media from scaffold. Media resources will appear in model, as a media_attachment directive, and in form, with a media selector attached to a new form box.
+
+<shell>
+  script/generate ubiquo_scaffold Book title:string published_at:datetime author_id:integer --media media_field_1,media_field_2
+</shell>
+
+The previous directive will generate two media relations through media_field_1 and media_field_2 names.
+
+h4. Adding categories
+
+Similarly as adding media, we can categorize our model from scaffold. It will generate a categorization in model and a category selector in form.
+
+<shell>
+  script/generate ubiquo_scaffold book title:string published_at:datetime author_id:integer --categorized category_set_1,category_set_2
+</shell>
+
+This directive will generate two category relations from our model to category_set_1 and category_set_2.
+
+h4. Adding model relations
+
+Finally, and in the same way as the previous sections, we will be able to generate relations with other models. All relations created by scaffold will benefit of relation selector helper on forms and will generate a properly relation on model (has_many or belongs_to, depending on the params supplied).
+
+<shell>
+  script/generate ubiquo_scaffold book title:string published_at:datetime author_id:integer --belongs_to author --has_many pages
+</shell>
+
+The previous directive will generate a has_many relation to Page model and a belongs_to relation to Author through author_id field. Both relations will be seen in form as relation selector helpers.
+
 WARNING. This guide is not finished yet.
 
 h3. Changelog
