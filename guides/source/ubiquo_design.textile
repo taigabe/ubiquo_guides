@@ -17,6 +17,7 @@ The main features are:
 
 New features in this version:
 * Static pages
+* Integrated widget cache framework
 * Better sharing blocks system
 * Less migrations and fixtures with design structure
 * Widget grouping
