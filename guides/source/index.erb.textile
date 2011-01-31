@@ -75,6 +75,17 @@ h3. Plugins
 
 </dl>
 
+
+h3. For ubiquo sysadmins
+
+<dl>
+
+<% guide("Deploying ubiquo apps to AWS Elastic Beanstalk", 'ubiquo_elasticbeanstalk.html', :rdoc => false) do %>
+  This guide covers the process of packaging, configuring and deploying an ubiquo app to AWS Elastic Beanstalk service.
+<% end %>
+
+</dl>
+
 h3. For ubiquo developers
 
 <dl>
