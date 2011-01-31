@@ -12,7 +12,7 @@ You will need an AWS account with access to the following AWS services:
 
 In the end we will get an ubiquo app running on AWS taking advantage of the dynamic scaling features of AWS with little cost and effort.
 
-NOTE: This guide has been writing on 31-01-2011 while Elastic Beanstalk it's still in beta. It has not been revised so it may contain errors, if you find them you can report them "here":http://ubiquo.lighthouseapp.com/projects/31609-ubiquo-guides/overview
+NOTE: This guide has been written on 31-01-2011 while Elastic Beanstalk it's still in beta. It has not been revised so it may contain errors, if you find them you can report them "here":http://ubiquo.lighthouseapp.com/projects/31609-ubiquo-guides/overview
 
 endprologue.
 
@@ -269,7 +269,7 @@ Warbler::Config.new do |config|
   # file.
   # The Rails gems are included by default unless the vendor/rails
   # directory is present.
-  config.gems += ["activerecord-jdbc-adapter","jdbc-mysql", "jruby-openssl"]
+  config.gems += ["activerecord-jdbc-adapter","jdbc-mysql", "jruby-openssl", "s3"]
 
   # Pathmaps for controlling how public HTML files are copied into the .war
   # config.pathmaps.public_html = ["%{public/,}p"]
