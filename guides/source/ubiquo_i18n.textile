@@ -43,18 +43,29 @@ h5. Migrations
 This is how the migration to create a table of a translated model looks like
 
 <ruby>
-    create_table :articles, :translatable => true do |t|
-      t.string :title
-      t.string :description
-      ...
-    end
+  create_table :articles, :translatable => true do |t|
+    t.string :title
+    t.string :description
+    ...
+  end
 </ruby>
 
 As you can see, the only special thing here is that a translatable option is added, and will result in adding a locale and content_id fields to the articles table. The rest of the attributes are created as usual.
 
 NOTE: The content_id field is implemented as a sequence field, not simply an integer.
 
+If the table already exists, you can use change_table:
+
+<ruby>
+  change_table(:articles, :translatable => true) {}
+</ruby>
+
 h5. Models
+
+As you could see in the above section, in ubiquo_i18n every translated instance
+is a full instance by itself, with the locale attribute indicating the language
+the instance is in, and the content_id field to allow relating which instances
+are translations of which others.
 
 On models, we can indicate which fields can be translated by using
 
@@ -64,7 +75,11 @@ class Article < ActiveRecord::Base
   translatable :title, :description
 </ruby>
 
-The created model file has the title and descriptions fields defined as translatable, but since we actually have one full table row per instance, which attributes are shared and which ones are translatable can be defined dynamicly without affecting the db, so this list can be changed from the model at any moment without creating a new migration.
+The created model file has the title and descriptions fields defined as translatable,
+but since we actually have one full table row per instance,
+which attributes are shared and which ones are translatable can be defined 
+dynamically without affecting the db, so this list can be changed from the
+model at any moment without creating a new migration.
 
 h4. Using translatable models
 
@@ -74,7 +89,19 @@ So now that we have the Article model, it's time to use it.
 Article.create(:title => 'title', :description => 'desc', :locale => 'en')
 </ruby>
 
-This is an old school create, that just have an extra argument, the locale this article is written in. This call will fill the content_id field with a new, unique value, since this is a new Article, not a translation of an existing one. If the latter is what we are looking for, we would use:
+This is an old-school create, that simply has an extra argument, the locale this article is written in.
+This locale argument is not required, it's only needed if we want to explicitly
+set which locale this instance will be in. In Ubiquo, the _Locale.current_ method
+returns the locale in which we are currently working, the one that can be set using
+the selector:
+
+!images/ubiquo_i18n/locale_selector.png(Locale selector)!
+
+CAUTION: _Locale.current_ is not the same as _I18n.locale_. The first is about content, the latter about interface. Also, _Locale.current_ uses IETF language tags whereas _I18n.locale_ uses ISO 639-1 codes. This may be changed in the future though.
+
+The previous call to _Article.create_ will fill the content_id field with a new,
+unique value, since this is a new Article, not a translation of an existing one.
+If the latter is what we are looking for, we would use:
 
 <ruby>
 Article.first.translate('ca')
@@ -110,6 +137,58 @@ Article.first.in_locale('en', 'es', 'ca')
 </ruby>
 
 NOTE: The in_locale() method is the equivalent to the locale() method to be used if we start a locale search from an instance.
+
+
+h4. The "any" locale
+
+There is a special value for the locale field: "any". When an instance has this locale,
+it means that it is in all the locales at the same time, so a search by any value will succeed:
+
+<ruby>
+Article.locale('en')
+# returns all articles in English (including the ones with locale "any")
+</ruby>
+
+h4. Comparing locales
+
+If you want to compare the locale of an instance to a given value, you should use
+the special _in_locale?_ method, since it will handle correctly the "any" locale:
+
+<ruby>
+  @article.locale = 'any'
+  @article.in_locale?('en') # true
+  @article.locale == 'en' # false
+</ruby>
+
+If you need to handle this special case, you can also use in_locale? with the :skip_any option:
+
+<ruby>
+  @article.locale = 'any'
+  @article.in_locale?('en') # true
+  @article.in_locale?('en', :skip_any => true) # false
+</ruby>
+
+
+h4. Filtering elements by locale in listings
+
+There is a builtin "locale" filter in this plugin to allow you to filter by locale in your scaffolds.
+
+An example of code:
+
+<ruby>
+../app/helpers/ubiquo/books_helper.rb
+
+...
+
+def book_filters
+  filters_for 'Book' do |f|
+    f.locale
+  end
+end
+
+...
+
+</ruby>
 
 h3. Shared relations
 
@@ -172,25 +251,40 @@ media_attachment :photos, :translation_shared => true
 
 NOTE: You will need to enable the i18n ubiquo_media connector to be able to use this media_attachment option.
 
-h3. Filter your elements by locale in listings
 
-There are available 'show_filters' and 'show_filter_info' helpers and you can add filters in your scaffolds to filter by locale.
+h4. share_translations_for
 
-An example of code:
+The :translation_shared option is ok if you only have one shared relation, but
+what happens when you have a lot of associations that behave this way?
 
 <ruby>
-../app/helpers/ubiquo/paintings_helper.rb
+has_many :books, :translation_shared => true
+has_many :authors, :translation_shared => true
+belongs_to :file, :translation_shared => true
+has_one :biography, :translation_shared => true
+</ruby>
 
-...
+Not nice, repetitive and what's worse, even confusing sometimes, if you have these mixed with some others that are not :translation_shared.
 
-def painting_filters
-  filters_for 'Painting' do |f|
-    f.locale
-  end
-end
+In these cases the share_translations_for method fixes this by allowing to define in a single call all these associations:
 
-...
+share_translations_for :books, :authors, :file, :biography
 
+Using it allows you to define in a single line all the associations that have this special behaviour,
+so you can have a better tracking of what's going on in the model.
+And you can leave the Rails association declarations as usual.
+
+This new method also works seamlessly with media_attachments:
+
+<ruby>
+has_many :books, :translation_shared => true
+media_attachment :images, :translation_shared => true
+
+# equivalent to
+
+has_many :books
+media_attachment :images
+share_translations_for :books, :images
 </ruby>
 
 h3. Changelog
