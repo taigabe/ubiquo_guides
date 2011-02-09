@@ -75,7 +75,6 @@ h3. Plugins
 
 </dl>
 
-
 h3. For ubiquo sysadmins
 
 <dl>
@@ -98,4 +97,12 @@ h3. For ubiquo developers
    This guide describes how to develop new ubiquo sidebar filters.
 <% end %>
 
+</dl>
+
+h3. Upgrades
+
+<dl>
+<% guide("Upgrading ubiquo to Rails 2.3.11", 'ubiquo_upgrade_rails_2311.html') do %>
+  This guide covers the procedure to upgrade older ubiquo based apps to use Rails 2.3.11
+<% end %>
 </dl>

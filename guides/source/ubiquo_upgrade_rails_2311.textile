@@ -1,0 +1,56 @@
+h2. Upgrading ubiquo 0.7.X to Rails 2.3.11
+
+  This guide is intended for ubiquo 0.7.X based applications running on Rails versions previous to 2.3.11.
+
+  If this is your case you should upgrade as soon as possible because you may be affected by security vulnerabilities:
+
+* "http://weblog.rubyonrails.org/2011/2/8/csrf-protection-bypass-in-ruby-on-rails":http://weblog.rubyonrails.org/2011/2/8/csrf-protection-bypass-in-ruby-on-rails
+* "http://weblog.rubyonrails.org/2011/2/8/new-releases-2-3-11-and-3-0-4":http://weblog.rubyonrails.org/2011/2/8/new-releases-2-3-11-and-3-0-4
+
+endprologue.
+
+h3. Installing required gems
+
+Obviusly we need to install the new rails gem but we also need to install the i18n gem.
+
+<shell>
+sudo gem install rails -v 2.3.11 --no-ri --no-rdoc
+sudo gem install i18n -v 0.4.2 --no-ri --no-rdoc
+</shell>
+
+NOTE: For the i18n gem we need a version prior to 0.5.0 because this one uses the new interpolation syntax which, at this moment, it's unsuported by this ubiquo version and probably by your application.
+
+h3. Upgrading ubiquo plugins
+
+Now we are going to upgrade all ubiquo plugins to the last version of the 0.7.X branch doing:
+
+<shell>
+rake ubiquo:foreach:pull
+</shell>
+
+h3. Add a preinitializer
+
+Now we need to add a new file +config/preinitializer.rb+ so we can require the proper i18n gem.
+
+<ruby>
+require 'rubygems'
+gem 'i18n', '<0.5.0'
+</ruby>
+
+TIP: Since we upgraded the ubiquo version previously, we can accomplish the same effect doing +rake ubiquo:install+ this will create the appropiate preinitializer.
+
+h3. Update environment.rb
+
+And finally we need to update our +config/environment.rb+ file and point it to use the Rails 2.3.11 version:
+
+<ruby>
+RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
+</ruby>
+
+h3. Upgrade the ubiquo gem
+
+You should also upgrade to the last ubiquo gem so new projects use the latest Rails version.
+
+<shell>
+sudo gem install ubiquo --no-ri --no-rdoc
+</shell>
