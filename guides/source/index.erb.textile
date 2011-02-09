@@ -71,4 +71,10 @@ h3. Plugins
 
 </dl>
 
+h3. Upgrades
 
+<dl>
+<% guide("Upgrading ubiquo 0.7.X to Rails 2.3.11", 'ubiquo_upgrade_rails_2311.html') do %>
+  This guide covers the procedure to upgrade ubiquo 0.7.X based apps to use Rails 2.3.11
+<% end %>
+</dl>
