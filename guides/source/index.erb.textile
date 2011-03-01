@@ -97,6 +97,10 @@ h3. For ubiquo developers
    This guide describes how to develop new ubiquo sidebar filters.
 <% end %>
 
+<% guide("Creating a new ubiquo plugin", 'ubiquo_plugin.html', :rdoc => false) do %>
+   This guide will tell you the basic steps to start a new ubiquo plugin
+<% end %>
+
 </dl>
 
 h3. Upgrades
