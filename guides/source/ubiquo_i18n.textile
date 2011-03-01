@@ -57,8 +57,11 @@ NOTE: The content_id field is implemented as a sequence field, not simply an int
 If the table already exists, you can use change_table:
 
 <ruby>
-  change_table(:articles, :translatable => true) {}
+  change_table(:articles, :translatable => true, :locale => 'en_US') {}
 </ruby>
+
+This method will create the needed fields and initialize them for existing instances.
+The :locale parameter indicates the locale that will be assigned to any existing records. If you don't specify any locale, Locale.default will be used
 
 h5. Models
 
