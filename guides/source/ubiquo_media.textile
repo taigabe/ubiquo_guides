@@ -308,6 +308,24 @@ This is a step by step, recipe like tutorial, to use ubiquo media with s3 storag
      bucket: a_bucke_name 
 </ruby>
 
+h3. Using an Apache-based upload progress bar
+
+There is a progress bar functionality available for apache based
+environments. In a few steps, we will see how it can be accomplished:
+
+# Install and activate drogus' apache-upload-progress-module from
+  https://github.com/drogus/apache-upload-progress-module. Installation
+  is well documented at source page
+# Activate progress bar through the config option
+<ruby>
+Ubiquo::Config.context(:ubiquo_media).set do |config|
+  config.progress_bar = true
+end
+</ruby>
+
+And that's all folks! Progress bar is ready to run for your media uploads
+
+
 h3. Changelog
 
 "Lighthouse tickets":http://ubiquo.lighthouseapp.com/projects/27683-ubiquo/tickets?q=tagged%3Aubiquo_media
