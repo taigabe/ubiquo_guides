@@ -54,7 +54,7 @@ simply add an access_control call on that controller.
 The controller must have something like that:
 
 <ruby>
-class ExampleController < UbiquoAreaController
+class ExampleController < UbiquoController
 
   # .......
   access_control ....

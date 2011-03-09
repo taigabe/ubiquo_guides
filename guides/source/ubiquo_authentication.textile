@@ -74,7 +74,7 @@ h4. Steps
 
 h3. Creating new controllers that requires authentication
 
-All controllers inherited from UbiquoAreaController has this
+All controllers inherited from UbiquoController have this
 functionality implicit, but sometimes is needed to specify this.
 
 h4. Prevent unauthenticated entrance to all actions
@@ -103,7 +103,7 @@ and +update+.
 h4. Skip authentication validation to all action
 
 If you inherit authentication control(if you inherit from
-UbiquoAreaController you have a validation in every action) you may
+UbiquoController you have a validation in every action) you may
 want to disable that validation to all actions. To do that simply add
 this line inside the controller class, in the first line.
 

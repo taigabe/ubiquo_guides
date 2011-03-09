@@ -205,7 +205,7 @@ NOTE. The params that +filtered_search+ method needs are explained with more det
 
 <ruby>
 
-class Ubiquo::BooksController < UbiquoAreaController
+class Ubiquo::BooksController < UbiquoController
   # GET /books
   # GET /books.xml
   def index

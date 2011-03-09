@@ -261,7 +261,7 @@ The only dependency for this plugin is ubiquo_core.
 
 h4. Using it outside ubiquo (public part)
 
-By default, the category_selector helper is only in UbiquoAreaController. If you want to use ubiquo_categories for your public forms, you can do it by including the following module:
+By default, the category_selector helper is only in UbiquoController. If you want to use ubiquo_categories for your public forms, you can do it by including the following module:
 
 ApplicationController.send :helper, UbiquoCategories::Connectors::Base::current_connector::UbiquoHelpers::Helper
 

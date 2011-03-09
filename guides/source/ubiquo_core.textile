@@ -363,10 +363,10 @@ h3. Filters
 
 Ubiquo filters are sidebar elements used to filter ubiquo listings.
 
-FiltersHelper module provide some commonly used filters. By default, the module is included in <tt>app/helpers/ubiquo_area_helper.rb</tt>:
+FiltersHelper module provide some commonly used filters. By default, the module is included in <tt>app/helpers/ubiquo_helper.rb</tt>:
 
 <ruby>
-module UbiquoAreaHelper
+module UbiquoHelper
   include FiltersHelper
   ...
 end
