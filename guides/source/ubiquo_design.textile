@@ -51,12 +51,16 @@ The Pages manager allows ubiquo users to create pages, design, and finally publi
 CAUTION: Once you create a page, you cannot change its related page template from Ubiquo. It is necessary to delete and create page again or change it from the console.
 
 NOTE: When you do not have any previously created page, the parent selector only has the "none" option. The "none" option allows to create the page on the root path as "mysite.com/page_url". Otherwise you can determine the parent and create more complex urls like "mysite.com/parent/page_url" if you have created the parent page previously.
- 
+
+INFO: The frontpage is a page with an empty string as url_name.
 
 h3. Designing a page
 
 After we have created a page, it's time to design the widgets it will have,
 and publish it to make them visible on the public part.
+
+By default, pages are created as drafts. When a page is published, it is cloned (along with its widgets, blocks and asset_relations). In that moment the changes start to be visible on the public website.
+
 We can design a page clicking in its "design" action link in the pages list.
 
 Inside the design editor we will find two important concepts:
@@ -330,6 +334,56 @@ UbiquoDesign::Structure.define do
 end
 </ruby>
 
+
+h3. Linking a page
+
+To create a link to a public page you can use the link_to_page helper:
+
+<ruby>
+  link_to_page("Public page", page)
+</ruby>
+
+If you only need the url for a public page:
+
+<ruby>
+  url_for_page(page)
+</ruby>
+
+In these examples, page can either be
+
+* A Page instance
+* A Page key
+
+Usually you will define the key attribute for the important pages that you will also need to link, for
+example the home page. Using a key ensures that you can change the page's url without having to change the link.
+
+<ruby>
+  link_to_page("Go to home", 'home')
+</ruby>
+
+
+h4. Routes
+
+The routes for ubiquo_design are defined like this
+
+<ruby>
+map.with_options :controller => 'pages' do |pages|
+  pages.connect "*url/page/:page", :action => 'show', :requirements => {:page => /\d*/}
+  pages.connect "*url", :action => 'show'
+end
+</ruby>
+
+In short, the route is a catch-all, so it should be placed at the bottom of your routes file.
+If you are using the from_plugin, make sure also that it's the last plugin included:
+
+<ruby>
+  ...
+  map.from_plugin :ubiquo_categories
+  map.from_plugin :ubiquo_menus
+  map.from_plugin :ubiquo_design
+</ruby>
+
+When treating with params, you will receive all your custom inside params[:url].
 
 h3. Plugin dependencies
 
