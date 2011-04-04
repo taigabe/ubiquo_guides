@@ -11,6 +11,7 @@ plugins can be built on top of it. This includes:
 * Ubiquo filtered search
 * Relation selector
 * Ubiquo filters
+* Cron jobs
 
 endprologue.
 
@@ -568,6 +569,156 @@ f.date :field => :date,
 :field => :filter_publish_end,
 :caption => @model.human_attribute_name(field)
 </ruby>
+
+h3. Cron jobs
+
+Ubiquo provides a mechanism for defining, scheduling and running cron jobs. It requires a cron daemon and it has been tested with vixie cron.
+
+The ubiquo cron job system provides several advantages:
+
+* Ability to put jobs under version control. (minimizes sysadmin burden).
+* Ability to deal with concurrency, it avoids running multiple instances of the same job at the same time.
+* Ability to log job execution details.
+* Alert on job errors.
+* Provides a standard mechanism for running rake or script/runner like tasks.
+
+WARNING: The most important assumption is that the application owns the user's (the one the application runs as) crontab.
+
+h4. Defining our crontab schedule
+
+We can use the ubiquo_crontab initializer that you should be able to find at +config/initializers/ubiquo_crontab.rb+:
+
+<ruby>
+Ubiquo::Cron::Crontab.schedule do |cron|
+  # Who to mail on errors
+  # cron.mailto = 'errors@change.me'
+  cron.mailto = 'errors@mysite.com'
+
+  # *     *     *   *    *
+  # -     -     -   -    -
+  # |     |     |   |    |
+  # |     |     |   |    +----- day of week (0 - 6) (Sunday=0)
+  # |     |     |   +------- month (1 - 12)
+  # |     |     +--------- day of        month (1 - 31)
+  # |     +----------- hour (0 - 23)
+  # +------------- min (0 - 59)
+
+  # Examples:
+  # "30 08 10 06 *"  Executes on 10th June 08:30 AM.
+  # "00 11,16 * * *" Executes at 11:00 and 16:00 on every day.
+  # "00 09-18 * * *" Executes everyday (including weekends) during the working hours 9 a.m – 6 p.m
+  # "* * * * *"      Execute every minute.
+  # "*/10 * * * *"   Execute every 10 minutes.
+  # "@hourly"        Execute every hour.
+  # "@daily"         Execute daily.
+  # "@monthly"       Execute monthly.
+  # "@reboot"        Execute after every reboot.
+
+  # The specification of days can be made in two fields: month day and weekday.
+  # If both are specified in an entry, they are cumulative meaning both of the entries will get executed.
+
+  # See man 5 crontab for more information.
+
+  # Executes the routes (rake) task every minute
+  # cron.rake   "* * * * *", "routes"
+
+  # Executes the update:stats (rake) task every minute and logs debug information
+  cron.rake   "* * * * *", "update:stats debug='true'"
+
+  # Executes a script/runner like task
+  cron.runner "* * * * *", "User.notify_all"
+end
+</ruby>
+
+As we can see it is easy to schedule new jobs using the already known cron syntax but with the added advantage of specifying rake or runner tasks in a convenient way without having to deal with all the low level details.
+
+NOTE: This definition is used to generate a "real" crontab file ready to installed as the user's (the one running the application) crontab.
+
+h4. Rendering our crontab
+
+With our crontab defined we can run the +ubiquo:crontab:render+ task to see how the real crontab file would look like.
+
+<shell>
+$ rake ubiquo:crontab:render
+
+### Start jobs for application ###
+* * * * * /bin/bash -l -c "cd /home/appuser/myapp && RAILS_ENV=development rake ubiquo:cron:runner task='update:stats' debug='true' --silent 2>&1"
+* * * * * /bin/bash -l -c "cd /home/appuser/myapp && RAILS_ENV=development rake ubiquo:cron:runner task='User.notify_all' type='script' --silent 2>&1"
+### End jobs for application ###
+</shell>
+
+As we can see our jobs are run by a rake task that deals with the low level details like:
+
+* logging
+* error alerts
+* concurrency
+
+h4. Installing our crontab
+
+We can install our defined crontab, but keep in mind that doing so removes all existing jobs in crontab and replaces them with the current definition:
+
+<shell>
+rake ubiquo:crontab:install
+</shell>
+
+Usually this task would be executed by a capistrano's hook when deploying the application:
+
+<ruby>
+set :cron_user, user
+
+after "deploy:symlink", "ubiquo:crontab:update"
+
+namespace :ubiquo do
+  namespace :crontab do
+
+    task :update, :roles => :cron do
+      run "cd #{current_path} && RAILS_ROOT=#{current_path} rake ubiquo:crontab:install"
+    end
+
+  end
+end
+</ruby>
+
+A similar recipe should be included in your capistrano file.
+
+WARNING: Remember, installing a crontab replaces (deletes) the current scheduled jobs with an entirely new crontab schedule. Old schedule is lost.
+
+h4. Testing your jobs
+
+You can test your jobs using the ubiquo:cron:runner task:
+
+<shell>
+rake ubiquo:cron:runner task='routes' debug='true'
+</shell>
+
+TIP: If you pass the debug option to the runner task it will log standard output to the log file.
+
+You can now look at the cron log in the application's log folder and see the output.
+
+h4. Defining cron jobs in your ubiquo plugins
+
+You can use this system to define jobs for your ubiquo plugins, for example:
+
+<ruby>
+Ubiquo::Cron::Crontab.schedule("ubiquo_stats") do |cron|
+  cron.rake "*/10 * * * *", "stats:update"
+  cron.rake "@daily",       "stats:send_report"
+end
+</ruby>
+
+This would translate to:
+
+<shell>
+### Start jobs for application ###
+...
+...
+...
+### End jobs for application ###
+### Start jobs for ubiquo_stats ###
+*/10 * * * * /bin/bash -l -c "cd /home/appuser/myapp && RAILS_ENV=development rake ubiquo:cron:runner task='stats:update'  --silent 2>&1"
+@daily /bin/bash -l -c "cd /home/appuser/myapp && RAILS_ENV=development rake ubiquo:cron:runner task='stats:send_report'  --silent 2>&1"
+### End jobs for ubiquo_stats ###
+</shell>
 
 h3. Changelog
 
