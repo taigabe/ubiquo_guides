@@ -194,7 +194,7 @@ As the widget is configurable (to set the default number of :news_to_show), we c
   <%= widget_header widget %>
   <% widget_form(page, widget) do |f| %>
       <%= f.label :news_to_show, Widget.human_attribute_name :news_to_show %><br/>
-      <%= f.text_field :default_news_to_show, %>
+      <%= f.text_field :news_to_show %>
       <%= widget_submit %>
   <% end %>
 </erb>
