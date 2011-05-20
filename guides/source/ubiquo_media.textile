@@ -18,12 +18,11 @@ This plugin provides a media management system for Ubiquo. Once installed, you w
   attribute to just some types of assets (images, videos...) and decide
   if the asset is public or private
 
+* Crop images and select diferent areas for each format
 
 endprologue.
 
-h3. Create a media
-
-h3. Media attachment
+h3. Media attachments
 
 h4. Add media to a model
 
@@ -190,6 +189,31 @@ selected item view:
 
 just click in 'change text' link.
 
+h3. Image styles
+
+When in your project you have spaces that have a defined size available for images
+it's useful to define a format for that gap. This way, when you upload an image, 
+a copy of that image is generated with the size defined.
+
+On config/initializers/ubiquo_config.rb do:
+<ruby>
+Ubiquo::Config.context(:ubiquo_media).get(:media_styles_list).merge!({
+    :vertical_banner => '60x200#',
+    :avatar => '70x70#',
+    :big => '640x480#',
+    :header => '992x148#'
+  }
+)
+</ruby>
+
+Then you can use that version in the application:
+
+<ruby>
+url_for_media_attachment(object.images.first, :vertical_banner)
+</ruby>
+
+INFO: Each format means more storage and processing time required for every image uploaded.
+
 h3. Ubiquo show helpers
 
 For show pages, there are a couple of helpers that can help you to brainlessly
@@ -325,6 +349,54 @@ end
 
 And that's all folks! Progress bar is ready to run for your media uploads
 
+
+
+h3. Crop and resize
+
+The images can be cropped or select the part of the image for each format or style defined. This feature is builtin by default so nothing special have to be done.
+
+The advanced form can be accessed form the assets tab and from any media selector.
+
+!images/ubiquo_media/advanced-link.png(Media selector with advanced link)!
+
+The "advanced" link brings a popup like that:
+
+!images/ubiquo_media/advancededit-popup-66.png(Advanced edit form)!
+
+h4. Localize format names
+
+Image formats are defined as usual in the application but we can localize the names. The formats will
+be shown in the "Predefined formats" tab:
+
+!images/ubiquo_media/advancededit-formats-66.png(Advanced edit predefined formats tab)!
+
+As you can see there appears the names of each format. These labels show the :humanize of the key by default but
+you can define them by defining the i18n key "ubiquo.media.styles.#{style}.name".
+<ruby>
+en:
+  ubiquo:
+    media:
+      styles:
+        vertical_banner:
+          name: Vertical banner
+        avatar:
+          name: Avatar
+        big_format:
+          name: Big format
+</ruby>
+
+h4. Keeping backups
+
+By default, the advanced edit form keeps a backup of the original uploaded file
+allowing to undo all changes done.
+
+INFO: The "Restore to uploaded file" is only available when editing from the Assets list.
+
+If you don't want this feature, you can disable the backups by configuration on initializers:
+
+<ruby>
+Ubiquo::Config.context(:ubiquo_media).set(:assets_default_keep_backup, false)
+</ruby>
 
 h3. Changelog
 
