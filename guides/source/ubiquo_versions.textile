@@ -105,10 +105,10 @@ You can use the restore() method to take back an instance to a previous state. I
 
 <ruby>
 versions = Article.first.versions
-Article.first.restore(versions.first.version_number)
+Article.first.restore(versions.first.id)
 </ruby>
 
-This restores Article.first to the first of its versions. Each instance in a versionable model has a version_number, which is the argument that restore() expects.
+This restores Article.first to the first of its versions. Each instance in a versionable model has an id, which is the argument that restore() expects.
 
 h3. Changelog
 
