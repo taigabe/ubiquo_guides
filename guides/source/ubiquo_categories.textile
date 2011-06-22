@@ -146,6 +146,29 @@ painting = Painting.find_by_name("Guernica")
 painting.styles << "cubism"
 </ruby>
 
+h4. Find models by category
+
+Sometimes you will need to find all the instances of a model which have a certain category.
+This can be done easily with a helper provided by the plugin. Imagine you have a Book model
+categorized by the Subject CategorySet. The you could use something like this:
+
+<ruby>
+science_books = Book.with_subject_in("Science")
+</ruby>
+
+This will find all the books that have "Science" in the category. You can pass more than one
+category to the method:
+
+<ruby>
+math_books = Book.with_subject_in("Algebra", "Calculus")
+</ruby>
+
+This helper is created dynamically for each categorization of the model and has this form:
+
+<ruby>
+Model.with_<CategorySet key>_in(<list of categories>)
+</ruby>
+
 h3. Categorize from views!
 
 The common case is that you need a selector for the form to choose options from
