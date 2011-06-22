@@ -8,9 +8,8 @@ plugins can be built on top of it. This includes:
 * Ubiquo layout and styling elements
 * Main ruby/rails extensions
 * Navigation links and tabs system
-* Ubiquo filtered search
+* Ubiquo filters and filtered search
 * Relation selector
-* Ubiquo filters
 * Cron jobs
 
 endprologue.
@@ -88,6 +87,15 @@ Ubiquo provides a series of helpers that can be useful in most ubiquo projects.
 On the "rdoc":http://www.ubiquo.me/rdoc/ubiquo_core/classes/Ubiquo/Helpers.html
 you will find an exhaustive list, and here examples for some of the most usual
 plugins will be shown.
+
+h4. Index helpers
+
+Currently, the index views that ubiquo_scaffold generates use filters defined in
+the corresponding helper file. The main helper there is the xxx_list helper
+(e.g. _book_list_ in the Book scaffold). For more information about it please refer to the
+"ubiquo_scaffold guide":http://guides.ubiquo.me/edge/ubiquo_scaffold.html#views-helpers-and-controllers-overview
+where you will find a more detailed explanation, including the different options
+and features available for this method.
 
 h4. Show helpers
 
@@ -364,18 +372,11 @@ h3. Filters
 
 Ubiquo filters are sidebar elements used to filter ubiquo listings.
 
-FiltersHelper module provide some commonly used filters. By default, the module is included in <tt>app/helpers/ubiquo_helper.rb</tt>:
+The Ubiquo::Filters module provides some commonly used filters. Each filter has two main components:
 
-<ruby>
-module UbiquoHelper
-  include FiltersHelper
-  ...
-end
-</ruby>
+* The sidebar filter itself, containing the HTML that displays the filter on the lateral panel. It contains a header and a link to disable the filter when it is active.
 
-* The filter itself, containing the HTML that displays the filter on the lateral panel. It contains a header and a link to disable the filter when it is active.
-
-* The info filter that appears on top of the index listing. It displays textual info about all the active filters and contains a link to disable them all.
+* The displayed information about the applied filters that appears on top of the index listing. It informs about all the active filters and contains a link to disable them all.
 
  Filters are automatically added to the index view, you only have to fill the helper (example for controller _articles_controller_):
 
