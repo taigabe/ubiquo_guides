@@ -201,6 +201,32 @@ As the widget is configurable (to set the default number of :news_to_show), we c
 
 And that's it, you should now be able to insert the widget on your page, configure it, publish the page and see the results on the public page.
 
+h4. Previewable widgets and preview params
+
+To preview a page from the pages manager, in ubiquo, will require that
+all the widgets in the page are defined as previewable. By default, a
+widget is previewable. If you don't want it to be, you must add the
+widget model of the following:
+
+<ruby>
+  previewable :false
+</ruby>
+
+If the widget is previewable and needs specific parameters, you can
+define in the widget class (ex. NewsDetailWidget) the instance method
+"preview_params", that it must provide a hash with necessary param
+values. For example, a detail news widget expects that params[:url]
+contains the slug to load.
+
+<ruby>
+  class NewsDetail < Widget
+    ...
+    def preview_params
+      { :url => [self.class.first.try(:slug)] }
+    end
+  end
+</ruby>
+
 h4. Testing the widget
 
 The skeleton created the basic infrastructure to test the widget:
