@@ -245,6 +245,19 @@ If you wish to remove a widget, you can use the destroy action of the generator:
   script/destroy ubiquo_widget last_news
 </shell>
 
+h4. Providing widgets from plugins
+
+If you develop an application plugin and its provides some ubiquo
+widget, you can do it having the same widget files structure in your
+plugin. Besides that, you just need to add the following lines to your
+plugin rails/init.rb file:
+
+<ruby>
+  custom_paths = Gem::Version.new(Rails.version) >= Gem::Version.new("2.3.9") ? :autoload_paths : :load_paths
+  ActiveSupport::Dependencies.send(custom_paths) << File.join(File.dirname(__FILE__),  "..", "app", "models", "widgets")
+  ActiveSupport::Dependencies.send(custom_paths) << File.join(File.dirname(__FILE__), "..", "app")
+</ruby>
+
 h3. Creating our own Page Template
 
 Probably the blocks disposition of the default page templates is not exactly what you desire. For this reason you can create your own page template following these steps.
