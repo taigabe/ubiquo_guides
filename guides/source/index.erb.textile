@@ -101,6 +101,10 @@ h3. For ubiquo developers
    This guide will tell you the basic steps to start a new ubiquo plugin
 <% end %>
 
+<% guide("I18n translation management with translate plugin", 'translate.html', :rdoc => false) do %>
+   This guide covers how you can manage your application translations with translate plugin
+<% end %>
+
 </dl>
 
 h3. Upgrades
