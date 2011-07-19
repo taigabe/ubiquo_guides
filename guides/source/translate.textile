@@ -79,9 +79,9 @@ It would be useful, for example, to send a complete list of translation to a spe
 
 h4. Log files
 
-Each time you translate something (on each *Save translation* using the web interface) a backup log file will be created as *Rails.root/config/log/locale_code/*
+Each time you translate something (on each *Save translation* using the web interface or using save_to_origin task) a backup log file will be created as *Rails.root/tmp/locales/log/locale_code/*
 
-The original plugin mechanism throught Translate::Log has been disabled.
+The original plugin mechanism throught Translate::Log has been moved to *Rails.root/tmp/locale/* 
 
 h4. I18n available_locales and supported_locales
 
