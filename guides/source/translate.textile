@@ -8,7 +8,7 @@ endprologue.
 
 h3. Installation
 
-Follow the README instructions present at this repository: "http://github.com/gnuine/translate":http://github.com/gnuine/translate
+If you create a new ubiquo project with the ubiquo gem you already have the translate plugin installed and available. For an existing project, follow the README instructions present at the repository: "http://github.com/gnuine/translate":http://github.com/gnuine/translate
 
 h3. Using translate
 
