@@ -8,7 +8,7 @@ endprologue.
 
 h3. Installation
 
-Follow the guide present at the "author's repository":http://github.com/mynewsdesk/translate
+Follow the README instructions present at this repository: "http://github.com/gnuine/translate":http://github.com/gnuine/translate
 
 h3. Using translate
 
