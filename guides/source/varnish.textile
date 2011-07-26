@@ -1,0 +1,128 @@
+h2. Varnish
+
+The ubiquo_design plugin now provides Varnish support, including 
+expiration of widgets and pages 
+
+endprologue.
+
+h3. Widget expiration time
+
+You can set the varnish expiration time for a type of widget inside the behaviour 
+definition:
+
+<ruby>
+Widget.behaviour :highlighted do |widget|
+
+  varnish_expires_in 5.minutes
+
+  @widget = widget
+  ...
+end
+</ruby>
+
+This will set the X-VARNISH-TTL header to this value. You can also set the usual
+ expires_in method, that sets the Cache-Control header:
+
+<ruby>
+Widget.behaviour :highlighted do |widget|
+
+  expires_in 10.minutes
+  varnish_expires_in 5.minutes
+
+  @widget = widget
+end
+</ruby>
+
+INFO: If not defined, each of these headers will have a default value of 2 minutes
+
+Note that since you are in a specific widget, you can define the expiration time
+for that widget using your own rules:
+
+<ruby>
+  varnish_expires_in(widget.is_automatic? 10.minutes : 5.minutes)
+</ruby>
+
+h3. Cache expiration policies
+
+Here is a snapshot of an example file:
+
+<ruby>
+UbiquoDesign::CachePolicies.define(:varnish) do
+  
+  expire_widget(:banner_item, :Banner) do |widget, banner|
+    widget.banner == banner
+  end
+
+  expire_widget(:news_list, :Article)
+
+  expire_widget(:node_detail, [:Article, :Image]) do |widget, node|
+    node.is_automatic?
+  end
+
+  expire_widget_set(Node::NODE_TYPES) do |node|
+    node.widgets
+  end
+
+end
+</ruby>
+
+let's explain it part by part:
+
+<ruby>
+UbiquoDesign::CachePolicies.define(:varnish) do
+...
+end
+</ruby>
+
+The policies are defined inside this block. You define them using this code 
+anywhere it makes sense, by default in an application initializer 
+(config/initializers/design_cache.rb), but sometimes
+it makes sense to load it later and place it for example in the lib folder.
+
+Going to the policies itself, this is the first example:
+
+<ruby>
+  expire_widget(:banner_item, :Banner) do |widget, banner|
+    widget.banner == banner
+  end
+</ruby>
+
+This code reads like this: expire the :banner_item widgets for any change 
+(delete/update/creation) in a Banner instance which makes the block return true.
+
+In this case, this means to expire the widgets that have this precise banner
+ configured (widget.banner would come from a _belongs_to :banner_, for example)
+
+You can also use this method without a block
+
+<ruby>
+  expire_widget(:news_list, :Article)
+</ruby>
+
+In this case, it is read as unconditional expiration. Any CRUD change on an
+Article instance will trigger the expiration of :news_list widgets
+
+The second parameter of expire_widget can be in fact a list of model identifiers,
+so you can aggregate policies that affect more than one model
+
+<ruby>
+  expire_widget(:node_detail, [:Article, :Image]) do |widget, node|
+    node.is_public?
+  end
+</ruby>
+
+Finally you can also create more crafted rules by using _expire_widget_set_
+
+This method allows you to, given one (or a list) of model identifiers, define
+which widgets are affected by its CRUD actions and should be expired. For example, 
+let's imagine that you have an intermediate table that relates Articles and in 
+which widgets they appear in. You could use the following:
+
+<ruby>
+  expire_widget_set(:Article) do |article|
+    article.widgets
+  end
+</ruby>
+
+The return value of the block is expected to be the list of widgets to be expired.
+When an article changes, its associated widgets are returned, and thus expired.
