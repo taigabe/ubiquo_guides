@@ -153,20 +153,20 @@ This can be done easily with a helper provided by the plugin. Imagine you have a
 categorized by the Subject CategorySet. The you could use something like this:
 
 <ruby>
-science_books = Book.with_subject_in("Science")
+science_books = Book.subject("Science")
 </ruby>
 
 This will find all the books that have "Science" in the category. You can pass more than one
 category to the method:
 
 <ruby>
-math_books = Book.with_subject_in("Algebra", "Calculus")
+math_books = Book.subject("Algebra", "Calculus")
 </ruby>
 
 This helper is created dynamically for each categorization of the model and has this form:
 
 <ruby>
-Model.with_<CategorySet key>_in(<list of categories>)
+Model.<relation_name>(<list of categories>)
 </ruby>
 
 h3. Categorize from views!
