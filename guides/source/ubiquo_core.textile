@@ -11,6 +11,7 @@ plugins can be built on top of it. This includes:
 * Ubiquo filters and filtered search
 * Relation selector
 * Cron jobs
+* Loader mechanism
 
 endprologue.
 
@@ -728,6 +729,90 @@ This would translate to:
 @daily /bin/bash -l -c "cd /home/appuser/myapp && RAILS_ENV=development rake ubiquo:cron:runner task='stats:send_report'  --silent 2>&1"
 ### End jobs for ubiquo_stats ###
 </shell>
+
+h3. Ubiquo Loader
+
+When you are extending external classes usually an order problem appears. For example,
+if you are developing a lib that extends a class from another plugin, you have
+to make sure that the plugin is already loaded in order to work properly.
+
+While this is sometimes feasible using explicit requires, you might prefer, or
+even require, some plugin parts to be lazy loaded. In some other circumstances,
+you don't have control in the loading order, and you can't guarantee that the class
+you need is already loaded. For example, this is usually the case when you extend
+a plugin from another plugin.
+
+Another common problem is that you cannot load extensions from a lib file
+into an application (controller, model) class, since in development, with
+cache_classes disabled, the extension would be lost in the second request, when
+the classes are reloaded. While there are hacks to fix this (e.g. using before_dispatch
+to reload the extensions), it's an annoying and unnecessary recurrent problem.
+
+To fix all these loading issues, which you probably have already experienced, since you are
+reading this, Ubiquo has an Extension Loader that allows you to overcome all this.
+
+The idea of the Loader is the following: you simply "define":
+
+* The class to extend,
+* The module that encapsulates the extension
+* The extension action
+
+And the extension will be applied either at this same moment (if the class to extend
+is already loaded), or else, in the future, when the class is really loaded.
+
+So, what it used to be, for example
+
+<ruby>
+Asset.send :extend, UbiquoExtensions::AssetExtensions
+</ruby>
+
+now becomes
+
+<ruby>
+Ubiquo::Extensions::Loader.append_extend(:Asset, UbiquoExtensions::AssetExtensions)
+</ruby>
+
+As you can see, you only pass the name of the class (:Asset), since if you use
+_Asset_ you'd trigger the class loading.
+
+The other difference is that instead of _extend_, you use _append_extend_, to schedule
+the extension inclusion.
+
+Of course if that is too verbose for you, and provided you don't have name conflicts,
+you can alias Ubiquo::Extensions::Loader to a shorter name:
+
+<ruby>
+Loader = Ubiquo::Extensions::Loader
+Loader.append_extend(:Asset, UbiquoExtensions::AssetExtensions)
+</ruby>
+
+TIP: You don't need to determine if the class is already loaded or not in order to decide using Ubiquo Extensions Loader or not. If the class is already loaded, the effect is the same as using directly the original extensions methods, so it  pays off to *always* use Loader to extend classes, since you will avoid possible present and future problems _for free_.
+
+The methods currently available in Loader are the following:
+
+* append_extend
+* append_include
+* append_helper
+
+The first two simply schedule the launch of _extend_ and _include_.
+The last one is handy to add helpers to controllers.
+
+Note that there still remains a limitation when extending classes, and is to use
+ActiveRecord's relations from plugin models to application models. For example,
+if in a plugin you have a User class, and you want to add a has_many :books, with
+Book defined into your application app/models folder, you will run into trouble.
+
+With the development standard configuration, application models are reloaded but
+plugins are not. The internals in Rails 2.X will break these associations because of this,
+causing the "second request" symptom, when things work in the first request but not
+in the successive ones.
+
+The solutions for this are, either make the plugins also unloadable (which may
+create other bugs, since some of the plugins could not support it), or activate
+cache_classes in development. If you have a closed circuit of associations between classes,
+you might consider also moving them to a new plugin, so that you can maintain cache_classes
+disabled for the rest of classes.
+
 
 h3. Changelog
 
