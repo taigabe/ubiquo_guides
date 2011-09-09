@@ -100,7 +100,7 @@ the selector:
 
 !images/ubiquo_i18n/locale_selector.png(Locale selector)!
 
-CAUTION: _Locale.current_ is not the same as _I18n.locale_. The first is about content, the latter about interface. Also, _Locale.current_ uses IETF language tags whereas _I18n.locale_ uses ISO 639-1 codes. This may be changed in the future though.
+CAUTION: _Locale.current_ is not the same as _I18n.locale_. The first is about content, the latter about interface. Their value is independently set and can be different.
 
 The previous call to _Article.create_ will fill the content_id field with a new,
 unique value, since this is a new Article, not a translation of an existing one.
