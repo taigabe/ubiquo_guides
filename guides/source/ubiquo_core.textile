@@ -6,12 +6,14 @@ plugins can be built on top of it. This includes:
 * Ubiquo::Config system
 * Core helpers
 * Ubiquo layout and styling elements
+* Custom FormBuilder
 * Main ruby/rails extensions
 * Navigation links and tabs system
 * Ubiquo filters and filtered search
 * Relation selector
 * Cron jobs
 * Loader mechanism
+
 
 endprologue.
 
@@ -119,6 +121,197 @@ easily print lists of images or documents
 h5. HTML text
 
 Just add the class 'text' to the dd tag and you are ready
+
+
+h4. Form helpers
+
+The forms were pieces of repeated code till now. Full of HTML that could be deduced
+from the field type and name of the fields. We focused on it to be DRY and get
+a powerful abstraction applying the "the convention over configuration" concept.
+
+We have a new helper named _ubiquo_form_for_ which is like the _form_for_ but
+uses our custom form builder UbiquoFormBuilder.
+
+This builder does the same as usual but adds all the surrounding html that uses
+to be added to a input in a ubiquo form.
+
+Using the regular builder, we would write this:
+<ruby>
+<% form_for([:ubiquo, @movie]) do |form| %>
+    <div class="form-item">
+        <%= form.label :title, Movie.human_attribute_name("title") %>
+        <%= form.text_field :title %>
+    </div>
+    <div class="form-item">
+        <%= form.label :body, Movie.human_attribute_name("body") %>
+        <%= form.text_area :body, :class => 'visual_editor' %>
+    </div>
+    <fieldset>
+        <legend>Media selector</legend>
+        <%= media_selector form, :images, :visibility => 'public' %>
+    </fieldset>
+    <div class="form-item-submit">
+        <%= form.submit t('ubiquo.create'), :class => 'bt-create' %>
+        <%= button_to_function t('ubiquo.back_to_list'),
+            "document.location.href='#{ubiquo_movies_path}'", :class => 'bt-back' %>
+    </div>
+<% end %>
+</ruby>
+
+but with UbiquoFormBuilder we write this:
+<ruby>
+<% ubiquo_form_for([:ubiquo, @movie] ) do |form| %>
+    <%= form.text_field :title %>
+    <%= form.text_area :body %>
+    <%= form.media_selector :images, :visibility => 'public' %>
+    <% form.submit_group do %>
+        <%= form.create_button %>
+        <%= form.back_button %>
+    <% end %>
+<% end %>
+</ruby>
+
+As you can see the form gets more "right to the point", and the code is far less verbose.
+
+The usual methods for the form like text_field, text_area, media_selector, etc.,
+are enriched with a wrapper and a label with the name of the field. All of them 
+generate the right html to be rendered correctly in the Ubiquo side.
+
+These methods accept the following options aside the usual ones for them:
+ * _translatable_ : when true shows that this field is translatable.
+ * _description_ : a text that will be appended to the field to add extra 
+information. 
+ * _help_: will show a tooltip when clicking on an icon to see extra information.
+ * _label_: in case you want to show another label and not the one of the attribute
+ * _group_: options for the group. When false, no group wraps the field. It can
+be a hash with options to pass to the group generation, like :type => :fieldset, etc.
+
+All this simplification/convention can be customized in two ways:
+ * Pass options to the methods to modify the conventioned behaviour
+ * Disable all extra features of the form builder and generate the code in the old way
+  inside a block.
+
+There are examples of both below.
+
+h5. Customize the building
+
+All the overloaded methods that we usually use, have various options that allows
+you to customize them.
+
+h6. Example 1: removing fieldset tags or form-item wrapper
+
+In our builder, most fields are automatically wrapped by a fieldset or a div tag b
+y default. This can be overriden setting the :group option to false.
+
+<ruby>
+<%= form.category_selector :tags, :group => false %>
+</ruby>
+
+h6. Example 2: grouping various selectors in a fieldset and disable its owns fieldsets
+
+<ruby>
+<% form.group :label => t("ubiquo.article.related_elements"), :type => :fieldset do %>
+  <%= form.category_selector :tags, :group => false %>
+  <%= form.relation_selector :actors, :group => false %>
+<% end %>
+</ruby>
+
+h6. Example 3: forwarding options to the inside generators like label or fieldsets
+
+<ruby>
+<%= form.category_selector :tags, 
+  :group => {:class => “tags”},
+  :label => {:text => t(“ubiquo.tags”)}
+%>
+</ruby>
+
+In this case, the options given in :group will be sent to _UbiquoFormBuilder#group_
+to customize the wrapper tag.
+
+This will generate the same as:
+<ruby>
+<fieldset class=”tags”>
+  <legend><%= t(“ubiquo.tags”) %></legend>
+  <%= form.category_selector :tags %>
+</fieldset>
+</ruby>
+
+h6. Example 4: disable custom form builder methods in a block
+
+This option allows to disable all extra UbiquoFormBuider features and all methods behave
+like a regular FormBuilder instance. Useful when you want to output custom form html.
+
+<ruby>
+<% form.custom_block do %>
+  <div class="form-item">
+    <%= form.label :subtitle, Article.human_attribute_name("subtitle") %>
+    <%= form.text_field :subtitle %>
+  </div>
+<% end %>
+</ruby>
+
+
+h6. Example 5: append custom html around the field
+
+Sometimes you want to append content inside a field, before or after the field. This can be done sending the
+content to the group.
+
+<ruby>
+<%= form.text_field :password, :group => {
+    :after => '<span id="password_strength"></span>' } %>
+<% javascript_tag do %>
+$("user_password").observe("keydown",function(e){
+    $("password_strength").update(
+        calculate_password_strength($("user_password")));
+});
+<% end %>
+</ruby>
+
+The span#password_strength will be rendered just after the input inside the wrapper
+like this:
+
+<ruby>
+<div class="form-item">
+    <label for="user_password">Password</label>
+    <input id="user_password" name="user[password]" size="30" type="text" />
+    <span id="password_strength"></span>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+$("user_password").observe("keydown",function(e){
+    $("password_strength").update(
+        calculate_password_strength($("user_password")));
+});
+
+//]]>
+</script>
+
+</ruby>
+
+h5. Tabs
+
+The tabs allow to wrap long forms in topics to reduce form page length.
+
+The usage is really easy:
+
+<ruby>
+<% form.group(:type=> :tabbed) do %>
+  <% form.tab(("Main data")) do %>
+      ...
+  <% end %>
+  <% form.tab(("Related")) do %>
+      ....
+  <% end %>
+<% end %>
+</ruby>
+
+Don't forget to wrap the tabs inside a tabbed from group. Otherways the builder 
+could not guess where this tab belongs to.
+
+TIP: Anytime you need to unfold a group of tabs, it's as easy as change the type of the wrapper group from :tabbed to :div or :fieldset.
+
+!images/form-builder-tabbed.png(Tabbed form)!
 
 
 h3. Navigation
