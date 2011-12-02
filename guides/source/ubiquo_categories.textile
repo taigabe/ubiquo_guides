@@ -150,7 +150,7 @@ h4. Find models by category
 
 Sometimes you will need to find all the instances of a model which have a certain category.
 This can be done easily with a helper provided by the plugin. Imagine you have a Book model
-categorized by the Subject CategorySet. The you could use something like this:
+categorized by the Subject CategorySet. Then you could use something like this:
 
 <ruby>
 science_books = Book.subject("Science")
