@@ -102,7 +102,7 @@ the database), and we can manage it from the +Jobs+ tab in the
 In the +superadmin+ page, users (with appropiate rights) can see the
 progress of jobs, stop them and see the logs.
 
-Here we see an screenshot of a job that is waiting to publish an article on twitter
+Here we see an screenshot of a job that is waiting to mail a new years newsletter
 
 !images/ubiquo_jobs/queued_job.png(Queued job)!
 
@@ -156,7 +156,7 @@ NOTE: Take in mind that you will usually just _touch_ jobs on creation time, and
 
 h3. Shell Jobs
 
-If the job type you want to create will primarily execute a shell command, you will probably want to use the ShellJob helpers to do this a no-brainer. The main difference if you are using ShellJob is that, instead of implementing the +do_task_work+ function, you need to override +set_command+. This is because what happens in execution time (command execution, and output/error handling) is automatically managed, so you just have to state the concrete command that will be run.
+If the job type you want to create will primarily execute a shell command, you will probably want to use the ShellJob helpers to do this a no-brainer. The main difference if you are using ShellJob is that, instead of implementing the +do_job_work+ function, you need to override +set_command+. This is because what happens in execution time (command execution, and output/error handling) is automatically managed, so you just have to state the concrete command that will be run.
 
 <ruby>
 # An example shell job class
@@ -192,6 +192,7 @@ To spawn a worker, there's a rake task for it.
 rake ubiquo:worker:start[name,interval]
 </code>
 
+Where +name+ stands for a user-friendly name of the worker, and +interval+ is the interval you want the worker to search for new jobs to execute, in seconds.
 ZSH users note: http://scottw.com/zsh-rake-parameters
 NOTE: Every worker must have a unique and known id. This is because when a job is started, the Job Manager needs to identify which worker is doing it. In the case that a worker is killed while executing a job, starting a new worker with the same id will alert the Manager that the previous one did not finish the job, and will make this one again available to be executed.
 
