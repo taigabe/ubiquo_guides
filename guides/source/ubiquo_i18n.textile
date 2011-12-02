@@ -290,6 +290,28 @@ media_attachment :images
 share_translations_for :books, :images
 </ruby>
 
+h3. Configuring the locales of your Ubiquo project
+
+By default, all Ubiquo projects will use three different locales: catalan (ca), spanish (es) and english(en). When you create your Ubiquo project you can select
+the default language (english if not specified). However, you may want to use other locales, just one, or even change the default locale after the project
+creation.
+
+To set up a specific locale as the default one, you have to modify the +config/environment.rb+ file. In there you'll have to add or change a line to this one:
+
+<ruby>
+Ubiquo::Config.set(:default_locale, :en)
+</ruby>
+
+Changing +en+ for the desired locale
+
+Also, to set the available locales for your application, you'll have to add a line like this one in the same file:
+
+<ruby>
+Ubiquo::Config.set(:supported_locales, %w[es])
+</ruby>
+
+Using the array of the locales you want to be able to use in your application.
+
 h3. Changelog
 
 "Lighthouse tickets":http://ubiquo.lighthouseapp.com/projects/27683-ubiquo/tickets?q=tagged%3Aubiquo_i18n
