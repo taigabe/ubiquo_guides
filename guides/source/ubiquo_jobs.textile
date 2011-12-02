@@ -234,9 +234,9 @@ end
 </ruby>
 
 The +job_class+ variable defaults to +UbiquoJobs::Jobs::ActiveJob+. If you want to make your own manager to handle special jobs, or change the way the jobs are picked,
-the best way to do so is to implement your own manager. A nice rails-like way to do that is include them i the +lib/+ folder of your ubiquo project.
+the best way to do so is to implement your own manager. A nice rails-like way to do that is include them in the +lib/+ folder of your ubiquo project.
 The class you should inherit from is +UbiquoJobs::Managers::ActiveManager+. If you wanted the manager to just pick up a specific subclass of ubiquo jobs, it would suffice
-to reimplement the +self.job_class+ to return your own kind of job:
+to reimplement the +self.job_class+ class method to return your own kind of job:
 
 <ruby>
 def self.job_class
@@ -244,14 +244,13 @@ def self.job_class
 end
 </ruby>
 
-However, implement a new job class is not always the best choice. For this special case, the default +UbiquoJob+ class provides a special member which stores the
+However, there's a better way to do this. For this special case, the default +UbiquoJob+ class provides a special member which stores the
 job's class name, allowing you to select all objects subclasses of +ActiveJob+ by its classname. For example, imagine you have a kind of job for special tasks that
 you know for sure will take a long time to complete. Seems reasonable to have a different manager to handle those jobs. You would create a new job in the file
 +app/jobs/very_long_job.rb+:
 
 <ruby>
 class VeryLongJob < UbiquoJobs::Jobs::ActiveJob
-
   def do_job_work
     #Do what needs to be done here
     return 0
