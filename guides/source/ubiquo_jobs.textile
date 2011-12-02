@@ -67,6 +67,8 @@ class ExampleJob < UbiquoJobs::Jobs::Base
 end
 </ruby>
 
+By default, new job types should be places in the folder +app/jobs/+.
+
 h4. Parameters
 
 If your job needs to be parameterized, use the options hash when creating it to set the needed parameters for it.  All the parameters that you pass from the caller through the options hash will be retained until the job is run.
@@ -102,7 +104,7 @@ the database), and we can manage it from the +Jobs+ tab in the
 In the +superadmin+ page, users (with appropiate rights) can see the
 progress of jobs, stop them and see the logs.
 
-Here we see an screenshot of a job that is waiting to mail a new years newsletter
+Here we see an screenshot of a job that is waiting to mail a new year newsletter
 
 !images/ubiquo_jobs/queued_job.png(Queued job)!
 
@@ -193,6 +195,7 @@ rake ubiquo:worker:start[name,interval]
 </code>
 
 Where +name+ stands for a user-friendly name of the worker, and +interval+ is the interval you want the worker to search for new jobs to execute, in seconds.
+
 ZSH users note: http://scottw.com/zsh-rake-parameters
 NOTE: Every worker must have a unique and known id. This is because when a job is started, the Job Manager needs to identify which worker is doing it. In the case that a worker is killed while executing a job, starting a new worker with the same id will alert the Manager that the previous one did not finish the job, and will make this one again available to be executed.
 
@@ -202,6 +205,122 @@ To stop all the running workers use:
 
 <code>
 script/ubiquo_worker --stop
+</code>
+
+h3. Creating your own managers
+
+Sometimes can be useful to create different managers. An example of this situation is when you want to run different kind of jobs in different circumstances.
+
+Ubiquo Jobs provides a default manager which will get +ActiveJob+ jobs depending on priorities and schedule times:
+
+<ruby>
+def self.get(runner)
+  recovery(runner)
+  candidate_jobs = job_class.all(
+    :conditions => [
+      'planified_at <= ? AND state = ?',
+      Time.now.utc,
+      UbiquoJobs::Jobs::Base::STATES[:waiting]
+    ],
+    :order => 'priority asc'
+  )
+  job = first_without_dependencies(candidate_jobs)
+  job.update_attributes({
+      :state => UbiquoJobs::Jobs::Base::STATES[:instantiated],
+      :runner => runner
+    }) if job
+  job
+end
+</ruby>
+
+The +job_class+ variable defaults to +UbiquoJobs::Jobs::ActiveJob+. If you want to make your own manager to handle special jobs, or change the way the jobs are picked,
+the best way to do so is to implement your own manager. A nice rails-like way to do that is include them i the +lib/+ folder of your ubiquo project.
+The class you should inherit from is +UbiquoJobs::Managers::ActiveManager+. If you wanted the manager to just pick up a specific subclass of ubiquo jobs, it would suffice
+to reimplement the +self.job_class+ to return your own kind of job:
+
+<ruby>
+def self.job_class
+  UbiquoJobs::Jobs::YourJobClass
+end
+</ruby>
+
+However, implement a new job class is not always the best choice. For this special case, the default +UbiquoJob+ class provides a special member which stores the
+job's class name, allowing you to select all objects subclasses of +ActiveJob+ by its classname. For example, imagine you have a kind of job for special tasks that
+you know for sure will take a long time to complete. Seems reasonable to have a different manager to handle those jobs. You would create a new job in the file
++app/jobs/very_long_job.rb+:
+
+<ruby>
+class VeryLongJob < UbiquoJobs::Jobs::ActiveJob
+
+  def do_job_work
+    #Do what needs to be done here
+    return 0
+  end
+end
+</ruby>
+
+Then you could create a manager that handles only those kind of jobs by implementing your own subclass of the +UbiquoJobs::Managers::ActiveManager+ class:
+
+<ruby>
+module JobManagers
+  class VeryLongJobManager < UbiquoJobs::Managers::ActiveManager
+    def self.get(runner)
+      recovery(runner)
+      candidate_jobs = job_class.all(
+        :conditions => [
+          'planified_at <= ? AND state = ? AND type = ?', 
+          Time.now.utc,
+          UbiquoJobs::Jobs::Base::STATES[:waiting],
+          'VeryLongJob'
+        ],
+        :order => 'priority asc'
+      )
+      job = first_without_dependencies(candidate_jobs)
+      job.update_attributes({
+          :state => UbiquoJobs::Jobs::Base::STATES[:instantiated],
+          :runner => runner
+        }) if job
+      job
+    end
+  end
+end
+</ruby>
+
+The code is exactly the same as the default +ActiveManager+ class, but the finder will take an extra parameter, +'VeryLongJob'+, to indicate that only the +ActiveJob+
+objects that are of the subclass +VerylongJob+ should be taken.
+
+After that, you need to modify the task that calls the workers so it takes your manager, or create a new task that will run your manager. The default task that will
+start a worker looks as this:
+
+<ruby>
+desc "Starts a new ubiquo worker"
+task :start, [:name, :interval] => [:environment] do |t, args|
+  options = {
+    :sleep_time => args.interval.to_f
+  }.delete_if { |k,v| v.blank? }
+  UbiquoWorker.init(args.name, options)
+end
+</ruby>
+
+This uses a special configuration parameter to determine the manager to use. This configuration option is stored in +Ubiquo::Config.context(:ubiquo_jobs)+, the name of
+the configuration option is +:job_manager_class+, and takes the manager class as a value. So in order to create a task that will use your manager, you should create a
+new task like this one:
+
+<ruby>
+desc "Starts a new ubiquo worker"
+task :start_very_long_jobs, [:name, :interval] => [:environment] do |t, args|
+  options = {
+    :sleep_time => args.interval.to_f
+  }.delete_if { |k,v| v.blank? }
+  Ubiquo::Config.context(:ubiquo_jobs).set(:job_manager_class, JobManagers::VeryLongJobManager)
+  UbiquoWorker.init(args.name, options)
+end
+</ruby>
+
+Your should call this task like this (assuming it's on the same namespace as the default task):
+
+<code>
+rake ubiquo:worker:start_very_long_jobs[name,interval]
 </code>
 
 h3. Changelog
