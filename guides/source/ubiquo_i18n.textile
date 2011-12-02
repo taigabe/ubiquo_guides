@@ -100,7 +100,7 @@ the selector:
 
 !images/ubiquo_i18n/locale_selector.png(Locale selector)!
 
-CAUTION: _Locale.current_ is not the same as _I18n.locale_. The first is about content, the latter about interface. Their value is independently set and can be different.
+CAUTION: __Locale.current__ is not the same as __I18n.locale__. The first is about content, the latter about interface. Their value is independently set and can be different. See "Ubiquo Core guide":ubiquo_core.html#configuring-the-locales-of-your-ubiquo-project for information on how to configure the locales of your project.
 
 The previous call to _Article.create_ will fill the content_id field with a new,
 unique value, since this is a new Article, not a translation of an existing one.
@@ -289,28 +289,6 @@ has_many :books
 media_attachment :images
 share_translations_for :books, :images
 </ruby>
-
-h3. Configuring the locales of your Ubiquo project
-
-By default, all Ubiquo projects will use three different locales: catalan (ca), spanish (es) and english (en). When you create your Ubiquo project you can select
-the default language (english if not specified). However, you may want to use other locales, just one, or even change the default locale after the project
-creation.
-
-To set up a specific locale as the default one, you have to modify the +config/environment.rb+ file. In there you'll have to add or change a line to this one:
-
-<ruby>
-Ubiquo::Config.set(:default_locale, :en)
-</ruby>
-
-Changing +en+ for the desired locale
-
-Also, to set the available locales for your application, you'll have to add a line like this one in the same file:
-
-<ruby>
-Ubiquo::Config.set(:supported_locales, %w[es])
-</ruby>
-
-Using the array of the locales you want to be able to use in your application.
 
 h3. Changelog
 
