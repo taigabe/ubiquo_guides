@@ -1008,7 +1008,7 @@ disabled for the rest of classes.
 
 h3. Configuring the locales of your Ubiquo project
 
-By default, all Ubiquo projects will use three different locales: catalan (ca), spanish (es) and english (en). When you create your Ubiquo project you can select
+By default, all Ubiquo projects will use three different locales: English (en), Catalan (ca) and Spanish (es). When you create your Ubiquo project you can select
 the default language (english if not specified). However, you may want to use other locales, just one, or even change the default locale after the project
 creation.
 
