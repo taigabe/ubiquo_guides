@@ -1,0 +1,165 @@
+h2. Ubiquo configuration overview
+
+Ubiquo and its plugins have a lot of configuration options, managed via the built in configuration engine. This
+section will guide you through the most important parameters you can set up.
+Most of the configuration options are set up in the +config/initializers/ubiquo_config.rb+ file.
+
+endprologue.
+
+h3. Ubiquo Core
+
+Most main Ubiquo configuration parameters have no context.
+
+|_.Parameter                    |_.Purpose                                                             |_.Default value|
+| app_name                      | The application name                                                 | name used upon project creation |
+| app_title                     | The application title. It will be displayed on the ubiquo section    | name used upon project creation |
+| app_description               | The application description                                          | name used upon project creation |
+| notifier_email_from           | Email address used for notifications                                 | railsmail@gnuine.com |
+| elements_per_page             | Elements per page to show on Ubiquo lists                            | +10+ |
+| max_size_for_links_filter     | Maximum number of links to show before changing a filter to a select | +5+ |
+| model_groups                  | Email address used for notifications                                 | railsmail@gnuine.com |
+| attachments                   | Default options for attachments                                      | +{:visibility => 'public', :public_path => 'public', :use_x_send_file => !Rails.env.development?}+ |
+| required_field_class          | CSS class to use when showing a required field                       | +'required_field'+ |
+| error_field_class             | CSS class to use when showing an error in a form                     | +'error_field'+ |
+| ubiquo_path                   | Default path for ubiquo section                                      | +'ubiquo'+ |
+| edit_on_row_click             | Select the behaviour of ubiquo list actions (old or new)             | +'true'+ |
+| notifier_email_from           | Email address used for notifications                                 | railsmail@gnuine.com |
+| notifier_email_from           | Email address used for notifications                                 | railsmail@gnuine.com |
+| notifier_email_from           | Email address used for notifications                                 | railsmail@gnuine.com |
+
+h4. +ubiquo_form_builder+ options
+
+There's a special context for options regarding the Ubiquo Form Builder. It's called +ubiquo_form_builder+ and has this options:
+
+|_.Parameter                    |_.Purpose                                                             |_.Default value|
+| default_tag_options           | Allows you to set default options for different inputs when using the ubiquo form builder | Check the "source file":https://github.com/gnuine/ubiquo_core/blob/master/rails/init.rb and "Ubiquo Core Configuration":ubiquo_core.html#form-helpers for more information |
+| groups_configuration          | Allows you to set default options when grouping inputs when using the ubiquo form builder | Check the "source file":https://github.com/gnuine/ubiquo_core/blob/master/rails/init.rb and "Ubiquo Core Configuration":ubiquo_core.html#form-helpers for more information |
+| default_group_type            | Sets the default html tag to use for grouping inputs when using ubiquo form builder | +:div+ |
+| unfold_tabs                   | Allows you to set the ubiquo form builder tabs to be folded or unfolded when using ubiquo_form_builder | +false+ |
+
+h3. Ubiquo Access Control
+
+Ubiquo Access Control settings are stored under the +:ubiquo_access_control+ context.
+
+|_.Parameter                |_.Purpose                                                      |_.Default value|
+| role_access_control       | Sets up the default access control for the roles controller   | Allows default access to +role_management+ role |
+| role_permit               | Sets up the default permission to access role management      | Sets the permission to +role_permit+ |
+| roles_elements_per_page   | number of elements per page on the role list                  | Inherited from +elements_per_page+ |
+| roles_default_order_field | default order field for the role list                         | +id+ |
+| roles_default_sort_order  | default sort order for the role list                          | +'desc'+ |
+
+h3. Ubiquo Activity
+
+Ubiquo Activity settings are stored under the +:ubiquo_activity+ context.
+
+|_.Parameter                     |_.Purpose                                                          |_.Default value|
+| activities_elements_per_page   | Elements per page in the activities list                          | Inherited from +elements_per_page+ |
+| activity_info_access_control   | Sets up the default access_control for the activity controller    | Allows default access to +activity_info_management+ role |
+| activity_info_permit           | Sets up the default permission to access activity management      | Sets the permission to +activity_info_management+ |
+| activities_date_filter_enabled | Enables or disables the date filter on activity listings          | +true+ |
+| activities_user_filter_enabled | Enables or disables the user filter on activity listings          | +true+ |
+| activities_controller_filter_enabled | Enables or disables the controller filter on activity listings          | +true+ |
+| activities_action_filter_enabled | Enables or disables the action filter on activity listings      | +true+ |
+| activities_status_filter_enabled | Enables or disables the status filter on activity listings      | +true+ |
+| activities_default_order_field | Default field to order the activity listings                      | +'activity_infos.created_at'+ |
+| activities_default_sort_order  | Default sort order for the activity listings                      | +'desc'+ |
+| info_list_partial              | Partial view to use for the activity list rendering               | +'standard'+ |
+
+h3. Ubiquo Authentication
+
+Ubiquo Authentication settings are stored under the +:ubiquo_authentication+ context.
+
+|_.Parameter                         |_.Purpose                                                          |_.Default value|
+| remember_time                      | Time the system will remember the logged user if checked          | +2.weeks+ |
+| user_access_control                | Sets up the default access_control for the user controller        | Allows default access to +ubiquo_user_management+ role |
+| user_navigator_permission          | Sets up the default permission to access user management          | Sets the permission to +ubiquo_user_management+ |
+| ubiquo_users_elements_per_page     | Elements per page in the ubiquo user list                         | Inherited from +elements_per_page+ |
+| ubiquo_users_admin_filter_enabled  | Enables or disables the admin filter on user listings             | +true+ |
+| ubiquo_users_string_filter_enabled | Enables or disables the string filter on user listings            | +true+ |
+| ubiquo_users_default_order_field   | Default field to order the user listings                          | +'ubiquo_users.id'+ |
+| ubiquo_users_default_sort_order    | Default sort order for the user listings                          | +'desc'+ |
+
+h3. Ubiquo Categories
+
+Ubiquo Categories settings are stored under the +:ubiquo_categories+ context.
+
+|_.Parameter                         |_.Purpose                                                          |_.Default value|
+| category_sets_per_page             | Elements per page in the category sets lists                      | Inherited from +elements_per_page+ |
+| categories_per_page                | Elements per page in the categories lists                         | Inherited from +elements_per_page+ |
+| categories_access_control          | Sets up the default access control for the categories controller  | Allows default access to +categories_management+ role |
+| categories_permit                  | Sets up the default permission to access categories management    | Sets the permission to +categories_management+ |
+| administrable_category_sets        | Allows the administration of Category Sets                        | +true+ |
+| max_categories_simple_selector     | Maximum number of categories to list in a select before switching to an autocomplete | +6+ |
+| available_connectors               | List of connectors to use in the plugin                           | +[:i18n, :standard]+ |
+| connector                          | Default connector                                                 | +:standard+ |
+
+h3. Ubiquo Design
+
+Ubiquo Design settings are stored under the +:ubiquo_design+ context.
+
+|_.Parameter                         |_.Purpose                                                          |_.Default value|
+| pages_elements_per_page            | Elements per page in the page lists                               | Inherited from +elements_per_page+ |
+| design_access_control              | Sets up the default access control for the design controller      | Allows default access to +design_management+ role |
+| design_permit                      | Sets up the default permission to access design management        | Sets the permission to +design_management+ |
+| static_pages_permit                | Sets up the default permission to access static pages management  | Sets the permission to +static_pages_management+ |
+| page_string_filter_enabled         | Enables or disables the string filter on page listings            | +true+ |
+| page_default_order_field           | Default field to order the page listings                          | +'pages.url_name'+ |
+| page_default_sort_order            | Default sort order for the page listings                          | +'asc'+ |
+| widget_tabs_mode                   | Configures how the widget list is grouped in the design view. Values can be +:auto+, +:groups+ or +:blocks+     | +:auto+ |
+| page_default_sort_order            | Default sort order for the page listings                          | +'asc'+ |
+| allow_page_preview                 | Allow previewing of pages at design time                          | +true+ |
+| connector                          | Connector to use on the plugin                                    | +:standard+ |
+| cache_manager_class                | The default manager for caching pages                             | Depending on the environment will use +RubyHash+ or +Memcache+. Check "Ubiquo Design Guide":ubiquo_design.html#cache-framework for more information |
+| memcache                           | Hash to configure Memcache framework                              | +{:server => '127.0.0.1', :timeout => 0}+ |
+| generic_models                     | Models to select for generic widgets                              | +[]+ |
+| block_type_for_static_section_widget | The block type for the static widgets                           | Not set |
+
+h3. Ubiquo I18n
+
+Ubiquo I18n settings are stored under the +:ubiquo_i18n+ context.
+
+|_.Parameter                         |_.Purpose                                                          |_.Default value|
+| locales_default_order_field        | Default field to order the locales lists                          | +'native_name'+ |
+| locales_default_sort_order         | Default sort order for the locales lists                          | +'asc'+ |
+| locales_access_control             | Set up the default access control for locales                     | +nil+ |
+| last_user_locale                   | Used to get the last user locale                                  | Will get the locale of the current user, nil if there is none |
+| set_last_user_locale               | Used to set the last user locale                                  | Will update the current user locale to the given +:locale+ as an option |
+
+h3. Ubiquo Jobs
+
+Ubiquo Jobs settings are stored under the +:ubiquo_jobs+ context.
+
+|_.Parameter                         |_.Purpose                                                          |_.Default value|
+| job_manager_class                  | Default manager to handle jobs                                    | +UbiquoJobs::Managers::ActiveManager+ |
+| job_notifier_class                 | Default manager to handle job notifications                       | +UbiquoJobs::Helpers::Notifier+ |
+
+h3. Ubiquo Media
+
+Ubiquo Media settings are stored under the +:ubiquo_media+ context.
+
+|_.Parameter                         |_.Purpose                                                          |_.Default value|
+| assets_elements_per_page           | Elements per page in the asset lists                              | Inherited from +elements_per_page+ |
+| media_selector_list_size           | Maximum number of assets to list in a select before switching to an autocomplete | +6+ |
+| assets_access_control              | Sets up the default access control for the assets controller      | Allows default access to +media_management+ role |
+| assets_permit                      | Sets up the default permission to access assets management        | Sets the permission to +media_management+ |
+| assets_string_filter_enabled       | Enables or disables the string filter on asset listings           | +true+ |
+| assets_tags_filter_enabled         | Enables or disables the tags filter on asset listings             | +true+ |
+| assets_types_filter_enabled        | Enables or disables the types filter on asset listings            | +true+ |
+| assets_visibility_filter_enabled   | Enables or disables the visibility filter on asset listings       | +true+ |
+| assets_date_filter_enabled         | Enables or disables the date filter on asset listings             | +true+ |
+| assets_default_order_field         | Default field to order the assets lists                           | +'assets.id'+ |
+| assets_default_sort_order          | Default sort order for the assets lists                           | +'asc'+ |
+| mime_types                         | Supported mime types as attachments                               | Check the "source file":https://github.com/gnuine/ubiquo_media/blob/master/rails/init.rb to see the default supported mime types |
+| media_styles_list                  | Supported styles for images                                       | +{ :thumb => "100x100>", :base_to_crop => "590x442>" }+ |
+| media_styles_options               | Default options for assets. Can be a Hash or a proc receiving the style and name of the asset | Empty hash |
+| media_processors_list              | List of processors to apply after an asset is uploaded            | +[:resize_and_crop]+ |
+| media_core_styles                  | The styles that belong to ubiquo and are part of the core         | +[:thumb, :base_to_crop]+ |
+| assets_default_keep_backup         | Keep a backup of the original backup when cropping and resizing   | +true+ |
+| advanced_edit_warn_user_when_changing_asset_in_use | Warn the user when updating an asset that is related to an instance   | +false+ |
+| advanced_edit_allow_restore_from_media_selector | When editing advanced from a media selector, allow to restore to uploaded asset | +true+ |
+| force_visibility                   | Force this asset visibility for the entire application            | +"public"+ |
+| available_connectors               | Connectors available for this plugin                              | +[:standard]+ |
+| connector                          | Connectorto use in this plugin                                    | +:standard+ |
+| media_storage                      | Media to use to store the attachments                             | +:filesystem+ |
+| progress_bar                       | Show a progress bar when uploading an asset                       | +false+ |
+| ubiquo_form_builder_media_selector_tag_options | Tag options for the ubiquo form builder               | Check the "source file":https://github.com/gnuine/ubiquo_media/blob/master/rails/init.rb to see the default options |
