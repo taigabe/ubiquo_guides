@@ -17,25 +17,22 @@ Most main Ubiquo configuration parameters have no context.
 | notifier_email_from           | Email address used for notifications                                 | railsmail@gnuine.com |
 | elements_per_page             | Elements per page to show on Ubiquo lists                            | +10+ |
 | max_size_for_links_filter     | Maximum number of links to show before changing a filter to a select | +5+ |
-| model_groups                  | Email address used for notifications                                 | railsmail@gnuine.com |
+| model_groups                  | Model groups for fixture import and export                           | +{}+ |
 | attachments                   | Default options for attachments                                      | +{:visibility => 'public', :public_path => 'public', :use_x_send_file => !Rails.env.development?}+ |
 | required_field_class          | CSS class to use when showing a required field                       | +'required_field'+ |
 | error_field_class             | CSS class to use when showing an error in a form                     | +'error_field'+ |
 | ubiquo_path                   | Default path for ubiquo section                                      | +'ubiquo'+ |
-| edit_on_row_click             | Select the behaviour of ubiquo list actions (old or new)             | +'true'+ |
-| notifier_email_from           | Email address used for notifications                                 | railsmail@gnuine.com |
-| notifier_email_from           | Email address used for notifications                                 | railsmail@gnuine.com |
-| notifier_email_from           | Email address used for notifications                                 | railsmail@gnuine.com |
+| edit_on_row_click             | Select the behaviour of ubiquo list actions (old or new)             | +true+ |
 
 h4. +ubiquo_form_builder+ options
 
-There's a special context for options regarding the Ubiquo Form Builder. It's called +ubiquo_form_builder+ and has this options:
+There's a special context for options regarding the Ubiquo Form Builder. It's called +:ubiquo_form_builder+ and has this options:
 
 |_.Parameter                    |_.Purpose                                                             |_.Default value|
 | default_tag_options           | Allows you to set default options for different inputs when using the ubiquo form builder | Check the "source file":https://github.com/gnuine/ubiquo_core/blob/master/rails/init.rb and "Ubiquo Core Configuration":ubiquo_core.html#form-helpers for more information |
 | groups_configuration          | Allows you to set default options when grouping inputs when using the ubiquo form builder | Check the "source file":https://github.com/gnuine/ubiquo_core/blob/master/rails/init.rb and "Ubiquo Core Configuration":ubiquo_core.html#form-helpers for more information |
 | default_group_type            | Sets the default html tag to use for grouping inputs when using ubiquo form builder | +:div+ |
-| unfold_tabs                   | Allows you to set the ubiquo form builder tabs to be folded or unfolded when using ubiquo_form_builder | +false+ |
+| unfold_tabs                   | Allows you to set the ubiquo form builder tabs to be folded or unfolded when using the ubiquo form builder | +false+ |
 
 h3. Ubiquo Access Control
 
