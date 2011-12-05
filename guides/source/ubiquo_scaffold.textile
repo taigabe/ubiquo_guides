@@ -210,7 +210,6 @@ class Ubiquo::BooksController < UbiquoController
   # GET /books.xml
   def index
     @books_pages, @books = Book.paginated_filtered_search(params)
-paginated_filtered_search(params)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  {
