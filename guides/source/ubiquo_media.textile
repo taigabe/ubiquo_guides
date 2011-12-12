@@ -29,10 +29,12 @@ h4. Add media to a model
 In your model, add:
 
 <ruby>
-media_attachment :resources, :size => N, :types => %w{image}
+media_attachment :images
 </ruby>
 
-For example:
+This is the simplest definition, and will provide an association called :images to Assets,
+that will use the default options. You can provide other options to this method, for example:
+
 <ruby>
 class ExampleModel < ActiveRecord::Base
   media_attachment :images, :size => 2, :types => %w{image}
@@ -42,26 +44,41 @@ class ExampleModel < ActiveRecord::Base
 end
 </ruby>
 
-size and types options are optional. By default is sized 1 and any
-type.
+_size_ and _types_ options are optional. By default _size_ is *1* (only one asset can be added), and accepts any type of asset.
 
 NOTE: You can use :many value with size option specifing that you want a undetermined number of assets.
-NOTE: For convention, the attribute name should be always plural no matter if it contains a single element (size option is 1). The media_attachment accessor always returns an array.
+NOTE: For convention, the attribute name should be always plural no matter if it contains a single element (size option is 1). The media_attachment accessor always returns an array, so naming it in plural will remind you when you use this association in the code.
 
 h5. Minimum amount of assets
 
-media_attachments able to set the maximum amount of related assets.
+As we have seen, :size allows you to set the maximum amount of related assets.
 
-If you need to set the minimum, add something like this to your model:
+If you need to set the minimum, you can use the :required option:
 
 <ruby>
-validates_length_of(
-  :images_ids,
-  :minimum => 1
-  )
+  # validations will fail if :logo is not present
+  media_attachment :logo, :required => true
+
+  # validations will fail if there aren't two images
+  media_attachment :images, :size => 2, :required => true
+
+  # validations will fail if there isn't at least one video
+  media_attachment :videos, :size => 2, :required => 1
+
+  # in :many associations, using true is an alias for at least one
+  media_attachment :documents, :size => :many, :required => true
 </ruby>
 
-NOTE: You can add a custom error message adding a :message option to the validates_length_of
+This option creates a validation roughly equivalent to:
+
+<ruby>
+  validates_presence_of :images_asset_relations
+</ruby>
+
+So if you need to customize it in your model, don't use the :required option and
+add the one that suits you in your model.
+
+NOTE: Note that you can't use *validates_presence_of :images* because the association that is filled in the forms is the one in the join table. *:images* will only be correct after the save, not before.
 
 h5. Media types
 
@@ -192,7 +209,7 @@ just click in 'change text' link.
 h3. Image styles
 
 When in your project you have spaces that have a defined size available for images
-it's useful to define a format for that gap. This way, when you upload an image, 
+it's useful to define a format for that gap. This way, when you upload an image,
 a copy of that image is generated with the size defined.
 
 On config/initializers/ubiquo_config.rb do:
@@ -322,14 +339,14 @@ This is a step by step, recipe like tutorial, to use ubiquo media with s3 storag
    ENVIRONMENT:
      access_key_id: YOUR_ACCESS_KEY_ID
      secret_access_key: YOUR_SECRET_ACCESS_KEY
-     bucket: YOUR_BUCKET 
+     bucket: YOUR_BUCKET
 </ruby>
 5. Replace the previous upcase variables with your own data. Example:
 <ruby>
-   production:      
+   production:
      access_key_id: 1234567abcd
      secret_access_key: abcdefghijk12345
-     bucket: a_bucke_name 
+     bucket: a_bucke_name
 </ruby>
 
 h3. Using an Apache-based upload progress bar
