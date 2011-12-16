@@ -459,10 +459,10 @@ div.important p, div.caution p, div.warning p, div.note p, div.info p {
     margin-bottom: 0px;
 }
 
-/* Edge Badge
+/* Stable Badge
  * --------------------------------------- */
 
-#edge-badge {
+#stable-badge {
   position: fixed;
   right: 0px;
   top: 0px;
