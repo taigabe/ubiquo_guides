@@ -2,179 +2,179 @@ h2. Changelog
 
 endprologue.
 
-h3. calendar_date_select 
+h3. calendar_date_select
 
-* Merge tag 1.16.1 into master [#442 state:resolved]
+* Merge tag 1.16.1 into master ["#442":http://ubiquo.lighthouseapp.com/projects/27683/tickets/442]
 
 h3. paperclip
 
 * Added support for dynamic host alias
-* Fixed support for :convert_options defined inside the :style definition [#613 state:resolved]
-* Added support for cache_control s3 header [#536]
+* Fixed support for :convert_options defined inside the :style definition ["#613":http://ubiquo.lighthouseapp.com/projects/27683/tickets/613]
+* Added support for cache_control s3 header ["#536":http://ubiquo.lighthouseapp.com/projects/27683/tickets/536]
 * Added s3 gem support replacing the old aws-s3
 
 h3. ubiquo_access_control
 
-* Use case insensitive uniqueness validation of keys in Permissions [#543]
+* Use case insensitive uniqueness validation of keys in Permissions ["#543":http://ubiquo.lighthouseapp.com/projects/27683/tickets/543]
 
 h3. ubiquo_activity
 
-* Filter rewrite to conform to new API [#403 state:updated]
-* Updated locale files to conform to the new interpolation syntax required by Rails 2.3.9 [#371 state:updated]
-* Substituted activity tab for a link in the upper-left menu [#306 state:updated]
+* Filter rewrite to conform to new API ["#403":http://ubiquo.lighthouseapp.com/projects/27683/tickets/403]
+* Updated locale files to conform to the new interpolation syntax required by Rails 2.3.9 ["#371":http://ubiquo.lighthouseapp.com/projects/27683/tickets/371]
+* Substituted activity tab for a link in the upper-left menu ["#306":http://ubiquo.lighthouseapp.com/projects/27683/tickets/306]
 
 h3. ubiquo_authentication
 
 * Updated ubiquo users to use paginated_filtered_search
-* Check user locale before send forgot_password. Use Ubiquo.default_locale if user.locale is blank [#609 state:resolved]
-* Use case insensitive uniqueness validation of emails in UbiquoUser [#543]
-* Added default handle_unverified_request to delete remember_me cookie and raise an exception [#475]
-* Created new field in ubiquo_user to allow last_ubiquo_user_locale functionality through i18n if it is active [#240 state:open]
-* Updated locale files to conform to the new interpolatoin syntax required by Rails 2.3.9 [#371 state:updated]
-* Moved tasks folder to lib (rails deprecation warning) [#171]
-* Fixed detection of cookies when the user goes directly to the login form [#301 state:resolved]
-* Added cookies detector [#301]
-* Added detection of cookie availability when login [#301 state:resolved]
+* Check user locale before send forgot_password. Use Ubiquo.default_locale if user.locale is blank ["#609":http://ubiquo.lighthouseapp.com/projects/27683/tickets/609]
+* Use case insensitive uniqueness validation of emails in UbiquoUser ["#543":http://ubiquo.lighthouseapp.com/projects/27683/tickets/543]
+* Added default handle_unverified_request to delete remember_me cookie and raise an exception ["#475":http://ubiquo.lighthouseapp.com/projects/27683/tickets/475]
+* Created new field in ubiquo_user to allow last_ubiquo_user_locale functionality through i18n if it is active ["#240":http://ubiquo.lighthouseapp.com/projects/27683/tickets/240 state:open]
+* Updated locale files to conform to the new interpolatoin syntax required by Rails 2.3.9 ["#371":http://ubiquo.lighthouseapp.com/projects/27683/tickets/371]
+* Moved tasks folder to lib (rails deprecation warning) ["#171":http://ubiquo.lighthouseapp.com/projects/27683/tickets/171]
+* Fixed detection of cookies when the user goes directly to the login form ["#301":http://ubiquo.lighthouseapp.com/projects/27683/tickets/301]
+* Added cookies detector ["#301":http://ubiquo.lighthouseapp.com/projects/27683/tickets/301]
+* Added detection of cookie availability when login ["#301":http://ubiquo.lighthouseapp.com/projects/27683/tickets/301]
 
 h3. ubiquo_core
 
 * Created extension for Object adding to_bool method
-* Use cron should use bundler to run tasks [#645 state:resolved]
-* Proper url for private assets [#634 state:resolved]
-* Added usability features for autofocus on important inputs [#631 state:resolved]
-* Added an option to the standard list to choose between the new and the old style of actions per row [#526 state:resolved]
-* Added :distinct option in Rails finders [#627 state:resolved]
-* Updated url_for_file_attachment to not escape private asset urls [#583 state:resolved]
-* Implemented tabs on UbiquoForms and added features to make it easier to work with [#492 state:resolved][#586 state:resolved]
-* Fixing CSS for iPad/iPhone devices [#393 state:resolved]
-* Install ubiquo fixtures if needed when running tests and they haven't been installed yet [#562 state:resolved]
-* Added option :link to copy_dir, and used in ubiquo:test:prepare [#562]
-* Set the fixture_path to all classes when using use_ubiquo_fixtures [#562]
-* Added description option to relation_selector helper [#561 state:resolved]
-* Fixing relation_selector after upgrading prototype to 1.7 [#555 state:resolved]
-* Allow to define custom s3_headers in file_attachment [#536 state:resolved]
-* Allow to define custom paperclip urls or paths in file_attachment [#535 state:resolved]
-* Allow use of s3_host_alias in file_attachment [#534 state:resolved]
-* Add support for drag and drop for ipad and touch devices through script.aculo.us dragdrop.js used in most ubiquo [#393 state:resolved]
-* Adding "Help Hints" functionality to ubiquo_form_builder [#492]
-* Added translations for translatable_field default message and fixed translatable message color on forms [#492 state:updated]
-* Updated UbiquoFormBuilder to support :translatable and :description options on form fields [#492 state:updated]
-* Updated design of blank slate. Updated listings actions column [#438]
-* Added UbiquoFormBuilder [#385 state:updated]
-* Crontab class refactoring [#432 state:updated]
-* Added rake tasks for crontab management [#432 state:update]
-* Renamed UbiquoAreaController to UbiquoController, using the created Ubiquo::Extensions::Loader as the extension mechanism [#388 state:resolved]
+* Use cron should use bundler to run tasks ["#645":http://ubiquo.lighthouseapp.com/projects/27683/tickets/645]
+* Proper url for private assets ["#634":http://ubiquo.lighthouseapp.com/projects/27683/tickets/634]
+* Added usability features for autofocus on important inputs ["#631":http://ubiquo.lighthouseapp.com/projects/27683/tickets/631]
+* Added an option to the standard list to choose between the new and the old style of actions per row ["#526":http://ubiquo.lighthouseapp.com/projects/27683/tickets/526]
+* Added :distinct option in Rails finders ["#627":http://ubiquo.lighthouseapp.com/projects/27683/tickets/627]
+* Updated url_for_file_attachment to not escape private asset urls ["#583":http://ubiquo.lighthouseapp.com/projects/27683/tickets/583]
+* Implemented tabs on UbiquoForms and added features to make it easier to work with ["#492":http://ubiquo.lighthouseapp.com/projects/27683/tickets/492]["#586":http://ubiquo.lighthouseapp.com/projects/27683/tickets/586]
+* Fixing CSS for iPad/iPhone devices ["#393":http://ubiquo.lighthouseapp.com/projects/27683/tickets/393]
+* Install ubiquo fixtures if needed when running tests and they haven't been installed yet ["#562":http://ubiquo.lighthouseapp.com/projects/27683/tickets/562]
+* Added option :link to copy_dir, and used in ubiquo:test:prepare ["#562":http://ubiquo.lighthouseapp.com/projects/27683/tickets/562]
+* Set the fixture_path to all classes when using use_ubiquo_fixtures ["#562":http://ubiquo.lighthouseapp.com/projects/27683/tickets/562]
+* Added description option to relation_selector helper ["#561":http://ubiquo.lighthouseapp.com/projects/27683/tickets/561]
+* Fixing relation_selector after upgrading prototype to 1.7 ["#555":http://ubiquo.lighthouseapp.com/projects/27683/tickets/555]
+* Allow to define custom s3_headers in file_attachment ["#536":http://ubiquo.lighthouseapp.com/projects/27683/tickets/536]
+* Allow to define custom paperclip urls or paths in file_attachment ["#535":http://ubiquo.lighthouseapp.com/projects/27683/tickets/535]
+* Allow use of s3_host_alias in file_attachment ["#534":http://ubiquo.lighthouseapp.com/projects/27683/tickets/534]
+* Add support for drag and drop for ipad and touch devices through script.aculo.us dragdrop.js used in most ubiquo ["#393":http://ubiquo.lighthouseapp.com/projects/27683/tickets/393]
+* Adding "Help Hints" functionality to ubiquo_form_builder ["#492":http://ubiquo.lighthouseapp.com/projects/27683/tickets/492]
+* Added translations for translatable_field default message and fixed translatable message color on forms ["#492":http://ubiquo.lighthouseapp.com/projects/27683/tickets/492]
+* Updated UbiquoFormBuilder to support :translatable and :description options on form fields ["#492":http://ubiquo.lighthouseapp.com/projects/27683/tickets/492]
+* Updated design of blank slate. Updated listings actions column ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Added UbiquoFormBuilder ["#385":http://ubiquo.lighthouseapp.com/projects/27683/tickets/385]
+* Crontab class refactoring ["#432":http://ubiquo.lighthouseapp.com/projects/27683/tickets/432]
+* Added rake tasks for crontab management ["#432":http://ubiquo.lighthouseapp.com/projects/27683/tickets/432 state:update]
+* Renamed UbiquoAreaController to UbiquoController, using the created Ubiquo::Extensions::Loader as the extension mechanism ["#388":http://ubiquo.lighthouseapp.com/projects/27683/tickets/388]
 * Modifying lightwindow to give support to nested lightwindow links and modify lightwindow html used to avoid usage of hardcoded DOM Ids
 * Created ubiquo:db:fix_sequences task to give exposure to this existing funcion, sometimes useful as standalone
-* Added rake require for testing cron jobs [#475 state:updated]
+* Added rake require for testing cron jobs ["#475":http://ubiquo.lighthouseapp.com/projects/27683/tickets/475]
 * Replace lightwindow layout to new CSS and separate custom ubiquo stlyes
-* Added a crontab initializer [#432 state:updated]
-* Implemented cron job system [#432 state:resoloved]
-* Added csrf_meta_tag in default ubiquo layout and in all js petitions [#475]
-* Moved New button to the sidebar, other css changes [#438]
+* Added a crontab initializer ["#432":http://ubiquo.lighthouseapp.com/projects/27683/tickets/432]
+* Implemented cron job system ["#432":http://ubiquo.lighthouseapp.com/projects/27683/tickets/432 state:resoloved]
+* Added csrf_meta_tag in default ubiquo layout and in all js petitions ["#475":http://ubiquo.lighthouseapp.com/projects/27683/tickets/475]
+* Moved New button to the sidebar, other css changes ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
 * Added passing params[:per_page] to ubiquo_paginate
-* Added ubiquo_ie.css file loading for ie adaptations [#438]
-* Updated filters to use ubiquo_sidebar_box helper [#452 state:updated]
-* Changed help_block_sidebar to use ubiquo_sidebar_box [#452 state:updated]
-* Added ubiquo_sidebar_box helper [#452 state:resolved]
-* Mark up for boolean fields in listings [#451 state:resolved]
-* Fixing lightbox issues detected on [#157]
-* Restyling for version 0.8 [#438]
-* Automatized year displayed in footer [#438]
-* Make the paginator always appear, just with a css class to disable it [#438]
-* More markup for sidebar filters to ease customizing them [#438]
-* Changed some common elements html markup to ease application of new themes [#438]
-* Full support for custom function creation in sqlite-jdbc [#337 state:resolved]
-* Created jruby sqlite extension for create_function functionality [#337]
-* Added Ubiquo::Connectors::Base and other common building blocks for plugin connectors [#295]
+* Added ubiquo_ie.css file loading for ie adaptations ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Updated filters to use ubiquo_sidebar_box helper ["#452":http://ubiquo.lighthouseapp.com/projects/27683/tickets/452]
+* Changed help_block_sidebar to use ubiquo_sidebar_box ["#452":http://ubiquo.lighthouseapp.com/projects/27683/tickets/452]
+* Added ubiquo_sidebar_box helper ["#452":http://ubiquo.lighthouseapp.com/projects/27683/tickets/452]
+* Mark up for boolean fields in listings ["#451":http://ubiquo.lighthouseapp.com/projects/27683/tickets/451]
+* Fixing lightbox issues detected on ["#157":http://ubiquo.lighthouseapp.com/projects/27683/tickets/157]
+* Restyling for version 0.8 ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Automatized year displayed in footer ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Make the paginator always appear, just with a css class to disable it ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* More markup for sidebar filters to ease customizing them ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Changed some common elements html markup to ease application of new themes ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Full support for custom function creation in sqlite-jdbc ["#337":http://ubiquo.lighthouseapp.com/projects/27683/tickets/337]
+* Created jruby sqlite extension for create_function functionality ["#337":http://ubiquo.lighthouseapp.com/projects/27683/tickets/337]
+* Added Ubiquo::Connectors::Base and other common building blocks for plugin connectors ["#295":http://ubiquo.lighthouseapp.com/projects/27683/tickets/295]
 * Adding support to flash feedback warning
 * Moving lightwindow outside of ubiquo
-* Ability to order listings by relation fields [#14 state:updated]
-* Updated ubiquo_javascript_include_tag method and renamed it. Updated installable ubiquo layout. Updated javascripts folder structure [#300 state:open]
-* Updated ubiquo_stylesheet_link_tag method and renamed it. Updated installable ubiquo layout. Updated stylesheets folder structure [#300 state:open]
-* Removed LocaleFilter, now it belongs to i18n [#404 state:resolved]
-* Refactored UbiquoFilterTestCase to be usable in other ubiquo plugins [#389 state:updated]
-* Refactor and cleanup of filter api [#389 state:updated]
-* standard partial refactored to use helper method [#236 state:resolved]
-* Added automatic nested routes addition [#111]
+* Ability to order listings by relation fields ["#14":http://ubiquo.lighthouseapp.com/projects/27683/tickets/14]
+* Updated ubiquo_javascript_include_tag method and renamed it. Updated installable ubiquo layout. Updated javascripts folder structure ["#300":http://ubiquo.lighthouseapp.com/projects/27683/tickets/300 state:open]
+* Updated ubiquo_stylesheet_link_tag method and renamed it. Updated installable ubiquo layout. Updated stylesheets folder structure ["#300":http://ubiquo.lighthouseapp.com/projects/27683/tickets/300 state:open]
+* Removed LocaleFilter, now it belongs to i18n ["#404":http://ubiquo.lighthouseapp.com/projects/27683/tickets/404]
+* Refactored UbiquoFilterTestCase to be usable in other ubiquo plugins ["#389":http://ubiquo.lighthouseapp.com/projects/27683/tickets/389]
+* Refactor and cleanup of filter api ["#389":http://ubiquo.lighthouseapp.com/projects/27683/tickets/389]
+* standard partial refactored to use helper method ["#236":http://ubiquo.lighthouseapp.com/projects/27683/tickets/236]
+* Added automatic nested routes addition ["#111":http://ubiquo.lighthouseapp.com/projects/27683/tickets/111]
 * Added 'filesystem' as default value for paperclip storage
 * Added s3 support on paperclip calls
-* Updated locales with new relation_selector key [#373 state:resolved]
-* Updated locale files to conform to the new interpolatoin syntax required by Rails 2.3.9 [#371 state:updated]
+* Updated locales with new relation_selector key ["#373":http://ubiquo.lighthouseapp.com/projects/27683/tickets/373]
+* Updated locale files to conform to the new interpolatoin syntax required by Rails 2.3.9 ["#371":http://ubiquo.lighthouseapp.com/projects/27683/tickets/371]
 * Implemented relation selector and integrated in ubiquo core
 * Added a simple documentation of the method
 * Added truncate_words method
-* Use ubiquo_paginate instead of paginate in paginated_filtered_search to avoid possible name clashes [#105]
+* Use ubiquo_paginate instead of paginate in paginated_filtered_search to avoid possible name clashes ["#105":http://ubiquo.lighthouseapp.com/projects/27683/tickets/105]
 * Added static pages tab
-* Moved tasks folder to lib (rails deprecation warning) [#311]
-* Use ubiquo date time standards when using the english language [#313 state:updated]
-* Version box made liquid [#313 state:updated]
+* Moved tasks folder to lib (rails deprecation warning) ["#311":http://ubiquo.lighthouseapp.com/projects/27683/tickets/311]
+* Use ubiquo date time standards when using the english language ["#313":http://ubiquo.lighthouseapp.com/projects/27683/tickets/313]
+* Version box made liquid ["#313":http://ubiquo.lighthouseapp.com/projects/27683/tickets/313]
 * Updated rdoc generation to use hanna template
 * Added tasks for rdoc generation and publication to ubiquo server
-* Added ñ to accent and case insentive regexp [#330 state:resolved]
-* Updated date_parse function to support ActiveSupport::TimeWithZone instances [#328 state:updated]
-* Added locale as a default named_scope for filtered_search [#326 state:resolved]
+* Added ñ to accent and case insentive regexp ["#330":http://ubiquo.lighthouseapp.com/projects/27683/tickets/330]
+* Updated date_parse function to support ActiveSupport::TimeWithZone instances ["#328":http://ubiquo.lighthouseapp.com/projects/27683/tickets/328]
+* Added locale as a default named_scope for filtered_search ["#326":http://ubiquo.lighthouseapp.com/projects/27683/tickets/326]
 * Fixed passing of parameters when initializing sqlite3 adapter
 * Added regexp() method in sqlite adapter to allow use of REGEXP operator in filtered_search
-* filtered_search refactor [#324 state:resolved]
-* Substituted activity tab for a link in the upper-left menu [#306 state:resolved]
-* Using a string instead of a symbol in the columns method due to the pg-jdbc adapter [#299 state:resolved]
-* Added convenience methods remove_sequence_field, add_sequence_field for migrations [#297 state:resolved]
-* Renamed module Ubiquo::Adapters::TableDefinition to Ubiquo::Adapters::SequenceDefinition and now is injected also to ActiveRecord::ConnectionAdapters::Table to support use in change_table [#154]
-* Required adaptation in mysql adapter for supporting jdbc [#281]
-* Moved index_images folder to images/install [#177]
-* Added new yml files scheme [#292 state:updated]
-* RAILS constants refactoring [#287 state:updated]
-* Divided ubiquo:db:reset into two, to allow loading the environment after db creation and thus allow pg to work if the db is not created [#283 state:resolved]
+* filtered_search refactor ["#324":http://ubiquo.lighthouseapp.com/projects/27683/tickets/324]
+* Substituted activity tab for a link in the upper-left menu ["#306":http://ubiquo.lighthouseapp.com/projects/27683/tickets/306]
+* Using a string instead of a symbol in the columns method due to the pg-jdbc adapter ["#299":http://ubiquo.lighthouseapp.com/projects/27683/tickets/299]
+* Added convenience methods remove_sequence_field, add_sequence_field for migrations ["#297":http://ubiquo.lighthouseapp.com/projects/27683/tickets/297]
+* Renamed module Ubiquo::Adapters::TableDefinition to Ubiquo::Adapters::SequenceDefinition and now is injected also to ActiveRecord::ConnectionAdapters::Table to support use in change_table ["#154":http://ubiquo.lighthouseapp.com/projects/27683/tickets/154]
+* Required adaptation in mysql adapter for supporting jdbc ["#281":http://ubiquo.lighthouseapp.com/projects/27683/tickets/281]
+* Moved index_images folder to images/install ["#177":http://ubiquo.lighthouseapp.com/projects/27683/tickets/177]
+* Added new yml files scheme ["#292":http://ubiquo.lighthouseapp.com/projects/27683/tickets/292]
+* RAILS constants refactoring ["#287":http://ubiquo.lighthouseapp.com/projects/27683/tickets/287]
+* Divided ubiquo:db:reset into two, to allow loading the environment after db creation and thus allow pg to work if the db is not created ["#283":http://ubiquo.lighthouseapp.com/projects/27683/tickets/283]
 * Fixed sqlite adapter for sqlite3 1.2.4 gem compatibility
-* Required adaptations for jruby support in database adapters [#281 state:resolved]
-* Create only development database in ubiquo:db:reset [#278 state:resolved]
-* Error field class: Added configurable class name for error_field [#245 state:resolved]
-* Added generator commands to run migrations [#274 state:updated]
-* Improved ubiquo:foreach task [#269 state:resolved]
-* Allow multiple selection on select tag filters and mantain selected ones to Ubiquo Core [#246 state:resolved]
-* Automatic tab addition when running ubiquo_scaffold [#248 state:resolved]
-* Run db:seed when running ubiquo:db:reset task [#247 state:resolved]
+* Required adaptations for jruby support in database adapters ["#281":http://ubiquo.lighthouseapp.com/projects/27683/tickets/281]
+* Create only development database in ubiquo:db:reset ["#278":http://ubiquo.lighthouseapp.com/projects/27683/tickets/278]
+* Error field class: Added configurable class name for error_field ["#245":http://ubiquo.lighthouseapp.com/projects/27683/tickets/245]
+* Added generator commands to run migrations ["#274":http://ubiquo.lighthouseapp.com/projects/27683/tickets/274]
+* Improved ubiquo:foreach task ["#269":http://ubiquo.lighthouseapp.com/projects/27683/tickets/269]
+* Allow multiple selection on select tag filters and mantain selected ones to Ubiquo Core ["#246":http://ubiquo.lighthouseapp.com/projects/27683/tickets/246]
+* Automatic tab addition when running ubiquo_scaffold ["#248":http://ubiquo.lighthouseapp.com/projects/27683/tickets/248]
+* Run db:seed when running ubiquo:db:reset task ["#247":http://ubiquo.lighthouseapp.com/projects/27683/tickets/247]
 
 h3. ubiquo_design
 
-* Define a default value for :block_type_for_static_section_widget [#643 state:resolved]
-* Exclude some associations from cloning when publishing [#642 state:resolved]
-* Added _before_type_cast methods to options so some validations can be done on widgets [#605 state:resolved]
+* Define a default value for :block_type_for_static_section_widget ["#643":http://ubiquo.lighthouseapp.com/projects/27683/tickets/643]
+* Exclude some associations from cloning when publishing ["#642":http://ubiquo.lighthouseapp.com/projects/27683/tickets/642]
+* Added _before_type_cast methods to options so some validations can be done on widgets ["#605":http://ubiquo.lighthouseapp.com/projects/27683/tickets/605]
 * Added json response to ubiquo pages index
 * Switch state of public page to *pending* when a widget name is changed
-* Added static as default page_template for static_pages [#569 state:resolved]
+* Added static as default page_template for static_pages ["#569":http://ubiquo.lighthouseapp.com/projects/27683/tickets/569]
 * Added unpublish action to static pages. Added option in ubiquo config with key for default block_type for static_section widget.
 * Updated default block options constant reference
-* Adding the metatag viewport to speedup widget selection on iPad [#393 state:updated]
-* Assign same content_id to widgets of the same page when translating [#548 state:resolved]
-* Widgets are now sorted alphabetically in the design page selector [#550 state:resolved]
-* Added confirmation dialog when removing a shared block [#549 state:resolved]
+* Adding the metatag viewport to speedup widget selection on iPad ["#393":http://ubiquo.lighthouseapp.com/projects/27683/tickets/393]
+* Assign same content_id to widgets of the same page when translating ["#548":http://ubiquo.lighthouseapp.com/projects/27683/tickets/548]
+* Widgets are now sorted alphabetically in the design page selector ["#550":http://ubiquo.lighthouseapp.com/projects/27683/tickets/550]
+* Added confirmation dialog when removing a shared block ["#549":http://ubiquo.lighthouseapp.com/projects/27683/tickets/549]
 * Added widget class method to define it as previewable or not. Added custom exception for unpreviewable pages.
-* Allow subblocks inside blocks [#459 state:resolved]
-* Created new PublicController to wrap the public site [#388]
+* Allow subblocks inside blocks ["#459":http://ubiquo.lighthouseapp.com/projects/27683/tickets/459]
+* Created new PublicController to wrap the public site ["#388":http://ubiquo.lighthouseapp.com/projects/27683/tickets/388]
 * Add render_block available as helper method
-* Add previewable feature for pages [#401]
-* Updated translations for static pages [#471 state:updated]
-* Added GenericDetail, GenericHighlighted and GenericListing widgets [#356 state:resolved]
-* Added support for generic widgets [#356]
+* Add previewable feature for pages ["#401":http://ubiquo.lighthouseapp.com/projects/27683/tickets/401]
+* Updated translations for static pages ["#471":http://ubiquo.lighthouseapp.com/projects/27683/tickets/471]
+* Added GenericDetail, GenericHighlighted and GenericListing widgets ["#356":http://ubiquo.lighthouseapp.com/projects/27683/tickets/356]
+* Added support for generic widgets ["#356":http://ubiquo.lighthouseapp.com/projects/27683/tickets/356]
 * Added options to display widgets by groups, by blocks or to customize it, and display visually the block restrictions
 * Now Structure accepts string and array params in filters
 * Added find method to Structure to simplify queries
-* Add unpublish page feature [#458 state:resolved]
-* Add method to copy widget relations on publish [#468 state:resolved]
-* Refactored Widget to use serialize in options instead of custom management, fixes [#464 state:resolved]
-* Updated code to autogenerate default ubiquo views for design templates: Added generic helper method for design blocks. Updated installation folder of the page templates. [#400 state:open]
-* Added thumb image for page templates in page form [#434 state:resolved]
-* Added possibility to add a param for the default route in url_for_page [#453 state:resolved]
-* updated static pages to use help_block_sidebar helper [#452 state:updated]
-* Added default yml translations for new widgets [#449 state:resolved]
-* Applied ubiquo_design redesign [#6 state:resolved]
+* Add unpublish page feature ["#458":http://ubiquo.lighthouseapp.com/projects/27683/tickets/458]
+* Add method to copy widget relations on publish ["#468":http://ubiquo.lighthouseapp.com/projects/27683/tickets/468]
+* Refactored Widget to use serialize in options instead of custom management, fixes ["#464":http://ubiquo.lighthouseapp.com/projects/27683/tickets/464]
+* Updated code to autogenerate default ubiquo views for design templates: Added generic helper method for design blocks. Updated installation folder of the page templates. ["#400":http://ubiquo.lighthouseapp.com/projects/27683/tickets/400 state:open]
+* Added thumb image for page templates in page form ["#434":http://ubiquo.lighthouseapp.com/projects/27683/tickets/434]
+* Added possibility to add a param for the default route in url_for_page ["#453":http://ubiquo.lighthouseapp.com/projects/27683/tickets/453]
+* updated static pages to use help_block_sidebar helper ["#452":http://ubiquo.lighthouseapp.com/projects/27683/tickets/452]
+* Added default yml translations for new widgets ["#449":http://ubiquo.lighthouseapp.com/projects/27683/tickets/449]
+* Applied ubiquo_design redesign ["#6":http://ubiquo.lighthouseapp.com/projects/27683/tickets/6]
 * Code refactoring with new hooks for static pages management
-* Make autoload path compatible with older Rails versions [#430]
-* Added RubyHash cache manager to use as a mock in cache tests [#429 state:resolved]
+* Make autoload path compatible with older Rails versions ["#430":http://ubiquo.lighthouseapp.com/projects/27683/tickets/430]
+* Added RubyHash cache manager to use as a mock in cache tests ["#429":http://ubiquo.lighthouseapp.com/projects/27683/tickets/429]
 * Updated pages filters to conform new api
-* Updated locale files to conform to the new interpolatoin syntax required by Rails 2.3.9 [#371 state:updated]
+* Updated locale files to conform to the new interpolatoin syntax required by Rails 2.3.9 ["#371":http://ubiquo.lighthouseapp.com/projects/27683/tickets/371]
 
 h3. ubiquo_guides
 
@@ -189,7 +189,7 @@ h3. ubiquo_guides
 * Fixed typos and added some extra documentation on worker parameters
 * Documented UbiquoFormBuilder on the guides
 * Updated i18n guide now that default locale codes have changed
-* Added documentation about Ubiquo Extension Loader [#33 state:resolved]
+* Added documentation about Ubiquo Extension Loader ["#33":http://ubiquo.lighthouseapp.com/projects/27683/tickets/33]
 * Updated ubiquo_categories guide to reflect named_scope name change from ubiquo ticket #522
 * Updated varnish guide with introduction and Page expiration section
 * Added first version of Varnish guide, explaining Widget expiration possibilities
@@ -199,16 +199,16 @@ h3. ubiquo_guides
 * Updated translate logging description about where it saves log files
 * Added translate guide to the index
 * Added translate plugin guide
-* Added info about provide ubiquo widgets from other plugins [#27 state:resolved]
-* Fixed a typo in ubiquo_design guide [#29 state:resolved]
-* Added info about previewable widget and preview_params method [#31 state:open]
+* Added info about provide ubiquo widgets from other plugins ["#27":http://ubiquo.lighthouseapp.com/projects/27683/tickets/27]
+* Fixed a typo in ubiquo_design guide ["#29":http://ubiquo.lighthouseapp.com/projects/27683/tickets/29]
+* Added info about previewable widget and preview_params method ["#31":http://ubiquo.lighthouseapp.com/projects/27683/tickets/31 state:open]
 * Added helper information in ubiquo_categories
-* Updated relation selector guide with a controller js output example [#21 state:resolved]
-* Refactored filters section and added entry point for ubiquo index helpers [#32 state:resolved]
+* Updated relation selector guide with a controller js output example ["#21":http://ubiquo.lighthouseapp.com/projects/27683/tickets/21]
+* Refactored filters section and added entry point for ubiquo index helpers ["#32":http://ubiquo.lighthouseapp.com/projects/27683/tickets/32]
 * Fixed a documentation error in ubiquo_versions
 * Documenting Crop and resize on ubiquo_media guide
 * improved ubiquo_jobs guide
-* Added cron job management to ubiquo_core documentation [#432 state:resolved]
+* Added cron job management to ubiquo_core documentation ["#432":http://ubiquo.lighthouseapp.com/projects/27683/tickets/432]
 * Adapted plugin to the UbiquoAreaController -> UbiquoController change
 * Added new section Linking a page in design guide. Also adapted some basic info that was before in rdoc
 * Added section about how to add an upload progress bar
@@ -217,24 +217,24 @@ h3. ubiquo_guides
 * Updated information about how to convert an existing table into an i18n table
 * Adapted ubiquo upgrade guide to 2.3.11 to the edge version
 * Added csrf patch information to the upgrade ubiquo to 2.3.11 guide (cherry picked from commit b08953db95c1309f02cec21546e943eddd9c1ec9)
-* Added edge ubiquo upgrade guide (Rails 2.3.11) [#475 state:updated]
+* Added edge ubiquo upgrade guide (Rails 2.3.11) ["#475":http://ubiquo.lighthouseapp.com/projects/27683/tickets/475]
 * Added ubiquo_i18n guide image
 * Updated and expanded ubiquo_i18n guide main topics
 * Minor fixes to elastic beanstalk guide
 * Added ubiquo elastic beanstalk guide
-* Added info for new scaffold relations [#24 state:resolved]
+* Added info for new scaffold relations ["#24":http://ubiquo.lighthouseapp.com/projects/27683/tickets/24]
 * Added reference to cache framework as new feature
-* Updated ubiquo_design guide, reworded some phrases, added images [#22]
+* Updated ubiquo_design guide, reworded some phrases, added images ["#22":http://ubiquo.lighthouseapp.com/projects/27683/tickets/22]
 * Updated ubiquo_design guide for 0.8 version
-* Added sidebar filter creation guide [#389 state:updated]
-* Ability to order listings by relation fields [#14 state:resolved]
-* Added filter section to ubiquo_core guide [#406 state:updated]
-* Updated ubiquo_categories and ubiquo_i18n guides to reflect filter api changes [#405 state:resolved]
+* Added sidebar filter creation guide ["#389":http://ubiquo.lighthouseapp.com/projects/27683/tickets/389]
+* Ability to order listings by relation fields ["#14":http://ubiquo.lighthouseapp.com/projects/27683/tickets/14]
+* Added filter section to ubiquo_core guide ["#406":http://ubiquo.lighthouseapp.com/projects/27683/tickets/406]
+* Updated ubiquo_categories and ubiquo_i18n guides to reflect filter api changes ["#405":http://ubiquo.lighthouseapp.com/projects/27683/tickets/405]
 * Updated AUTHORS
 * Updated ubiquo guides with s3 support and new relation selector form control
-* RAILS constants refactoring [#287 state:closed]
+* RAILS constants refactoring ["#287":http://ubiquo.lighthouseapp.com/projects/27683/tickets/287 state:closed]
 * Fixed guides generation task
-* Moved tasks folder to lib (rails deprecation warning) [#311]
+* Moved tasks folder to lib (rails deprecation warning) ["#311":http://ubiquo.lighthouseapp.com/projects/27683/tickets/311]
 * Some changes for ubiquo design guides
 * Corrected guide upload process in ubiquo documentation guide
 * Added guide about how to update ubiquo documentation
@@ -248,106 +248,106 @@ h3. ubiquo_guides
 * Updated index intro text
 * Added edge_badge image to edge guides
 * Fixed index box display problem under chrome
-* Updated guides for filtered_search [#324 state:updated]
+* Updated guides for filtered_search ["#324":http://ubiquo.lighthouseapp.com/projects/27683/tickets/324]
 * Added ubiquo_categories in index page and linked it in layout
 * Added ubiquo_categories guide
 
 h3. ubiquo_i18n
 
-* Fixed assert_select test that wasn't accepting a regex [#528]
+* Fixed assert_select test that wasn't accepting a regex ["#528":http://ubiquo.lighthouseapp.com/projects/27683/tickets/528]
 * Fixed problem with current_locale method getting params in functional tests
-* Added support for one-to-one + nested_attributes + translation-shared associations [#635 state:resolved]
-* Added the locale in the url by default [#528 state:resolved]
-* Cache the results in .translations instance method, and use an exclusive scope to avoid external, unnoticed influences [#602 state:resolved]
-* More intuitive reload for translation shared associations [#639 state:resolved]
-* Translations table will be displayed when we are editing or translating a object [#579 state:resolved]
+* Added support for one-to-one + nested_attributes + translation-shared associations ["#635":http://ubiquo.lighthouseapp.com/projects/27683/tickets/635]
+* Added the locale in the url by default ["#528":http://ubiquo.lighthouseapp.com/projects/27683/tickets/528]
+* Cache the results in .translations instance method, and use an exclusive scope to avoid external, unnoticed influences ["#602":http://ubiquo.lighthouseapp.com/projects/27683/tickets/602]
+* More intuitive reload for translation shared associations ["#639":http://ubiquo.lighthouseapp.com/projects/27683/tickets/639]
+* Translations table will be displayed when we are editing or translating a object ["#579":http://ubiquo.lighthouseapp.com/projects/27683/tickets/579]
 * More reliable way to determine which conditions are to be used to search for translations and which ones dont
 * Changed behaviour of locale() scope to be more intuitive by default. Now it strictly applies local-table conditions, and the relation conditions are applied loosely to its translations. This way the old strict behaviour is preserved but it still supports virtual shared translations by default.
-* Fixed problem with locale uniqueness error message where the locale name was not reported propertly [#552 state:resolved]
-* Added override to clone method on ActiveRecord instances to avoid copying translatable objects content_id [#552]
-* The translations table in forms is displayed only when the object is already exists in database [#579]
-* Added initialize_translations_for feature [#513 state:resolved]
-* Important changes affecting many parts of the plugin. 
-* Added validation on translatable models to avoid duplication a object instances with the same locale [#552 state:resolved]
+* Fixed problem with locale uniqueness error message where the locale name was not reported propertly ["#552":http://ubiquo.lighthouseapp.com/projects/27683/tickets/552]
+* Added override to clone method on ActiveRecord instances to avoid copying translatable objects content_id ["#552":http://ubiquo.lighthouseapp.com/projects/27683/tickets/552]
+* The translations table in forms is displayed only when the object is already exists in database ["#579":http://ubiquo.lighthouseapp.com/projects/27683/tickets/579]
+* Added initialize_translations_for feature ["#513":http://ubiquo.lighthouseapp.com/projects/27683/tickets/513]
+* Important changes affecting many parts of the plugin.
+* Added validation on translatable models to avoid duplication a object instances with the same locale ["#552":http://ubiquo.lighthouseapp.com/projects/27683/tickets/552]
 * Minor refactoring, created translation_shared_relations method
-* Optimization of copy_translatable_shared_relations_from method to save the record once [#590 state:resolved]
-* Allow nested calls for the method without_updating_translations for complex translations. [#589 state:resolved]
-* Added timestamps to a test to avoid a jdbc sqlite adapter problem with tables without fields [#515 state:resolved]
-* Changed default locale codes, now using two letter codes for a better integration with rails default locale codes [#563 state:resolved]
-* Use case insensitive uniqueness validation of iso_code in Locale [#543]
-* Fixed destroy of shared-translation associations inside non-translatable models [#509]
+* Optimization of copy_translatable_shared_relations_from method to save the record once ["#590":http://ubiquo.lighthouseapp.com/projects/27683/tickets/590]
+* Allow nested calls for the method without_updating_translations for complex translations. ["#589":http://ubiquo.lighthouseapp.com/projects/27683/tickets/589]
+* Added timestamps to a test to avoid a jdbc sqlite adapter problem with tables without fields ["#515":http://ubiquo.lighthouseapp.com/projects/27683/tickets/515]
+* Changed default locale codes, now using two letter codes for a better integration with rails default locale codes ["#563":http://ubiquo.lighthouseapp.com/projects/27683/tickets/563]
+* Use case insensitive uniqueness validation of iso_code in Locale ["#543":http://ubiquo.lighthouseapp.com/projects/27683/tickets/543]
+* Fixed destroy of shared-translation associations inside non-translatable models ["#509":http://ubiquo.lighthouseapp.com/projects/27683/tickets/509]
 * Fixed after_xx callbacks redefinition in some adapters and the test that should have detected it
-* Pass also the :include option into the exclusive scope in the locale named_scope's default adapter execution to support it in other namespaces [#357] (adapted from d44e6542506913d30dca2fe1ca6a57b6ed08b1ab)
-* Added MySQL sql optimization for the locale named scope, using only one subquery instead of the default two queries method. This avoids the paginator problem [#254 state:resolved]
-* Use a subquery instead of two queries where it's possible (currently only postgresql) to avoid the paginator scope problem at least there [#254]
-* Fixed nil.reload when trying to prepare an instance to be the model for its translations and the instance is too "fresh" [#512]
-* Fixed propagation of emptied belongs_to associations [#512 state:resolved]
-* Added support for shared-translation associations inside non-translatable models [#509 state:resolved]
-* Mark the :lock_version field as translatable to add default support for optimistic locking [#508 state:resolved]
-* Adapted plugin to the UbiquoAreaController -> UbiquoController change [#388]
+* Pass also the :include option into the exclusive scope in the locale named_scope's default adapter execution to support it in other namespaces ["#357":http://ubiquo.lighthouseapp.com/projects/27683/tickets/357] (adapted from d44e6542506913d30dca2fe1ca6a57b6ed08b1ab)
+* Added MySQL sql optimization for the locale named scope, using only one subquery instead of the default two queries method. This avoids the paginator problem ["#254":http://ubiquo.lighthouseapp.com/projects/27683/tickets/254]
+* Use a subquery instead of two queries where it's possible (currently only postgresql) to avoid the paginator scope problem at least there ["#254":http://ubiquo.lighthouseapp.com/projects/27683/tickets/254]
+* Fixed nil.reload when trying to prepare an instance to be the model for its translations and the instance is too "fresh" ["#512":http://ubiquo.lighthouseapp.com/projects/27683/tickets/512]
+* Fixed propagation of emptied belongs_to associations ["#512":http://ubiquo.lighthouseapp.com/projects/27683/tickets/512]
+* Added support for shared-translation associations inside non-translatable models ["#509":http://ubiquo.lighthouseapp.com/projects/27683/tickets/509]
+* Mark the :lock_version field as translatable to add default support for optimistic locking ["#508":http://ubiquo.lighthouseapp.com/projects/27683/tickets/508]
+* Adapted plugin to the UbiquoAreaController -> UbiquoController change ["#388":http://ubiquo.lighthouseapp.com/projects/27683/tickets/388]
 * Added mysql support for test with ddl statements
-* Fill automatically i18n fields when adding translatable option in an existing table [#477 state:resolved]
-* Removed obsolete requires and autoload, load testcase improvements only when needed [#457 state:updated]
-* Added nested_attributes support for i18n sharing [#476 state:resolved]
-* Updated form markup [#471 state:updated]
-n* Fix method aliasing of ActiveRecord#update&create [#460 state:resolved]
+* Fill automatically i18n fields when adding translatable option in an existing table ["#477":http://ubiquo.lighthouseapp.com/projects/27683/tickets/477]
+* Removed obsolete requires and autoload, load testcase improvements only when needed ["#457":http://ubiquo.lighthouseapp.com/projects/27683/tickets/457]
+* Added nested_attributes support for i18n sharing ["#476":http://ubiquo.lighthouseapp.com/projects/27683/tickets/476]
+* Updated form markup ["#471":http://ubiquo.lighthouseapp.com/projects/27683/tickets/471]
+n* Fix method aliasing of ActiveRecord#update&create ["#460":http://ubiquo.lighthouseapp.com/projects/27683/tickets/460]
 * Refactoring to expose without_current_locale functionality
-* Capitalize the locale filter and the locale selector languages [#447 state:resolved]
+* Capitalize the locale filter and the locale selector languages ["#447":http://ubiquo.lighthouseapp.com/projects/27683/tickets/447]
 * Fixed construct_find_options_with_translation_shared! method. Failed with multiple options because the parameters didn't split
-* Updated translations sidebar box to use ubiquo_sidebar_box helper [#452 state:updated]
-* Updated translations box markup [#438]
-* Moved ::UbiquoI18n::Extensions::FilterHelpers to ::UbiquoI18n::Filters [#439]
-* Refactoring to avoid preloading of proxy_found in locale named scope when used after other scopes [#310 state:resolved]
-* Updated locale set/get method to use last_locale authentication backend user through configuration params [#240 state:resolved]
-* Added new LocaleFilter [#404 state:updated]
-* Prefer current locale related objects when navigating [#399 state:resolved]. Also avoid the load of repeated objects in some circumstances
+* Updated translations sidebar box to use ubiquo_sidebar_box helper ["#452":http://ubiquo.lighthouseapp.com/projects/27683/tickets/452]
+* Updated translations box markup ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Moved ::UbiquoI18n::Extensions::FilterHelpers to ::UbiquoI18n::Filters ["#439":http://ubiquo.lighthouseapp.com/projects/27683/tickets/439]
+* Refactoring to avoid preloading of proxy_found in locale named scope when used after other scopes ["#310":http://ubiquo.lighthouseapp.com/projects/27683/tickets/310]
+* Updated locale set/get method to use last_locale authentication backend user through configuration params ["#240":http://ubiquo.lighthouseapp.com/projects/27683/tickets/240]
+* Added new LocaleFilter ["#404":http://ubiquo.lighthouseapp.com/projects/27683/tickets/404]
+* Prefer current locale related objects when navigating ["#399":http://ubiquo.lighthouseapp.com/projects/27683/tickets/399]. Also avoid the load of repeated objects in some circumstances
 aa51bd80287a27553c372504186c56200f5f1312)
 * Fixed test error in mysql (removed quotes)
-* Let Rails do the join and include sql merging to avoid a preprocess that could cause an exception in case of a custom sql join [#357 state:resolved]
-* in_locale? method now accepts a Locale object [#280 state:resolved]
-* Deleted empty tasks file [#311]
+* Let Rails do the join and include sql merging to avoid a preprocess that could cause an exception in case of a custom sql join ["#357":http://ubiquo.lighthouseapp.com/projects/27683/tickets/357]
+* in_locale? method now accepts a Locale object ["#280":http://ubiquo.lighthouseapp.com/projects/27683/tickets/280]
+* Deleted empty tasks file ["#311":http://ubiquo.lighthouseapp.com/projects/27683/tickets/311]
 * Added cleanup for Locale.current to avoid influence of external tests
 * Added treatment for find and count with options in translation_shared associations
-* Set Locale.current in UbiquoAreaController [#319]
+* Set Locale.current in UbiquoAreaController ["#319":http://ubiquo.lighthouseapp.com/projects/27683/tickets/319]
 * Added some edge cases for the new paradigm of shared translations
-* Use in_locale? instead of locale? in the model_translations partial [#318]
+* Use in_locale? instead of locale? in the model_translations partial ["#318":http://ubiquo.lighthouseapp.com/projects/27683/tickets/318]
 * Added new tests for more complete case coverage
-* Now on update the correct instance is retrieved if Locale.current is set [#319]
-* Now :copy_all is the default option when translating also for the instance method [#253 state:resolved]
-* Added Locale.current method, called on create [#319 state:resolved]
-* Renamed locale? method to in_locale? [#318 state:resolved]
-* locale scope now should be used with :all instead of :ALL [#317 state:resolved]
-* Make locale? method work with symbols [#262 state:resolved]
+* Now on update the correct instance is retrieved if Locale.current is set ["#319":http://ubiquo.lighthouseapp.com/projects/27683/tickets/319]
+* Now :copy_all is the default option when translating also for the instance method ["#253":http://ubiquo.lighthouseapp.com/projects/27683/tickets/253]
+* Added Locale.current method, called on create ["#319":http://ubiquo.lighthouseapp.com/projects/27683/tickets/319]
+* Renamed locale? method to in_locale? ["#318":http://ubiquo.lighthouseapp.com/projects/27683/tickets/318]
+* locale scope now should be used with :all instead of :ALL ["#317":http://ubiquo.lighthouseapp.com/projects/27683/tickets/317]
+* Make locale? method work with symbols ["#262":http://ubiquo.lighthouseapp.com/projects/27683/tickets/262]
 * Refactoring and cleanup of no longer needed methods
 * Added management for count method in this new translation_shared paradigm. Refactored and simplified the way translation_shared associations are updated
-* Added share_translations_for method [#316 state:resolved]. Now :translation_shared associations are lazy, locale-flexible and autotranslate of relations is not performed. [#252 state:resolved]
-* Using a string instead of a symbol in the columns method due to the pg-jdbc adapter [#299]
-* Apply i18n named scopes to any possible already loaded subclass [#298]
-* Added support for undoing the effects of the :translatable option in change_table [#154]
-* Added support for the :translatable option in change_table [#154]
-* Fixed test that was failing in jdbc_sqlite [#281]
+* Added share_translations_for method ["#316":http://ubiquo.lighthouseapp.com/projects/27683/tickets/316]. Now :translation_shared associations are lazy, locale-flexible and autotranslate of relations is not performed. ["#252":http://ubiquo.lighthouseapp.com/projects/27683/tickets/252]
+* Using a string instead of a symbol in the columns method due to the pg-jdbc adapter ["#299":http://ubiquo.lighthouseapp.com/projects/27683/tickets/299]
+* Apply i18n named scopes to any possible already loaded subclass ["#298":http://ubiquo.lighthouseapp.com/projects/27683/tickets/298]
+* Added support for undoing the effects of the :translatable option in change_table ["#154":http://ubiquo.lighthouseapp.com/projects/27683/tickets/154]
+* Added support for the :translatable option in change_table ["#154":http://ubiquo.lighthouseapp.com/projects/27683/tickets/154]
+* Fixed test that was failing in jdbc_sqlite ["#281":http://ubiquo.lighthouseapp.com/projects/27683/tickets/281]
 * Updated AUTHORS
-* Added copy_all option as default for translate [#253 state:resolved]
+* Added copy_all option as default for translate ["#253":http://ubiquo.lighthouseapp.com/projects/27683/tickets/253]
 
 h3. ubiquo_jobs
 
-* Modified how return status of jobs are treated to know if they executed well or not. Now it's always considered successful unless an exception is raised. Note that this breaks backwards compability if you were returning integer codes. You should now raise something instead [#633 state:resolved]
-* Added more feedback in worker log and added exception handling [#612 state:resolved]
-* Limit the amount of text that is stored to avoid reaching limits and hitting an obscure failing circumstance [#610 state:resolved]
-* Secure after_find method to contemplate yaml deserialization errors. Fixed a known failing case that appeared when objects are serialized [#611 state:resolved]
-* Ubiquo workers now log to rails log [#596 state:resolved]
-* Added rails logs [#594 state:resolved]
-* Added task to stop ubiquo jobs workers [#593 state:resolved]
-* Added pid file management to rake task [#592 state:resolved]
-* ubiquo:worker:start task now responds to TERM signal [#591 state:resolved]
-* Added ActiveRecord::JDBCError as a possible alternative to ActiveRecord::StatementInvalid in jruby sqlite adapter [#515]
+* Modified how return status of jobs are treated to know if they executed well or not. Now it's always considered successful unless an exception is raised. Note that this breaks backwards compability if you were returning integer codes. You should now raise something instead ["#633":http://ubiquo.lighthouseapp.com/projects/27683/tickets/633]
+* Added more feedback in worker log and added exception handling ["#612":http://ubiquo.lighthouseapp.com/projects/27683/tickets/612]
+* Limit the amount of text that is stored to avoid reaching limits and hitting an obscure failing circumstance ["#610":http://ubiquo.lighthouseapp.com/projects/27683/tickets/610]
+* Secure after_find method to contemplate yaml deserialization errors. Fixed a known failing case that appeared when objects are serialized ["#611":http://ubiquo.lighthouseapp.com/projects/27683/tickets/611]
+* Ubiquo workers now log to rails log ["#596":http://ubiquo.lighthouseapp.com/projects/27683/tickets/596]
+* Added rails logs ["#594":http://ubiquo.lighthouseapp.com/projects/27683/tickets/594]
+* Added task to stop ubiquo jobs workers ["#593":http://ubiquo.lighthouseapp.com/projects/27683/tickets/593]
+* Added pid file management to rake task ["#592":http://ubiquo.lighthouseapp.com/projects/27683/tickets/592]
+* ubiquo:worker:start task now responds to TERM signal ["#591":http://ubiquo.lighthouseapp.com/projects/27683/tickets/591]
+* Added ActiveRecord::JDBCError as a possible alternative to ActiveRecord::StatementInvalid in jruby sqlite adapter ["#515":http://ubiquo.lighthouseapp.com/projects/27683/tickets/515]
 * Fixed deprecation warning in worker start rake task
-* Adapted plugin to the UbiquoAreaController -> UbiquoController change [#388]
-* Log any possible caught exception in a job to the error log [#420 state:resolved]
-* Updated installable stylesheets folder structure [#300 state:open]
-* Fixed bug in ubiquo_job filters [#403 state:updated]
-* Refactored filters to use the new API to fix failing tests [#389 state:updated]
-* Moved tasks folder to lib (rails deprecation warning) [#311]
+* Adapted plugin to the UbiquoAreaController -> UbiquoController change ["#388":http://ubiquo.lighthouseapp.com/projects/27683/tickets/388]
+* Log any possible caught exception in a job to the error log ["#420":http://ubiquo.lighthouseapp.com/projects/27683/tickets/420]
+* Updated installable stylesheets folder structure ["#300":http://ubiquo.lighthouseapp.com/projects/27683/tickets/300 state:open]
+* Fixed bug in ubiquo_job filters ["#403":http://ubiquo.lighthouseapp.com/projects/27683/tickets/403]
+* Refactored filters to use the new API to fix failing tests ["#389":http://ubiquo.lighthouseapp.com/projects/27683/tickets/389]
+* Moved tasks folder to lib (rails deprecation warning) ["#311":http://ubiquo.lighthouseapp.com/projects/27683/tickets/311]
 * Changed daemons requirement, added monit example
 * Refactored worker options code
 * Deleted worker process scripts, now workers should be started by the ubiquo:worker:start task
@@ -357,39 +357,39 @@ h3. ubiquo_jobs
 
 h3. ubiquo_media
 
-* Added some English missing labels in media form [#647 state:resolved]
-* Warn user when cropping a shared asset [#505 state:resolved]
-* Fixed installable asset fixtures, must have resource_file_name [#640]
-* Use field_asset_relations instead of asset_relations as the :through relationship of :field media_attachments. It's cleaner and easies things for i18n [#636 state:resolved]
+* Added some English missing labels in media form ["#647":http://ubiquo.lighthouseapp.com/projects/27683/tickets/647]
+* Warn user when cropping a shared asset ["#505":http://ubiquo.lighthouseapp.com/projects/27683/tickets/505]
+* Fixed installable asset fixtures, must have resource_file_name ["#640":http://ubiquo.lighthouseapp.com/projects/27683/tickets/640]
+* Use field_asset_relations instead of asset_relations as the :through relationship of :field media_attachments. It's cleaner and easies things for i18n ["#636":http://ubiquo.lighthouseapp.com/projects/27683/tickets/636]
 * Added missing icons for media_selector (flash and other asset types)
-* Extended mime default mime type list [#580 state:resolved]
+* Extended mime default mime type list ["#580":http://ubiquo.lighthouseapp.com/projects/27683/tickets/580]
 * Changed i18n connector to fix several existing issues:
-* Added migration creating indexes for ubiquo_media tables [#606 state:resolved]
-* Added support for i18n locale uniqueness validation [#552]
-* Cowardly refuse to add existing assets to a media_selector [#488 state:resolved]
-* Order AssetsController#search results by id desc [#623 state:resolved]
-* Changed media_selector and media_attachment to be AssetRelation-centric instead of Asset-centric [#622 state:resolved]
-* Created :media_styles_options for global style options [#614 state:resolved]
+* Added migration creating indexes for ubiquo_media tables ["#606":http://ubiquo.lighthouseapp.com/projects/27683/tickets/606]
+* Added support for i18n locale uniqueness validation ["#552":http://ubiquo.lighthouseapp.com/projects/27683/tickets/552]
+* Cowardly refuse to add existing assets to a media_selector ["#488":http://ubiquo.lighthouseapp.com/projects/27683/tickets/488]
+* Order AssetsController#search results by id desc ["#623":http://ubiquo.lighthouseapp.com/projects/27683/tickets/623]
+* Changed media_selector and media_attachment to be AssetRelation-centric instead of Asset-centric ["#622":http://ubiquo.lighthouseapp.com/projects/27683/tickets/622]
+* Created :media_styles_options for global style options ["#614":http://ubiquo.lighthouseapp.com/projects/27683/tickets/614]
 * Fixing CSS of media_selector to vertically center the selected images
 * Fixing media_selector JS behaviour to hide media selector when the image list reach its maximum
-* Updated media_selector with changes for new design [#529 state:resolved]
-* When saves from advanced edit the text assigned remains intact. [#588 state:resolved]
-* Apply Ubiquo Tabs to media_selector and fix weird behaviour hiding form after submiting an asset [#492]
-* Fixed creation of test_file, order was not safe and it was possible for the file to be deleted in some circumstances (jruby) [#515]
-* Fixed Asset clone to work with s3 storage [#551 state:resolved]
-* Use case insensitive uniqueness validation of style in AssetGeometry [#543]
+* Updated media_selector with changes for new design ["#529":http://ubiquo.lighthouseapp.com/projects/27683/tickets/529]
+* When saves from advanced edit the text assigned remains intact. ["#588":http://ubiquo.lighthouseapp.com/projects/27683/tickets/588]
+* Apply Ubiquo Tabs to media_selector and fix weird behaviour hiding form after submiting an asset ["#492":http://ubiquo.lighthouseapp.com/projects/27683/tickets/492]
+* Fixed creation of test_file, order was not safe and it was possible for the file to be deleted in some circumstances (jruby) ["#515":http://ubiquo.lighthouseapp.com/projects/27683/tickets/515]
+* Fixed Asset clone to work with s3 storage ["#551":http://ubiquo.lighthouseapp.com/projects/27683/tickets/551]
+* Use case insensitive uniqueness validation of style in AssetGeometry ["#543":http://ubiquo.lighthouseapp.com/projects/27683/tickets/543]
 * Do not attach the updated_at timestamp as a GET parameter in url_for_media_attachment, will not work for some cache mechanisms (e.g. cloudfront) and can have adverse effects
 * removing prototype.js from install as the one on ubiquo_core is newer
-* Fixed media_list Catalan typo [#525 state:resolved]
-* Optimized the url attachment generator for media in Amazon S3. [#524 state:resolved]
-* Adding support for S3 to Crop&Resize and speeding up form rendering. [#521 state:resolved]
-* Fixing save as new on i18n media [#506 state:resolved]
-* Keeping order on media_selectors when editing advanced [#496 state:resolved]
+* Fixed media_list Catalan typo ["#525":http://ubiquo.lighthouseapp.com/projects/27683/tickets/525]
+* Optimized the url attachment generator for media in Amazon S3. ["#524":http://ubiquo.lighthouseapp.com/projects/27683/tickets/524]
+* Adding support for S3 to Crop&Resize and speeding up form rendering. ["#521":http://ubiquo.lighthouseapp.com/projects/27683/tickets/521]
+* Fixing save as new on i18n media ["#506":http://ubiquo.lighthouseapp.com/projects/27683/tickets/506]
+* Keeping order on media_selectors when editing advanced ["#496":http://ubiquo.lighthouseapp.com/projects/27683/tickets/496]
 * Fixing cropper form hardcoded text to be a translation and added some configuration parameters on advanced form behaviour
-* Added classes for edit and remove links [#438]
-* Added UbiquoFormBuilder#media_selector [#358 state:updated]
+* Added classes for edit and remove links ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Added UbiquoFormBuilder#media_selector ["#358":http://ubiquo.lighthouseapp.com/projects/27683/tickets/358]
 * Fixing spanish translation and removing useless images
-* Adapted plugin to the UbiquoAreaController -> UbiquoController change [#388]
+* Adapted plugin to the UbiquoAreaController -> UbiquoController change ["#388":http://ubiquo.lighthouseapp.com/projects/27683/tickets/388]
 * Fixing the update of the asset_relation when saving on cropresize
 * Adding a timestamp to all media urls to avoid browser file caching
 * Fixing restore asset response and sequential imagemagick crop operations
@@ -397,72 +397,72 @@ h3. ubiquo_media
 * Removing need to render cropresize window into an iframe
 * Mock new methods on i18n connector
 * Implemented Cropping images on Ubiquo Assets
-* Improved markup for media selector searcher [#438]
-* Changed markup of media selector to allow better styling [#438]
-* Connectors code refactoring to use the core Connector::Base [#295]
-* Filter rewrite to conform to new API [#403 state:updated]
-* Fixed ubiquo_media filter bug due to openstruct returning ruby object ids instead of id fields when using id or object_id as key fields [#403 state:updated]
+* Improved markup for media selector searcher ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Changed markup of media selector to allow better styling ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Connectors code refactoring to use the core Connector::Base ["#295":http://ubiquo.lighthouseapp.com/projects/27683/tickets/295]
+* Filter rewrite to conform to new API ["#403":http://ubiquo.lighthouseapp.com/projects/27683/tickets/403]
+* Fixed ubiquo_media filter bug due to openstruct returning ruby object ids instead of id fields when using id or object_id as key fields ["#403":http://ubiquo.lighthouseapp.com/projects/27683/tickets/403]
 * Added cleanup for i18n connector to avoid circumstancial test failure
-* Display translated asset types names [#293 state:resolved]
-* Camelize connectors name instead of classifying them [#360]
+* Display translated asset types names ["#293":http://ubiquo.lighthouseapp.com/projects/27683/tickets/293]
+* Camelize connectors name instead of classifying them ["#360":http://ubiquo.lighthouseapp.com/projects/27683/tickets/360]
 * Added s3 support
-* Updated locale files to conform to the new interpolation syntax required by Rails 2.3.9 [#371 state:updated]
-* RAILS constants refactoring [#287 state:updated]
-* Deleted empty tasks file [#311]
-* Manage position field in js without relying in the serialized order [#331]
-* Adapted plugin to changes in ubiquo_i18n [#321 state:resolved]
+* Updated locale files to conform to the new interpolation syntax required by Rails 2.3.9 ["#371":http://ubiquo.lighthouseapp.com/projects/27683/tickets/371]
+* RAILS constants refactoring ["#287":http://ubiquo.lighthouseapp.com/projects/27683/tickets/287]
+* Deleted empty tasks file ["#311":http://ubiquo.lighthouseapp.com/projects/27683/tickets/311]
+* Manage position field in js without relying in the serialized order ["#331":http://ubiquo.lighthouseapp.com/projects/27683/tickets/331]
+* Adapted plugin to changes in ubiquo_i18n ["#321":http://ubiquo.lighthouseapp.com/projects/27683/tickets/321]
 * Add table existance check in connector to avoid failing when the table is being created
 * Clear possible badly cached column information when loading i18n connector (was breaking tests in some circumstances)
-* Added mechanism to check requisites when loading a connector, and refactored definition of helper mocks to correctly test the connector API [#295]
+* Added mechanism to check requisites when loading a connector, and refactored definition of helper mocks to correctly test the connector API ["#295":http://ubiquo.lighthouseapp.com/projects/27683/tickets/295]
 * Fire the base connector tests for all the available connectors, to avoid the required (until now) external configuration to fire them
 * Launch always the i18n connector test, given that the plugin is installed, and doing the proper setup and teardown cleanup
 
 h3. ubiquo_scaffold
 
 * Improved blank lines placement in generated model file
-* Create appropiate fields from --has-many and --belongs-to options [#446 state:resolved]
-* Fixed spelling error in Catalan template [#533 state:resolved]
-* Updated generators to use UbiquoFormBuilder (ubiquo_form_for) [#358 state:updated]
-* Adapted plugin to the UbiquoAreaController -> UbiquoController change [#388]
-* Added classes to list actions buttons and removed view action [#438]
-* Created ubiquo_plugin generator [#482 state:resolved]
-* Fixed form error messages [#472 state:updated]
-* Make the "migrate" option enabled by default in scaffolds [#444 state:resolved]. Deleted extra notes.
-* Create a category set if needed when using --categorized option [#445 state:resolved]
-* Updated form views markup [#438]
-* Boolean fields are automatically detected [#451 state:updated]
-* Allow a path argument for update_locales methods [#449]
-* In lists, show ubiquo_boolean_image for boolean values [#438]
-* Use help_block_sidebar helper when generating scaffold views [#438]
-* Improved form markup generation to ease new form designs [#438]
+* Create appropiate fields from --has-many and --belongs-to options ["#446":http://ubiquo.lighthouseapp.com/projects/27683/tickets/446]
+* Fixed spelling error in Catalan template ["#533":http://ubiquo.lighthouseapp.com/projects/27683/tickets/533]
+* Updated generators to use UbiquoFormBuilder (ubiquo_form_for) ["#358":http://ubiquo.lighthouseapp.com/projects/27683/tickets/358]
+* Adapted plugin to the UbiquoAreaController -> UbiquoController change ["#388":http://ubiquo.lighthouseapp.com/projects/27683/tickets/388]
+* Added classes to list actions buttons and removed view action ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Created ubiquo_plugin generator ["#482":http://ubiquo.lighthouseapp.com/projects/27683/tickets/482]
+* Fixed form error messages ["#472":http://ubiquo.lighthouseapp.com/projects/27683/tickets/472]
+* Make the "migrate" option enabled by default in scaffolds ["#444":http://ubiquo.lighthouseapp.com/projects/27683/tickets/444]. Deleted extra notes.
+* Create a category set if needed when using --categorized option ["#445":http://ubiquo.lighthouseapp.com/projects/27683/tickets/445]
+* Updated form views markup ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Boolean fields are automatically detected ["#451":http://ubiquo.lighthouseapp.com/projects/27683/tickets/451]
+* Allow a path argument for update_locales methods ["#449":http://ubiquo.lighthouseapp.com/projects/27683/tickets/449]
+* In lists, show ubiquo_boolean_image for boolean values ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Use help_block_sidebar helper when generating scaffold views ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
+* Improved form markup generation to ease new form designs ["#438":http://ubiquo.lighthouseapp.com/projects/27683/tickets/438]
 * Added has_many field in new models for locale files in es, en
-* Updated ubiquo scaffold and ubiquo model with new scaffold capabilities. Relation selector, categorization and media attachment options added. Models, forms and model ymls modified accordingly [#414 state:resolved]
-* Updated scaffold to use the new filter api [#389 state:resolved]
-* Added controller test in ubiquo_scaffold for locale redirection [#264 state:resolved]
-* Added --nested-from option [#111]
+* Updated ubiquo scaffold and ubiquo model with new scaffold capabilities. Relation selector, categorization and media attachment options added. Models, forms and model ymls modified accordingly ["#414":http://ubiquo.lighthouseapp.com/projects/27683/tickets/414]
+* Updated scaffold to use the new filter api ["#389":http://ubiquo.lighthouseapp.com/projects/27683/tickets/389]
+* Added controller test in ubiquo_scaffold for locale redirection ["#264":http://ubiquo.lighthouseapp.com/projects/27683/tickets/264]
+* Added --nested-from option ["#111":http://ubiquo.lighthouseapp.com/projects/27683/tickets/111]
 * Improvements for default texts in English ubiquo_scaffold
-* Fixed tests to work with the new filtered_search [#328 state:resolved]
-* Adapted plugin to changes in ubiquo_i18n [#321 state:resolved]
+* Fixed tests to work with the new filtered_search ["#328":http://ubiquo.lighthouseapp.com/projects/27683/tickets/328]
+* Adapted plugin to changes in ubiquo_i18n ["#321":http://ubiquo.lighthouseapp.com/projects/27683/tickets/321]
 * Updated scaffolds to reflect the new filtered_search refactor.
-* Send actions to ubiquo activity [#305 state:resolved]
-* add html editor to text area fields [#304 state:resolved]
-* Updated tests to new scheme [#294 state:resolved]
-* Modified scaffold to support new locale yaml files conventions [#292 state:resolved]
-* Added migration option to ubiquo_scaffold [#274 state:resolved]
-* Better version handling mechanism [#270 state:updated]
-* Added model-en file for ubiquo_model scaffold [#258 state:resolved]
-* Removed check that prevented creation of en yml locale file [#257 state:resolved]
-* Fixed typo from last fix for [#256]
-* Fixed unsupported symbols locales in generators, caused a crash [#256 state:resolved]
+* Send actions to ubiquo activity ["#305":http://ubiquo.lighthouseapp.com/projects/27683/tickets/305]
+* add html editor to text area fields ["#304":http://ubiquo.lighthouseapp.com/projects/27683/tickets/304]
+* Updated tests to new scheme ["#294":http://ubiquo.lighthouseapp.com/projects/27683/tickets/294]
+* Modified scaffold to support new locale yaml files conventions ["#292":http://ubiquo.lighthouseapp.com/projects/27683/tickets/292]
+* Added migration option to ubiquo_scaffold ["#274":http://ubiquo.lighthouseapp.com/projects/27683/tickets/274]
+* Better version handling mechanism ["#270":http://ubiquo.lighthouseapp.com/projects/27683/tickets/270]
+* Added model-en file for ubiquo_model scaffold ["#258":http://ubiquo.lighthouseapp.com/projects/27683/tickets/258]
+* Removed check that prevented creation of en yml locale file ["#257":http://ubiquo.lighthouseapp.com/projects/27683/tickets/257]
+* Fixed typo from last fix for ["#256":http://ubiquo.lighthouseapp.com/projects/27683/tickets/256]
+* Fixed unsupported symbols locales in generators, caused a crash ["#256":http://ubiquo.lighthouseapp.com/projects/27683/tickets/256]
 * Fixed usage documentation of ubiquo scaffolds to refer to correct scaffold name
-* Automatic tab addition when running ubiquo_scaffold [#248 state:resolved]
+* Automatic tab addition when running ubiquo_scaffold ["#248":http://ubiquo.lighthouseapp.com/projects/27683/tickets/248]
 
 h3. ubiquo_versions
 
-* Adapted plugin to the UbiquoAreaController -> UbiquoController change [#388]
-* Updated versions sidebar box to use ubiquo_sidebar_box helper [#452 state:updated]
-* Deleted empty tasks file [#311 state:resolved]
-* Using a string instead of a symbol in the columns method due to the pg-jdbc adapter [#299]
-* Apply versions named scope to any possible already loaded subclass [#298 state:resolved]
-* Added support for undoing the effects of the :versionable option in change_table [#154]
-* Added support for the :versionable option in change_table [#154 state:resolved]
+* Adapted plugin to the UbiquoAreaController -> UbiquoController change ["#388":http://ubiquo.lighthouseapp.com/projects/27683/tickets/388]
+* Updated versions sidebar box to use ubiquo_sidebar_box helper ["#452":http://ubiquo.lighthouseapp.com/projects/27683/tickets/452]
+* Deleted empty tasks file ["#311":http://ubiquo.lighthouseapp.com/projects/27683/tickets/311]
+* Using a string instead of a symbol in the columns method due to the pg-jdbc adapter ["#299":http://ubiquo.lighthouseapp.com/projects/27683/tickets/299]
+* Apply versions named scope to any possible already loaded subclass ["#298":http://ubiquo.lighthouseapp.com/projects/27683/tickets/298]
+* Added support for undoing the effects of the :versionable option in change_table ["#154":http://ubiquo.lighthouseapp.com/projects/27683/tickets/154]
+* Added support for the :versionable option in change_table ["#154":http://ubiquo.lighthouseapp.com/projects/27683/tickets/154]
