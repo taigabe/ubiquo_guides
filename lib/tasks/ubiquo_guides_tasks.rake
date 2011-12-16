@@ -21,11 +21,12 @@ namespace :ubiquo do
       Rake::Task['ubiquo:guides'].invoke
       upload_guide("~/guides/edge")
     end
-    desc 'Uploads 0.7-stable to the ubiquo  guide server'
-    task :publish_07stable do
-      system("cd #{UBIQUO_GUIDES_ROOT} && git checkout 0.7-stable && cd -")
+
+    desc 'Uploads 0.8-stable to the ubiquo guide server'
+    task :publish_08stable do
+      system("cd #{UBIQUO_GUIDES_ROOT} && git checkout 0.8-stable && cd -")
       Rake::Task['ubiquo:guides'].invoke
-      upload_guide("~/guides/0.7-stable")
+      upload_guide("~/guides/0.8-stable")
     end
   end
 
