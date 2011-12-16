@@ -23,15 +23,18 @@ In this example we will create an Article model, which will have some translatab
 
 h4. Scaffolding
 
-If you are going to start a fresh new model, the easiest and quickiest way to create a translatable model is using the ubiquo_model scaffold
+If you are going to start a fresh new model, the easiest and quickiest way to create a translatable model is using the ubiquo_scaffold
 
 <shell>
-$ script/generate ubiquo_model Article title:string description:string --translatable title,description
+$ script/generate ubiquo_scaffold Article title:string description:string --translatable title,description
 </shell>
 
 NOTE: If the above is new for you, see the "Ubiquo Scaffold guide":ubiquo_scaffold.html
 
-This will make the necessary changes in the model and migration to create an Article model with translatable title and description. You could also have used ubiquo_scaffold, if you need a full scaffold, and the created controller and views would have been also filled with the particular i18n goodies.
+This will make the necessary changes in the model, migration, controller and views
+to create an Article model with translatable title and description.
+
+TIP: You can also use the ubiquo_model scaffold if you only need the model itself.
 
 
 h4. Manual creation
@@ -52,12 +55,12 @@ This is how the migration to create a table of a translated model looks like
 
 As you can see, the only special thing here is that a translatable option is added, and will result in adding a locale and content_id fields to the articles table. The rest of the attributes are created as usual.
 
-NOTE: The content_id field is implemented as a sequence field, not simply an integer.
+CAUTION: If you want to add the translatable fields manually and not using this :translatable option, note that the content_id field is implemented as a sequence field, not simply an integer.
 
 If the table already exists, you can use change_table:
 
 <ruby>
-  change_table(:articles, :translatable => true, :locale => 'en_US') {}
+  change_table(:articles, :translatable => true, :locale => 'en') {}
 </ruby>
 
 This method will create the needed fields and initialize them for existing instances.
@@ -80,7 +83,7 @@ class Article < ActiveRecord::Base
 
 The created model file has the title and descriptions fields defined as translatable,
 but since we actually have one full table row per instance,
-which attributes are shared and which ones are translatable can be defined 
+which attributes are shared and which ones are translatable can be defined
 dynamically without affecting the db, so this list can be changed from the
 model at any moment without creating a new migration.
 
@@ -110,9 +113,15 @@ If the latter is what we are looking for, we would use:
 Article.first.translate('ca')
 </ruby>
 
-This will return a new, unsaved article which shares the same content_id with Article.first. But the content_id is not the only thing that is shared, because all the fields that are not defined as translatable in the model, will also be filled with the common value.
+This will return a new, unsaved article which shares the same content_id with Article.first. But the content_id is not the only thing that is shared, by default it will fill all the attributes with the values of _Article.first_.
 
-If you now do the following
+If you don't want to fill the translatable fields with their original value, use:
+
+<ruby>
+Article.first.translate('ca', :copy_all => false)
+</ruby>
+
+In either case, if you now do the following:
 
 <ruby>
 Article.first.update_attribute(:title => 'new_title')
@@ -219,12 +228,18 @@ If you want every translation of the article to be related to the same photos, b
 has_many :photos, :translation_shared => true
 </ruby>
 
-So the following works as expected:
+The actual retrieved :photos will depend on the Locale.current value:
 
 <ruby>
-article = Article.locale('en').last
-first_english_caption = article.photos.first.caption
-first_catalan_caption = article.in_locale('ca').photos.first.caption
+article = Article.last
+
+Locale.current = 'en'
+first_english_photo = article.photos.first
+english_caption = first_english_photo.caption
+
+Locale.current = 'ca'
+first_catalan_photo = article.photos.first
+catalan_caption = first_catalan_photo.caption
 </ruby>
 
 and, on a change in the relation contents, these are tracked and updated for each translation:
@@ -233,18 +248,40 @@ and, on a change in the relation contents, these are tracked and updated for eac
 article = Article.locale('en').last
 article.photos = [image1, image2]
 # create a new translation
-translated_article = article.translate('ca', :copy_all => true)
+translated_article = article.translate('ca')
 # translated_article.photos.size is 2
 
 # original caption is not updated (remains English)
-translated_article.photos.first.update_attribute(
-  :caption,
-  'Catalan-only caption'
+Locale.current = 'en'
+translated_photo = translated_article.photos.first.translate('ca')
+translated_photo.caption = 'Catalan-only caption'
 )
+translated_photo.save # a new photo is created
 
-# original article photos are also deleted
+# prints 2 images [image1 and image2]
+puts article.photos
+
+# prints 2 images (the same images since Locale.current is 'en')
+puts translated_article.photos
+
+# prints 2 images [translated_photo and image 2]
+Locale.current = 'ca'
+puts article.photos # same as translated_article.photos
+
+# prints 'English-only caption' (since it's an attribute of image1, not an association)
+puts image1.caption
+
+# prints 'Catalan-only caption'
+puts translated_photo.caption
+
+# On deletion, original article photos are also deleted
 translated_article.photos = []
+puts article.reload.photos # prints []
 </ruby>
+
+Therefore, as you can see, when navigating in associations, independently of the
+locale the original item is in, the returned associated instances will be the ones
+in _Locale.current_ if they exist.
 
 This is also integrated to work with "ubiquo_media":ubiquo_media.html, so if you are using it and want this behaviour you can use
 
