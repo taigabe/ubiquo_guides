@@ -9,6 +9,7 @@ We need to maintain and publish different versions for, at least, each
 minor version and the edge version. At the time of this writing:
 
  * edge
+ * 0.8-stable
  * 0.7-stable
 
 endprologue.
@@ -16,7 +17,7 @@ endprologue.
 h3. Updating the guides
 
 First we need to select which version we want to update. Let's say we
-are updating the 0.7-stable version but the process to update edge
+are updating the 0.8-stable version but the process to update edge
 would be similar.
 
 <shell>
@@ -41,7 +42,7 @@ NOTE: The task would be ubiquo:guides:publish_07stable for the current stable ve
 h3. Updating the ubiquo plugin rdocs
 
 As with the guides we first create a fresh ubiquo project. Let's say
-we are updating rdocs for the 0.7-stable version:
+we are updating rdocs for the 0.8-stable version:
 
 <shell>
 ubiquo --stable --complete myapp
@@ -58,7 +59,7 @@ Now we need to publish the generated ubiquo plugins rdocs to the
 server using a rake task:
 
 <shell>
-rake ubiquo:rdocs:publish_07stable
+rake ubiquo:rdocs:publish_08stable
 </shell>
 
 NOTE: The task would be ubiquo:rdocs:publish_edge for the edge version.
