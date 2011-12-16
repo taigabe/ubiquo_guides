@@ -1,10 +1,12 @@
 <% content_for :header_section do %>
 h2. Ubiquo guides
 
-These are Edge Guides, based on the current master <a href="http://github.com/gnuine/ubiquo_core/tree/master">branch</a>.
+These guides are designed to make you immediately productive with
+Ubiquo, and to help you understand how all of the pieces fit together.
+There are two different main versions of the Guides site, and you should be sure to use the one that applies to your situation:
 
-If you are looking for the ones for the stable version please check <a href="http://guides.ubiquo.me/0.7-stable">0.7-stable guides</a> instead.
-These guides are designed to make you immediately productive with Ubiquo, and to help you understand how all of the pieces fit together.
+* <a href="http://guides.ubiquo.me/0.8-stable">Current Release version</a> – based on Ubiquo 0.8
+* <a href="http://guides.ubiquo.me/edge">Edge version</a> – based on the current Ubiquo master branch
 
 <% end %>
 
@@ -118,3 +120,7 @@ h3. Upgrades
   This guide covers the procedure to upgrade older ubiquo based apps to use Rails 2.3.11
 <% end %>
 </dl>
+
+h3. Legacy ubiquo guides
+
+* <a href="http://guides.ubiquo.me/0.7-stable">0.7-stable guides</a>
