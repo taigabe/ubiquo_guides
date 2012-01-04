@@ -2,21 +2,18 @@ h2. Ubiquo media
 
 This plugin provides a media management system for Ubiquo. Once installed, you will be able to:
 
-* Centralize and manage all the media files from the Ubiquo Media
+* Centralize and manage all the media files from the Media
   section: Create, edit or delete new assets that will be available
-  throughout your app
+  everywhere in your app
 
 * Easily enhance your models with a media selector: Add a single line
   to your model definition and it will be immediately able to store
   assets, without migrations
 
-
-* Use an AJAX asset searcher on forms that will find assets as you
+* Use an AJAX asset searcher that will find assets as you
   type them
 
-* Organize your assets by type or visibility: Restrict a model
-  attribute to just some types of assets (images, videos...) and decide
-  if the asset is public or private
+* Organize your assets by type (image/video..) or visibility (public/private)
 
 * Crop images and select diferent areas for each format
 
@@ -46,12 +43,12 @@ end
 
 _size_ and _types_ options are optional. By default _size_ is *1* (only one asset can be added), and accepts any type of asset.
 
-NOTE: You can use :many value with size option specifing that you want a undetermined number of assets.
-NOTE: For convention, the attribute name should be always plural no matter if it contains a single element (size option is 1). The media_attachment accessor always returns an array, so naming it in plural will remind you when you use this association in the code.
+INFO: Use :size => :many to specify that you want a undetermined number of assets.
+NOTE: For convention, the attribute name should be always plural no matter if it contains a single element (:size => 1). The media_attachment accessor always returns an array, so naming it in plural will remind you when you use this association in the code.
 
 h5. Minimum amount of assets
 
-As we have seen, :size allows you to set the maximum amount of related assets.
+As we have seen, :size allows you to cap the maximum amount of related assets.
 
 If you need to set the minimum, you can use the :required option:
 
@@ -69,26 +66,28 @@ If you need to set the minimum, you can use the :required option:
   media_attachment :documents, :size => :many, :required => true
 </ruby>
 
-This option creates a validation roughly equivalent to:
+This option creates a validation in somewhat similar to:
 
 <ruby>
   validates_presence_of :images_asset_relations
 </ruby>
 
-So if you need to customize it in your model, don't use the :required option and
-add the one that suits you in your model.
+If you need to customize it in your model, don't use the :required option and
+add the one that suits you in your model. See the method "required_amount_of_assets_in_#{field}"
+for more information.
 
 NOTE: Note that you can't use *validates_presence_of :images* because the association that is filled in the forms is the one in the join table. *:images* will only be correct after the save, not before.
 
 h5. Media types
 
-The available types are in the AssetType model, you can get it
-running that in your script/console:
+The available types are the AssetType instances. By default, Ubiquo includes
+a generic set of asset types. You can see them by:
 
 <shell>
 $ script/console
 Loading development environment (Rails 2.3.2)
 >> pp AssetType.all.inject({}){|acc, at| acc[at.key] = at.name; acc}
+
 {"audio"=>"Audio",
  "doc"=>"Document",
  "image"=>"Image",
@@ -99,35 +98,35 @@ Loading development environment (Rails 2.3.2)
 
 </shell>
 
-The types of the :type option of the media_attachment method are the
+The types in the :type option of the media_attachment method are the
 keys of the hash printed in the script/console example.
 
 Also, if you want to use all types, you can set it to :ALL. It's an
-special value.
+special value (and the default one).
 
 
-h4. Insert media selector to their form
+h4. Insert media selector to the form
 
-In the ubiquo you have to add a media selector. To do that just call the helper:
+Once you have added a media_attachment to the model, you'll want to display the
+media selector in its form. To do that just call the helper:
 
 <erb>
 <% form_for ... do |form| %>
   ....
-  <%= media_selector form, :images, :visibility => 'public' %>
+  <%= form.media_selector :images, :visibility => 'public' %>
   ....
 <% end %>
 </erb>
 
-The first attribute is the form object.
-The second is the name of the media attachment.
-Visibility option can be 'public' or 'protected'.
+The first attribute is the name of the media attachment.
+:visibility can be either 'public' or 'protected'.
 This visibility determines if the resource can be accessed from anywhere(public) or requires to login in Ubiquo(protected). Default is public.
 
 
 h4. Get the resource url
 
 To get the url of a resource you can use url_for_media_attachment helper.
-In that example there is a link to a resource:
+In the following example we can see how to create a link to a resource:
 
 <erb>
 <%= link_to(
@@ -138,13 +137,12 @@ In that example there is a link to a resource:
 
 h4. Get the resource name
 
-When a resource is associated with something, that relation can be renamed.
-This name is unique for the relation.
+When an asset is associated with an object, this association can have a unique name.
 
-This is useful when a generic name is added when uploading the asset but in a relation it must be
-named with a different name.
+This is useful when you set a generic name like the filename when uploading the asset,
+but in the association you want a different name (e.g. to be used as an image footer or alternative text)
 
-In that example there are a link to a resource showing their name:
+Example of creating a link to a resource showing their custom name:
 
 <erb>
 <%= link_to(
@@ -181,36 +179,33 @@ When adding a media selectior initially you will see something like that:
 
 Here, you can add new media or select existent.
 
-h4. Upload media
+h4. Add new asset
 
-If the 'add new media' option selected, a sub-form will appear.
-!images/ubiquo_media/adding.png(Media selector adding state)!
+If you choose to add a new file, you just have to enter their name and select it.
+Then click in the 'save' button, the file will be ajax-uploaded and added
+to the selection automatically.
 
-Here you have to add a file and their name. When clicked in the
-'save' button, the file will be uploaded with AJAX and will be
-selected automatically
+h4. Select existing asset
 
-h4. Select media
-
-If the 'select existent media' option selected, a list will appear.
+If the 'select existent asset' option is selected, a search form will appear.
 !images/ubiquo_media/selecting.png(Media selector selecting state)!
 
 Here you can search existent assets by their name and select it.
 
-h4. Rename selection
+h4. Change associated text
 
-When an asset is selected it has it's own name and a 'selection
-name'. This name is only for that relation and can be changed from the
+When an asset is selected it has it's own name and an association name.
+This name is only for that relation and can be changed from the
 selected item view:
 !images/ubiquo_media/selected.png(Media selector selected state)!
 
-just click in 'change text' link.
+just click in the 'change text' link.
 
 h3. Image styles
 
-When in your project you have spaces that have a defined size available for images
-it's useful to define a format for that gap. This way, when you upload an image,
-a copy of that image is generated with the size defined.
+When in your project you have specific requirements of defined sizes for images
+it's useful to define a custom format. This way, when you upload an image,
+a copy of that image is generated with the defined size.
 
 On config/initializers/ubiquo_config.rb do:
 <ruby>
@@ -317,14 +312,16 @@ This code was taken from "http://kairichardkoenig.de/2009/07/30/watermarking-ima
 
 h3. Use of different storage mode
 
-Ubiquo Media have support for two different storage systems: filesystem, that is the default mode which comes with plugin, and s3, taking advantage from s3 storage system, and allowing user to configure s3 interaction with few lines of additional configuration.
+Ubiquo Media currently supports two different storage systems: filesystem (default) and s3.
 
-h4. Configure project to use s3
+h4. Configure a project to use s3
 
 This is a step by step, recipe like tutorial, to use ubiquo media with s3 storage system
 
-1. Get s3 gem.
-    sudo gem install s3
+1. Add the s3 gem to your Gemfile.
+<ruby>
+    gem "s3"
+</ruby>
 
 2. Edit config/initializers/ubiquo_config.rb and add the following lines
 <ruby>
@@ -332,9 +329,7 @@ This is a step by step, recipe like tutorial, to use ubiquo media with s3 storag
     config.media_storage = :s3
    end
 </ruby>
-3. Create a file called s3.yml under config/ folder
-
-4. Populate the previous file with the following content:
+3. Create a config/s3.yml file and populate it with the following content:
 <ruby>
    ENVIRONMENT:
      access_key_id: YOUR_ACCESS_KEY_ID
@@ -414,6 +409,45 @@ If you don't want this feature, you can disable the backups by configuration on 
 <ruby>
 Ubiquo::Config.context(:ubiquo_media).set(:assets_default_keep_backup, false)
 </ruby>
+
+h3. I18n connector
+
+Ubiquo media provides a builtin i18n connector. Activating it, you can share a
+media_attachment between the different translations of an object.
+
+If you want all the translations to share the same set of assets, just use
+the :translation_shared option as in other associations:
+
+<ruby>
+# All translations will have the same set of images
+media_attachment :images, :translation_shared => true
+
+# Every translation will have its own set of videos
+media_attachment :videos
+</ruby>
+
+When you use :translation_shared => true, you can translate the caption (associated text) in each language.
+Also, the order (position) of the items is independent in each translation.
+
+To activate this connector, just add the following line to your ubiquo_config.rb:
+
+<ruby>
+Ubiquo::Config.context(:ubiquo_media).set(:connector, :i18n)
+</ruby>
+
+You will need to reset your DB after this so the new fields are automatically added. If your project
+is already in production, you might need to create a new migration to do it manually:
+
+<ruby>
+  def self.up
+    change_table(:asset_relations, :translatable => true) {}
+  end
+
+  def self.down
+    change_table(:asset_relations, :translatable => false) {}
+  end
+</ruby>
+
 
 h3. Changelog
 
