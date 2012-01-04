@@ -1,0 +1,134 @@
+h2. Connectors
+
+Connectors are a mechanism to adapt ubiquo to your own requirements. They are:
+
+* Flexible, extensible
+* Hot-swappable
+* Testable
+
+endprologue.
+
+h3. Idea
+
+There are certain portions of code that can have a standard behaviour, but that
+you might want to customize, without rewriting a lot of parts.
+
+For example, in the ubiquo_categories plugin, you will need slightly different code
+depending if you want simply generic categories to tag models, or if you want
+these tags to be translatable, versionable or both at the same time.
+
+Although using modules and injecting them works in some cases, there are other situations
+where you will find yourself overwritting methods, copying chunks of code and overall, monkeypatching.
+
+The idea is to provide hooks inside the code, in certain parts where, if you want some
+custom behaviour, you will need to modify the code. These hooks are called with a defined set
+of parameters, and are expected to be executed in the same execution context (e.g.
+inside the controller). A set of hook implementations is called a _connector_.
+
+In Ubiquo itself, some plugins use connectors to optionally deliver certain features.
+For example, ubiquo_media can work with or without i18n. In some projects, you may want
+to have a central repository of images, and that's all. In other apps, you might want
+the ability to share images between, for example, articles that are translations of the same item.
+
+Without connectors, there would be plenty of "ifs" to determine what to do in these situations.
+Now, add versioning to this equation. If you can choose whether to add tracking of the history of an image or not,
+and choose whether i18n is or not activated, there are already potentially 4 "ifs"
+for each specific behaviour. As you can see, this is not maintainable, and leads to confusing, spaghetti code.
+
+Calling a hook allows to separate the code required for each of these functionalities. Then, we just "connect" the
+piece of code we want into the application, as another configuration option:
+
+<ruby>
+Ubiquo::Config.context(:ubiquo_media).set(:connector, :i18n)
+</ruby>
+
+And voilà, now the plugin behaves the way we want.
+
+h3. Implementation
+
+Connectors are implemented as collections of modules. Each module implements the defined hooks in a specific Ubiquo class or module
+(i.e., there is a separate module for a given model, another one for a controller, etc).
+
+Connectors are inheritable. If you inherit from another connector, you will have to implement
+only the hooks that differ from the original implementation. There are some limitations, or quirks,
+due to the way Ruby inheritance works for modules and classes. We'll cover them later.
+
+Inside every plugin, the connectors are completely independent. However, there are some
+conventions that allow Ubiquo to reuse a lot of code. These are:
+
+* In every plugin there is a Base connector. This connector contains all the common logic that all the implementations will share.
+* All the connector implementations inherit from Base (directly or indirectly)
+* The Base connector inherits from _Ubiquo::Connectors::Base_, which in turn bundles all the connector loading mechanisms
+* There is a load! method called when the connector is loaded. Here, you can place all your high level modifications.
+* There is also an unload! method, which ideally performs any required cleanup to leave the application as it was before the connector was loaded.
+* The Standard connector provides the bare functionality. Contains implementation for all the defined hooks (which by convention are methods starting by _uhook_)
+* Then, basically, to implement a new connector, you implement the uhooks defined in Standard with your own custom code.
+
+The best way to learn about connectors is, guess what, looking at existing ones.
+
+h4. Testing
+
+Connectors are designed to be hot-swappable and testable. This doesn't mean that testing them won't require some adjustement.
+Given that connectors are run in the same context where the uhooks are called,
+in some circumstances we will need to mock methods that are not available in the test environment.
+
+There will normally be one test file per each connector, including the base.
+The idea of base tests is the following: test what happens on load time, and then test, for each connector, the interface of the uhook.
+
+Testing the interface provides a way for connectors to know that they won't break anything:
+you can't test the inner code or the behaviour, but you can test the shape of the answer.
+
+The following examples are from ubiquo_media. First, the tests about the load of the plugin:
+
+<ruby>
+  Base = UbiquoMedia::Connectors::Base
+
+  test 'should_load_correct_modules' do
+    ::Asset.expects(:include).with(Base::Asset)
+    ::AssetRelation.expects(:include).with(Base::AssetRelation)
+    ::Ubiquo::AssetsController.expects(:include).with(Base::UbiquoAssetsController)
+    ::ActiveRecord::Migration.expects(:include).with(Base::Migration)
+    ::ActiveRecord::Base.expects(:include).with(Base::ActiveRecord::Base)
+    Base.expects(:set_current_connector).with(Base)
+    Base.load!
+  end
+
+  test 'should_set_current_connector_on_load' do
+    save_current_connector(:ubiquo_media)
+    Base.load!
+    assert_equal Base, Base.current_connector
+    reload_old_connector(:ubiquo_media)
+  end
+</ruby>
+
+And some examples of interface testing:
+
+<ruby>
+  test_each_connector(:ubiquo_media) do
+
+    test "uhook_create_assets_table_should_create_table" do
+      ActiveRecord::Migration.expects(:create_table).with(:assets, anything)
+      ActiveRecord::Migration.uhook_create_assets_table {}
+    end
+
+    test 'uhook_index_filters_should_return_hash' do
+      mock_assets_controller
+      assert Ubiquo::AssetsController.new.uhook_index_filters.is_a?(Hash)
+    end
+
+    test 'uhook_destroy_asset_should_destroy_asset' do
+      mock_assets_controller
+      Asset.any_instance.expects(:destroy).returns(:value)
+      assert_equal :value, Ubiquo::AssetsController.new.uhook_destroy_asset(Asset.new)
+    end
+  end
+</ruby>
+
+
+h3. Overwriting an uhook in your application
+
+You can read this post from Ubiquo Planet: "How to override an Ubiquo::Connector":http://planet.ubiquo.me/79728846
+
+h3. Changelog
+
+"Lighthouse tickets":http://ubiquo.lighthouseapp.com/projects/31609-ubiquo-guides/tickets?q=tagged%3Aconnectors
