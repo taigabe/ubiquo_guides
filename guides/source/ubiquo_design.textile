@@ -8,20 +8,20 @@ drag & drop widgets, different block configurations or page templates.
 The main features are:
 
 * Create pages with its own manager.
-* Create reusable widgets for your public site
+* Create reusable widgets for your public site.
 * Choose a specific template for each page with its own block structure.
-* Decide which widgets will be available for each page or block to fit your needs
-* Share blocks with other pages
-* Move, assign, delete widgets in pages easily
-* Get language-dependent widgets, using ubiquo_i18n by adding a few lines of code
+* Decide which widgets will be available for each page or block to fit your needs.
+* Share blocks with other pages.
+* Move, assign, delete widgets in pages easily.
+* Get language-dependent widgets, using ubiquo_i18n by adding a few lines of code.
 
 New features in this version:
-* Static pages
-* Integrated widget cache framework
-* Better sharing blocks system
-* Less migrations and fixtures with design structure
-* Widget grouping
-* Multiple levels of parent pages
+* Static pages.
+* Integrated widget cache framework.
+* Better sharing blocks system.
+* Less migrations and fixtures with design structure.
+* Widget grouping.
+* Multiple levels of parent pages.
 
 endprologue.
 
@@ -82,9 +82,78 @@ If some required information is missing, the widget will appear in red. These it
 
 NOTE: Any block can be shared with the others pages. It's interesting for common sidebars for example.
 
-h3. Creating our own widgets 
+h3. Using generic widgets
 
-When we create the first page we only have available the default widgets (Free and Static).
+Ubiquo has three different widgets to show and list generic models. With this widgets, we can create pages with generic behaviours in a fast and easy way. The widgets are:
+# _GenericDetail_: Generates a detail view for the element passed as parameter.
+# _GenericListing_: Generates a list with the given generic model. If a page with a _GenericDetail_ widget with the same model exists, it generates the link of the model to that page.
+# _GenericHighlithed_: Generates a highlighted list with the given generic model. If a page with a _GenericDetail_ widget with the same model exists, it generates the link of the model to that page. The list is displayed with a carousel of elements.
+
+h4. Configuration of the generic models
+
+To be able to use this widgets, we must configure the ubiquo application to load the correct generic models. To do so, the UbiquoDesign plugin has a configuration option to declare all the models we want to use:
+
+<ruby>
+  # config/initializers/ubiquo_config.rb
+
+  Ubiquo::Config.context(:ubiquo_design).set do |config|
+    config.generic_models = [:Post, :Comment]
+  end
+</ruby>
+
+The generic models need some methods to work correctly with the generic widgets. Each widget shows the following information related to the generic models:
+# *Title:* it calls the methods _:title_ or _:name_ of the model.
+# *Body:* it calls the methods _:body_ or _:text_ of the model.
+# *Image:* it calls the methods _:images_ or _:image_ of the model, and shows the first image.
+
+If some of those methods aren't present, the field isn't displayed.
+
+h4. Defining find methods for the generic models.
+
+By default, the _GenericListing_ and _GenericHighlithed_ widgets use the _all_ class method to find the desired generic models. In the same way, the _GenericDetail_ widget uses the _find(:id)_ class method.
+
+If we want to have more control over the records that will be used for each generic model, we need to tell the widgets how to find the records. Each widget try to call to a specified method to get the records and use the default method (_all_ or _find(:id)_) if this special method is not callable. So, at the end we have that:
+# _GenericListing_ will try to call to _self.generic_listing_elements_.
+# _GenericHighlithed_ will try to call to _self.generic_highlighted_elements_.
+# _GenericDetail_ will try to call to _self.generic_detail_element(element_id)_.
+
+Imagine that we want to show only a list of published posts. We declare the _Post_ class as generic model and we create the _GenericListing_ widget with this model. Now we need to create the correct method (or named scope) to show the correct posts:
+
+<ruby>
+  class Post < ActiveRecord::Base
+    # using a named scope
+    named_scope :generic_listing_elements, :conditions => { :published => true }
+
+    # OR
+
+    # using a class method
+    def self.generic_listing_elements
+      all(:conditions => { :published => true })
+    end
+  end
+</ruby>
+
+In the case of the _GenericDetail_ widget, we need to define a method that accepts an _id_, like the _find_ method.
+
+<ruby>
+  class Post < ActiveRecord::Base
+    # using a named scope
+    named_scope :generic_detail_element, lambda { |post_id|
+      { :conditions => { :published => true, :id => post_id } }
+    }
+
+    # OR
+
+    # using a class method
+    def self.generic_detail_element(post_id)
+      all(:conditions => { :published => true, :id => post_id })
+    end
+  end
+</ruby>
+
+h3. Creating our own widgets
+
+When we create the first page we only have available the default widgets (Free and Static) among the generics.
 # The Free widget allows you to display any kind of HTML content in the page, such as an embed youtube video, an image or simply text.
 # The Static widget helps you to create static pages. By static pages we mean those pages with no dynamic elements, an "About us" or a "Terms of use" page for example.
 
@@ -93,7 +162,7 @@ With just these two widgets you could already create a pretty complete site, but
 Let’s see an example of a widget that displays the last news. You'll be able to configure the number of news to show from ubiquo.
 The first step is to use the ubiquo_widget generator to build the skeleton:
 
-It will create the associated model, the widget controller, and the views for the widget. Each widget has two views: the public one, and the ubiquo design form (in case it's an editable widget). 
+It will create the associated model, the widget controller, and the views for the widget. Each widget has two views: the public one, and the ubiquo design form (in case it's an editable widget).
 
 <shell>
   script/generate ubiquo_widget last_news news_to_show:integer
@@ -298,7 +367,7 @@ Another useful option is :layout, if the page_template does not use the default 
   <div id="header">
     <h1 id="logo">
       <a title="MyApp" href="http://my_ubiquo_app.org">MyApp</a>
-    </h1>					
+    </h1>
     <%= render :partial => "shared/menu" %>
   </div>
   <div id="featured">
@@ -349,7 +418,7 @@ UbiquoDesign::Structure.define do
   page_template :home do
     block :featured, :cols => 4 # this block will be shown only in pages with the :home page_template
     block :main, :cols => 3
-    block :sidebar, :cols => 1 do 
+    block :sidebar, :cols => 1 do
       widget :menu_sidebar      # this widget will be able to be dragged only to the :sidebar block
     end
     widget :image_gallery       # this widget is available only for pages with the :home page_template
@@ -444,7 +513,7 @@ The file where we define our policies will look as follows
 <ruby>
 UbiquoDesign::CachePolicies.define do
   #Here your policies ...
-end                                
+end
 </ruby>
 
 Each policy will be a pair of key - value, where key is the widget affected by the policy, and value will be a structure defining key generation params.
@@ -563,7 +632,7 @@ h5. Detail of a model
 <ruby>
 UbiquoDesign::CachePolicies.define do
   :news_list => [ {:Article => {:url_slug => lambda{params[:url].last} } ]
-end 
+end
 </ruby>
 When an instance of Article changes, the appropiate related cached fragments (those whose last part of the url is the same that the url_slug attribute of this instance) will be expired.
 
@@ -574,7 +643,7 @@ h5. Free
 <ruby>
 UbiquoDesign::CachePolicies.define do
   :free => :self
-end         
+end
 </ruby>
 
 This widget will expire only when itself changes.
