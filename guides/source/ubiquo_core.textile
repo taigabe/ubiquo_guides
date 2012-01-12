@@ -19,82 +19,84 @@ endprologue.
 
 h3. Settings
 
-Settings offers a place where store configuration variables
-
-It allows the agrupation of values in contexts using _context_ method.
+_Settings_ allows developers to easily store configuration variables.
+These variables can be grouped in contexts.
 
 h4. Getting a value
 
-To get a stored value of the configuration.
+To get the stored value of a configuration variable:
 
 <ruby>
 value = Settings[:key]
 value = Settings.key
 
-contexted_value = Settings[:context][:key]
-contexted_value = Settings[:context].key
+value_in_context = Settings[:context][:key]
+value_in_context = Settings[:context].key
 </ruby>
 
-h4. Creating a new normal value
+h4. Creating a new setting
 
-You can create new values for the setting. Before accesing a setting, its required to register it with _add_ or the type specific methods we will cover later.
+Before accesing a setting, it is required to register it, generally using the _add_ method.
 
 <ruby>
 Settings.add(:key, 'default_value')
 Settings.context(:context).add(:key, default_value)
 </ruby>
 
-Or using the extended format, specifically intented to allow runtime modifications
+You can also use the extended format, which provides more goodies that we will cover later.
 
 <ruby>
 Settings.string(:default_comment_title, "My title")
 </ruby>
 
 
-h4. Setting a normal value
+h4. Setting a value
 
-when a key is added you can override its value assigning another or using with _set_
+Once you have added a key, you can override its value assigning another one or with the _set_
 method:
 
 <ruby>
-Settings[:context][:key] = normal_value
+Settings[:context][:key] = 'value'
 
-Settings.set(:key, 'normal_value')
-Settings[:context].set(:key, normal_value)
+Settings.set(:key, 'value')
+Settings[:context].set(:key, 'value')
 </ruby>
 
 h4. Inherited values
 
-It is usefull for adding keys that their value is the same of another
-key until it's not setted manually.
+You can define settings which by default will take their default value from another setting
+unless it is manually set.
 
-Currently is used to the plugins lists max row number, default to 10
-but can be re-setted for a single list.
+For example, this is currently is used to set the plugins lists max rows number. All listings inherit it from
+a common setting, but you can be reset it for a single list.
 
 <ruby>
 Settings.add_inheritance(:key, :existent_key)
 Settings[:context].add_inheritance(:key, :existent_key)
 </ruby>
 
-h4. Use of config caller
+h4. Use of ubiquo_config_call
 
-Config caller let you to define keys with a lambda as value and
-evaluate it in any context.
+_ubiquo_config_call_ lets you to define keys with a lambda as value and
+then evaluate them in any context.
 
-It's very powerfull to add hooks in the application.
+It's very powerful as is another way to add hooks in the application.
 
-Currently is used to all access_control calls of the plugins, letting
-you to change it in your application without changing plugin code.
+For example, it is currently used in all the _access_control_ calls of the plugins, letting
+you to change the permissions in your application without changing plugin code.
 
 <ruby>
+# define it normally
+Settings.add(:key, lambda{ puts "I'm in the class #{self}" })
+# and to use it
 ubiquo_config_call(:key)
 ubiquo_config_call(:key, {:context => :context})
 </ruby>
 
-h4. Runtime changes to settings
+h4. Runtime changes to settings (dynamic settings)
 
 Settings can be configured to allow them to be changed by end-users on runtime.
-To achieve this goal, a set of connectors has been stablished to keep settings
+To achieve this goal, there is a custom connector that keeps settings
 persistent on a database backend.
 
 You need to satisfy two requirements:
@@ -108,6 +110,12 @@ You need to satisfy two requirements:
 <ruby>
   Settings.string(:default_comment_title, "My customizable title", :is_editable => true)
 </ruby>
+
+
+The :is_editable option means that this setting will be available to the users,
+inside the Settings section in Ubiquo.
+
+To know more about settings please take a look to the "Ubiquo Configuration guide":ubiquo_configuration.html
 
 h3. Core helpers
 

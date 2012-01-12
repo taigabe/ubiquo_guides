@@ -1,45 +1,41 @@
 h2. Ubiquo configuration overview
 
-Ubiquo and its plugins have a lot of configuration options, managed via the built in configuration engine. This
-section will guide you through the most important parameters you can set up.
-Most of the configuration options are set up in the +config/initializers/ubiquo_config.rb+ file.
+Ubiquo and its plugins have a lot of configuration options, managed via the builtin configuration engine.
+This guide explains how this module works and which options you have available.
 
 endprologue.
 
 h3. Settings schema
 
-In current version we can differenciate two kinds of configuration values or settings:
+Currently we can differentiate two kinds of configuration values or settings:
 
-* Static
+* Static settings
 
-Defined in development, cannot be changed on runtime. Usually these are values that
+Defined in development time; cannot be changed on runtime. Usually these are values that
 configure how ubiquo works or basic values required by the application to work.
 
-* Dynamic
+* Dynamic settings
 
 Defined in development and also swappable on runtime.
-This are the ones that configure how some tasks are done in the application, or where to
-send some of the results. Should be used with safe default values.
-
-h4. Class Diagram
-
-In this diagram we can see how is the structure including the backend that allows changes on runtime
-
-!images/ubiquo_configuration/settings_models.png(Class diagram)!
+As an end-user can change these values, usually they are not so tied to how the code works
+and are simply used as parameters. E.g. API keys, email addresses... If possible,
+they should be used with safe default values, as they are optionally user-provided.
 
 h4. Sample configuration
 
-You may have an initializer similar to:
+The following code contains examples of the different settings you can define and use.
+A snippet like this would usually be placed in an initializer.
+
 <ruby>
   Settings.create_context(:application) do |settings|
     # not editable in runtime, not displayed in web backend
     settings.string   :default_post_title, "My title"
 
-    # this values can be changed on runtime
+    # this value can be changed on runtime
     settings.string   :default_comment_title, "My customizable title", :is_editable => true
 
-    # this values can also be changed on runtime
-    # clear syntax to define more than one setting
+    # these values can also be changed on runtime
+    # the with_options syntax allows to define common options for more than one setting
     settings.with_options :is_editable => true do |editable_settings|
       editable_settings.integer  :default_award_amount, 30
       editable_settings.boolean  :allow_awards, false
@@ -86,7 +82,10 @@ You may have an initializer similar to:
 
 h4. Customizing web interface
 
-You have three methods to override the partial used to render a setting control.
+By default, the :is_editable settings will be displayed inside the Settings section in Ubiquo.
+They have a default rendering which you can customize.
+
+You have two methods to override the partial used to render a setting control.
 
 During each template rendering you will have available the specific UbiquoSetting instance as a local value named *ubiquo_setting*
 
@@ -103,36 +102,31 @@ During each template rendering you will have available the specific UbiquoSettin
 </ruby>
 
 <ruby>
-"#{Rails.root}/app/views/ubiquo/ubiquo_settings/_string.html.erb"
+ "#{Rails.root}/app/views/ubiquo/ubiquo_settings/_string.html.erb"
 </ruby>
 
-* Using standard rails templates overloading
+You can override every of the templates available at vendor/plugins/ubiquo_core/app/ubiquo/ubiquo_settings/
 
-<ruby>
-"#{Rails.root}/app/views/ubiquo/ubiquo_settings/#{setting_type}.html.erb"
-</ruby>
-
-You can override every of the templates presents at vendor/plugins/ubiquo_core/app/ubiquo/ubiquo_settings/
-
-CAUTION:If no valid partial can be found for a setting, a error will be raised on runtime
+CAUTION:If no valid partial can be found for a setting, an error will be raised on runtime
 
 h3. For end-users
 
-If settings override has been enabled in development, end users will have available
+If :settings_override has been enabled in development, end users will have available
 a web interface to edit each setting.
 
 h4. Permission
 
-A permission key _media_management_ has been created to restrict the access to this functionality to some users.
-You can customize this permission management as usually in ubiquo plugin with a access_controller setting:
+A permission key _settings_management_ exists to restrict the access to this functionality to some users.
+You can customize this permission management as usually in ubiquo plugin with an access_controller setting:
 
 <ruby>
-:ubiquo_settings_access_control
+Setting[:ubiquo_settings_access_control] = lambda{ true } # allow everybody
 </ruby>
 
 h4. Web interface
 
-User will have available a interface similar to other ubiquo scaffold's where will be able to stablish a value for every setting allowed
+Users will have available an interface similar to other ubiquo scaffolds,
+where they will be able to set a value for every :is_editable setting
 
 !images/ubiquo_configuration/settings_web_interface.png(Example)!
 
@@ -140,8 +134,14 @@ In this interface you are able to:
 
 * Update a specific setting
 * Update all avaiable settings
-* Restore a setting to the default value stablished by developers
+* Restore a setting to the default value established by developers
 * Translate a value to the current locale
+
+h4. Class Diagram
+
+In this diagram we can see the _Settings_ internal structure, with the class set that allow changes on runtime
+
+!images/ubiquo_configuration/settings_models.png(Class diagram)!
 
 h4. More Information
 
@@ -151,6 +151,10 @@ This refactoring was done according to the discussion that was taken here:
 
 
 h3. Settings list
+
+This section will guide you through the most important parameters you can change.
+
+In your app, the convention is to change the configuration options in the +config/initializers/ubiquo_config.rb+ file.
 
 h4. Ubiquo Core
 
