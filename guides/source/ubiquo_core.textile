@@ -545,11 +545,11 @@ h4. Required code
 The code required to use this helper is the following:
 * **Related models for autocomplete**: if use of autocomplete selector type is required, the related model will need to add a json return format to its index controller action (default url discovery option) or another arbitrary defined action with the same return requirements (collection_url option)
 
-Assuming we have an Author class with a related Book, the following code is all we need from Book's controller to receive data in our autocomplete from Author's form
+Actually Ubiquo provides a default javascript response in the controller actions rendering a json with the collection or object instance using only the fields id and name/title of the model. It's possible to change the default javascript response in your controller actions using the controllers' class method default_format_response_with in this way:
 
 <ruby>
-format.js {
-  render :js => @books.to_json(:only => [:id,:title])
+default_format_response_with(:js, lambda{ |format|
+  render :js => @users.to_json(:only => [:id, :surname])
 }
 </ruby>
 
