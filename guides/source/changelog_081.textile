@@ -1,0 +1,130 @@
+h2. Changelog for Ubiquo 0.8.1
+
+endprologue.
+
+h3. translate
+
+ * Fixed bug with frozen values in some environments ["#621":http://ubiquo.lighthouseapp.com/projects/27683/tickets/621]
+ * Fixed problematic spec directory requirement
+
+h3. ubiquo_media
+
+ * Fixed corner case with size validation when nested attributes is used and new instances where created also in associations as nested attributes ["#703":http://ubiquo.lighthouseapp.com/projects/27683/tickets/703]
+ * Added support to translation_shared_on_initialize for media_attachments ["#701":http://ubiquo.lighthouseapp.com/projects/27683/tickets/701]
+ * Fixed max size validation for media attachment with size many ["#700":http://ubiquo.lighthouseapp.com/projects/27683/tickets/700]
+ * Fix media_selector ajax response on create to show errors and messages and not a 500 page
+ * Media selector new asset form captures enter key to submit only asset form and not all related element form ["#616":http://ubiquo.lighthouseapp.com/projects/27683/tickets/616]
+ * Fixing advanced_edit media_selector js updating to keep positions ["#638":http://ubiquo.lighthouseapp.com/projects/27683/tickets/638]
+ * Defer AssetTypes loading on media_attachment to allow fixture loading on test ["#699":http://ubiquo.lighthouseapp.com/projects/27683/tickets/699]
+ * Validate when media_attachment has too much elements
+ * Validate asset_type when uploading on media_selector ["#454":http://ubiquo.lighthouseapp.com/projects/27683/tickets/454]
+ * media_attachment asset_type validation ["#454":http://ubiquo.lighthouseapp.com/projects/27683/tickets/454]
+ * Added failing test about cleanup of asset relations when they are directly assigned ["#695":http://ubiquo.lighthouseapp.com/projects/27683/tickets/695]
+ * Do not set flash message when creating asset by ajax ["#486":http://ubiquo.lighthouseapp.com/projects/27683/tickets/486]
+ * Hide the upper selector Crop when it's the only option ["#487":http://ubiquo.lighthouseapp.com/projects/27683/tickets/487]
+ * Changed pagination methods, now using paginated_filtered_search ["#668":http://ubiquo.lighthouseapp.com/projects/27683/tickets/668]
+ * Fixed warning in tests regarding a unclosed tag ["#658":http://ubiquo.lighthouseapp.com/projects/27683/tickets/658]
+ * Created uhook_set_attribute_values to allow connectors to stablish default attributes for asset relations, and used it in I18n to fix ["#661":http://ubiquo.lighthouseapp.com/projects/27683/tickets/661]
+
+h3. ubiquo_categories
+
+ * Category now destroy its category relations on destroy unless i18n is used and a translation is available ["#619":http://ubiquo.lighthouseapp.com/projects/27683/tickets/619]
+ * Added append_asterisk if object is a required field and added category-error class if object has errors on category_relation ["#665":http://ubiquo.lighthouseapp.com/projects/27683/tickets/665]
+ * Changed pagination method to paginated_filtered_search ["#689":http://ubiquo.lighthouseapp.com/projects/27683/tickets/689]
+ * Updated category_selector helper: Check if request isn't js to embed autocomplete in dom:loaded observe
+ * Bugfix category select selector caused by a conflict beetwen category_selector _name_ option and select_tag _name_ option ["#662":http://ubiquo.lighthouseapp.com/projects/27683/tickets/662]
+
+h3. ubiquo_access_control
+
+ * Changed roles pagination method to paginated_filtered_search ["#692":http://ubiquo.lighthouseapp.com/projects/27683/tickets/692]
+
+h3. ubiquo_core
+
+ * Fixed ubiquo settings ordering ["#716":http://ubiquo.lighthouseapp.com/projects/27683/tickets/716]
+ * Fixed bug with settings connector reloading that force setting to restore to the value before overriding or a set ["#715":http://ubiquo.lighthouseapp.com/projects/27683/tickets/715]
+ * Fixed some bugs in Standard settings connector ["#712":http://ubiquo.lighthouseapp.com/projects/27683/tickets/712]
+ * Fixed a bug with settings standard connector when trying to update values in web interface ["#710":http://ubiquo.lighthouseapp.com/projects/27683/tickets/710]
+ * Added to settings the option to customize the order of contexts and settings ["#709":http://ubiquo.lighthouseapp.com/projects/27683/tickets/709]
+ * Fixed setting index context sorting ["#711":http://ubiquo.lighthouseapp.com/projects/27683/tickets/711]
+ * Fixed settings loading when i18n plugin is not available ["#704":http://ubiquo.lighthouseapp.com/projects/27683/tickets/704]
+ * Add default js response for UbiquoController ["#489":http://ubiquo.lighthouseapp.com/projects/27683/tickets/489]
+ * Fixing UbiquoFormBuilder to manage options correctly and do not forward them to tag attributes ["#595":http://ubiquo.lighthouseapp.com/projects/27683/tickets/595]
+ * Fixing IE8 lightwindow.js bug when using addClassName to a non extended Element
+ * Fixed problem with tabs when nested attributes are used inside them ["#670":http://ubiquo.lighthouseapp.com/projects/27683/tickets/670]
+ * Merge branch 0.8-stable and settings ["#687":http://ubiquo.lighthouseapp.com/projects/27683/tickets/687]
+ * Small fix in settings form displaying to look better in small screens
+ * Fixed bug in settings i18n
+ * Improved settings web interface format
+ * Fixed settings_connector, added named_scope to query for context and key
+ * Fixed ubiquo settings access control
+ * Added to Settings the method with_options to clear the syntax in settings definition
+ * Changed Ubiquo::Config deprecation warning
+ * Integrate calendar_date_select into UbiquoFormBuilder ["#651":http://ubiquo.lighthouseapp.com/projects/27683/tickets/651]
+ * Added support to date and time methods on UbiquoFormBuilder ["#632":http://ubiquo.lighthouseapp.com/projects/27683/tickets/632]
+ * Support for HABTM relation in relation_selector ["#479":http://ubiquo.lighthouseapp.com/projects/27683/tickets/479]
+ * Fixed spelling error ["#585":http://ubiquo.lighthouseapp.com/projects/27683/tickets/585]
+ * Support optional brother in ubiquo javascript blind_toggle helper ["#664":http://ubiquo.lighthouseapp.com/projects/27683/tickets/664]
+ * Fixed test regarding distinct option extension in database connectors different from postgresql ["#655":http://ubiquo.lighthouseapp.com/projects/27683/tickets/655]
+ * Fix separation of labels and checkboxes in relation selectors ["#650":http://ubiquo.lighthouseapp.com/projects/27683/tickets/650]
+ * Merge branch "settings" into master
+ * Fixed settings connector loader
+ * Added support to ubiquo_list_setting and improved feedback on error
+ * Removed duplicated settings method
+ * Refactoring of settings javascript
+ * Updated some settings styles
+ * Fixed settings translations
+ * Added tests for uhook_edit_ubiquo_setting since it is a possible point of failure if used without Loader
+ * Load the connector in UbiquoSettingsController using Loader to avoid premature evaluation and conflict with ubiquo_categories
+ * Moved inline css to ubiquo css file
+ * Added standard empty list message
+ * Some fixes and added prefix ubiquo to all Setting models
+ * Added methods to create setting using type restriction
+ * ubiquo displays i18n context and settings key name using the pattern 'ubiquo.settings.context_name.setting_key.name'
+ * Index do not show any context if settings_overridable is disabled
+
+h3. ubiquo_design
+
+ * Fix Page model to not rescue Exception
+ * Fixing StaticPagesController to not call current_locale when i18n plugin is not present ["#706":http://ubiquo.lighthouseapp.com/projects/27683/tickets/706]
+ * Changed list_element_image to check for image and images relations ["#688":http://ubiquo.lighthouseapp.com/projects/27683/tickets/688]
+ * Redirect or render inside widget behaviours ["#431":http://ubiquo.lighthouseapp.com/projects/27683/tickets/431]
+
+h3. ubiquo_guides
+
+ * Update relation_selector section with default js ubiquo controllers response
+ * A revamp to configuration/settings info, to focus on the info a first-time developer will probably be more interested in. Some typo, style changes
+ * Changed core and configuration guides according to new Settings schema
+ * Added section to explain how to use generic widgets
+ * Updated ubiquo_media guide
+ * Added the connectors guide ["#4":http://ubiquo.lighthouseapp.com/projects/31609/tickets/4]
+ * Added links to original ticket in 08 changelog
+ * Added pending ubiquo_i18n guide changes
+
+h3. ubiquo_authentication
+
+ * Added config option to define the storage for user's photo ["#467":http://ubiquo.lighthouseapp.com/projects/27683/tickets/467]
+
+h3. ubiquo_activity
+
+ * Changed pagination methods for activity_info to use paginated_filtered_search ["#692":http://ubiquo.lighthouseapp.com/projects/27683/tickets/692]
+
+h3. ubiquo_i18n
+
+ * Performance improvement on locale filter ["#719":http://ubiquo.lighthouseapp.com/projects/27683/tickets/719]
+ * Fix first loading on sqlite i18n locale scoped query
+ * Fixed bug with shared_translations_for when used along with nested_attributes due to not having the i18n information populated soon enought ["#702":http://ubiquo.lighthouseapp.com/projects/27683/tickets/702]
+ * Fixed shared_on_initialize used along with nested_attributes ["#701":http://ubiquo.lighthouseapp.com/projects/27683/tickets/701]
+ * Fixed shared_on_initialize for has_many through associations ["#701":http://ubiquo.lighthouseapp.com/projects/27683/tickets/701]
+ * Added support for initialize_translations_for and shared nested attributes ["#696":http://ubiquo.lighthouseapp.com/projects/27683/tickets/696]
+ * Added support for the "_destroy" option in shared nested attributes ["#669":http://ubiquo.lighthouseapp.com/projects/27683/tickets/669]
+ * Fixed edge case problem in translations() method when you don't have a set locale ["#694":http://ubiquo.lighthouseapp.com/projects/27683/tickets/694]
+ * Fixed use of locale named scope when is used inside another chained method ["#666":http://ubiquo.lighthouseapp.com/projects/27683/tickets/666]. Some refactoring of associated code.
+ * Added fallback locale structure and AR.localized() named scope. By default, fallbacks are active only in Ubiquo. ["#514":http://ubiquo.lighthouseapp.com/projects/27683/tickets/514]
+ * Cache results of Locale#find_by_iso_code ["#660":http://ubiquo.lighthouseapp.com/projects/27683/tickets/660]
+ * Added support for mark_for_destruction in shared associations ["#659":http://ubiquo.lighthouseapp.com/projects/27683/tickets/659]
+ * Fixed bug with nested_attributes in translatable models with untranslatable relations ["#656":http://ubiquo.lighthouseapp.com/projects/27683/tickets/656]
+ * Solved problem with ubiquo_locale routing filter and public routes ["#657":http://ubiquo.lighthouseapp.com/projects/27683/tickets/657]
+ * Better current_locale manipulation on test environment ["#654":http://ubiquo.lighthouseapp.com/projects/27683/tickets/654]
+ * Fixed bug shared relations when used in a has_many through ["#653":http://ubiquo.lighthouseapp.com/projects/27683/tickets/653]
+
+

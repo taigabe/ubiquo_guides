@@ -130,6 +130,12 @@ h3. Release Notes
   Detailed 0.8-stable changelog with all plugin commits
 <% end %>
 
+<% guide("0.8.1 Changelog", 'changelog_081.html') do %>
+  Detailed 0.8.1 changelog with all plugin commits
+<% end %>
+
+</dl>
+
 h3. Legacy ubiquo guides
 
 * <a href="http://guides.ubiquo.me/0.7-stable">0.7-stable guides</a>
