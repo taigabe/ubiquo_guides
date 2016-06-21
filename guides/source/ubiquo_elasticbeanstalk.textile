@@ -232,7 +232,7 @@ CAUTION: Make sure to create dev and test buckets if you want to use them.
 We also need to configure the ubiquo initializer +config/initializers/ubiquo_config.rb+ as shown:
 
 <ruby>
-Ubiquo::Config.add do |config|
+Ubiquo::Settings.add do |config|
   config.app_name = "ubiquodemo"
   config.app_title = "Ubiquodemo"
   config.app_description = "Ubiquodemo"
@@ -244,7 +244,7 @@ Ubiquo::Config.add do |config|
   end
 end
 
-Ubiquo::Config.context(:ubiquo_media).set do |config|
+Ubiquo::Settings.context(:ubiquo_media).set do |config|
   config.media_storage = :s3
 end
 </ruby>

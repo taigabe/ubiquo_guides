@@ -145,7 +145,7 @@ the configuration. To see it just put that in script/console:
 <shell>
 $ script/console
 Loading development environment (Rails 2.3.2)
->> Ubiquo::Config.context(:ubiquo_media).get(:media_styles_list)
+>> Ubiquo::Settings.context(:ubiquo_media).get(:media_styles_list)
 => {:thumb=>"100x100>"}
 </shell>
 
@@ -223,10 +223,10 @@ h4. Add media processors
 Processors let you pass the uploaded image or file through n:Number Processors, returning the processed file/image. By default, Ubiquo has the :thumbnail processor. In order to add a new processor, for example one named "watermark", in config/initializers/ubiquo_config.rb you should add:
 
 <ruby>
-  default_media_processors = Ubiquo::Config.context(:ubiquo_media).get(:media_processors_list)
+  default_media_processors = Ubiquo::Settings.context(:ubiquo_media).get(:media_processors_list)
   app_processors = [:watermark]
 
-  Ubiquo::Config.context(:ubiquo_media).set do |config|
+  Ubiquo::Settings.context(:ubiquo_media).set do |config|
     config.media_processors_list = app_processors  + default_media_processors
   end
 </ruby>
@@ -287,7 +287,7 @@ This is a step by step, recipe like tutorial, to use ubiquo media with s3 storag
 
 2. Edit config/initializers/ubiquo_config.rb and add the following lines
 <ruby>
-   Ubiquo::Config.context(:ubiquo_media).set do |config|
+   Ubiquo::Settings.context(:ubiquo_media).set do |config|
     config.media_storage = :s3
    end
 </ruby>
@@ -318,7 +318,7 @@ environments. In a few steps, we will see how it can be accomplished:
   is well documented at source page
 # Activate progress bar through the config option
 <ruby>
-Ubiquo::Config.context(:ubiquo_media).set do |config|
+Ubiquo::Settings.context(:ubiquo_media).set do |config|
   config.progress_bar = true
 end
 </ruby>

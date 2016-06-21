@@ -276,7 +276,7 @@ For now, ubiquo_categories it's only available in edge (master branch). If you h
  * [Optional] If your project is using ubiquo_i18n for multilingual purposes, you can decide to use translatable categories. By default they aren't, to enable it you have to set the correct connector in the ubiquo config:
 
 in config/initializers/ubiquo_config.rb add
-Ubiquo::Config.context(:ubiquo_categories).set(:connector, :i18n)
+Ubiquo::Settings.context(:ubiquo_categories).set(:connector, :i18n)
 
  * rake ubiquo:install
  * rake db:migrate
